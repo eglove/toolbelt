@@ -16,7 +16,7 @@ export async function parseFetchJson<Z extends ZodValidator>(
     return unparsed;
   }
 
-  const parsed = schema.safeParse(unparsed);
+  const parsed = schema.safeParse(unparsed.data);
 
   if (!parsed.success) {
     return {

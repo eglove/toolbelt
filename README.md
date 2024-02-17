@@ -42,26 +42,9 @@ const value = result.data; // Value type is string!
 | [betterNumber](./tests/number/number.test.ts)                | Handle numbers safely, worry not about NaN! Includes internationalization and conversion. |
 | [promiseAllSettled](./tests/fetch/promise.test.ts)           | TypeSafe promise.allSettled with a key/value return                                       |
 | [promiseAll](./tests/fetch/promise.test.ts)                  | TypeSafe promise.all with a key/value return                                              |
+| [parseFetchJson](./tests/fetch/json.test.ts)                 | Parse Request and Response bodies with Zod schema                                         |
 | [Object Merge](./tests/object/merge.test.ts)                 | Type safe object merge!                                                                   |
 | [HTTP_STATUS Constants](./src/constants/http.ts)             | Simple constants for HTTP statuses                                                        |
-
-### Parse JSON bodies
-
-Parse JSON from Request and Response bodies with Zod schemas.
-
-```ts
-const requestBody = await parseFetchJson(
-    new Request('http://example.com', {
-        body: JSON.stringify({value: 'hello'}),
-    }),
-    z.object({value: z.string()}),
-);
-
-const responseBody = await parseFetchJson(
-    new Response(JSON.stringify({value: 'hello'})),
-    z.object({value: z.string()}),
-);
-```
 
 ### Parse JSON strings
 
