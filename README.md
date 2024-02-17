@@ -40,6 +40,7 @@ const value = result.data; // Value type is string!
 |--------------------------------------------------------------|-------------------------------------------------------------------------------------------|
 | [Functional try/catch](./tests/functional/try-catch.test.ts) | Handle sync and async function errors functionally. Get rid of the try/catch bloat!       | 
 | [betterNumber](./tests/number/number.test.ts)                | Handle numbers safely, worry not about NaN! Includes internationalization and conversion. |
+| [promiseAllSettled](./tests/fetch/promise.test.ts)           | TypeSafe promise.allSettled with a key/value return                                       |
 | [Object Merge](./tests/object/merge.test.ts)                 | Type safe object merge!                                                                   |
 | [HTTP_STATUS Constants](./src/constants/http.ts)             | Simple constants for HTTP statuses                                                        |
 
@@ -65,18 +66,6 @@ const responseBody = await parseFetchJson(
 
 ```ts
 const json = parseJson('{"hello": "world"}', z.object({hello: z.string()}));
-```
-
-### Promise.AllSettled with keys
-
-```ts
-const results = await promiseAllSettled({
-    first: fetch('http://example.com/todo/1'),
-    second: fetch('http://example.com/todo/2'),
-    third: fetch('http://example.com/todo/3'),
-});
-
-const {first, second, third} = results;
 ```
 
 ### fetcher with a cache interval
