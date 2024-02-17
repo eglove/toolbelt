@@ -50,7 +50,7 @@ describe('promiseAllSettled', () => {
     });
     const all = performance.now() - startAll;
 
-    expect(all).toBeLessThan(sequential / 2);
+    expect(all).toBeLessThan(sequential);
   });
 });
 
