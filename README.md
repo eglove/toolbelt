@@ -49,23 +49,6 @@ const value = result.data; // Value type is string!
 | [merge](./tests/object/merge.test.ts)                            | Type safe object merge!                                                                              |
 | [HTTP_STATUS](./src/constants/http.ts)                           | Simple constants for HTTP statuses                                                                   |
 
-### URL Builder
-
-Simple way to build URL with pathVariable and searchParams objects.
-
-```ts
-const getTodo = (id: string) => {
-    return urlBuilder('todo/:id', {
-        pathVariables: {id},
-        searchParams: {filter: 'name', orderBy: 'date'},
-        urlBase: 'http://example.com/',
-    });
-};
-
-const urlObject = getTodo('1').url;
-const urlString = getTodo('1').toString();
-```
-
 ### Cookie Getter
 
 Reader either a string (such as from document.cookie) or a Header object to get a cookie value.
