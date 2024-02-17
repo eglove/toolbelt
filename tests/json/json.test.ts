@@ -4,7 +4,7 @@ import { z, ZodError } from 'zod';
 import { parseJson } from '../../src/json/json.ts';
 
 describe('parse json', () => {
-  it('should parse json string correctly', async () => {
+  it('should parse json string correctly', () => {
     const json = JSON.stringify({ json: 'stuff' });
 
     const results = parseJson(json, z.object({ json: z.string() }));
@@ -16,7 +16,7 @@ describe('parse json', () => {
     }
   });
 
-  it('should return ZodError when validation is incorrect', async () => {
+  it('should return ZodError when validation is incorrect', () => {
     const json = JSON.stringify({ fail: 0 });
 
     const results = parseJson(json, z.object({ fail: z.string() }));

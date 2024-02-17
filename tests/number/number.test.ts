@@ -61,6 +61,7 @@ describe('handle conversions', () => {
     [120, 'minutes', 2, 'hours'] as const,
   ])(
     'should make correct conversions',
+    // eslint-disable-next-line @typescript-eslint/max-params
     (originalValue, originalUnit, expectedValue, expectedUnit) => {
       const value = betterNumber(originalValue);
       const conversion = value.convert(originalUnit, expectedUnit);
