@@ -1,5 +1,4 @@
-TypeScript utilities with a consistent, functional (and forced) error handling interface 
-inspired by GoLang and Zod.
+# TypeScript utilities with error handling that is consistent, forced, and functional.
 
 ## The Key is the Error Handling
 
