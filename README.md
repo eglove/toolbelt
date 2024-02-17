@@ -35,27 +35,9 @@ const value = result.data; // Value type is string!
 
 ### Functional Try/Catch
 
-```ts
-const result = tryCatch(() => {
-    return 'maybe throws';
-});
+Handle sync and async function errors functionally. Get rid of the try/catch bloat!
 
-if (result.isSuccess) {
-    console.info(result.data);
-} else {
-    console.error(result.error);
-}
-
-const asyncResult = await tryCatchAsync(async () => {
-    return 'maybe throws';
-});
-
-if (asyncResult.isSuccess) {
-    console.info(asyncResult.data);
-} else {
-    console.error(asyncResult.error);
-}
-```
+[Read the tests for usage.](./tests/functional/try-catch.test.ts)
 
 ### betterNumber
 
