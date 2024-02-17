@@ -1,4 +1,4 @@
-# TypeScript utilities with error handling that is consistent, forced, and functional.
+TypeScript utilities with error handling that is consistent, forced, and functional.
 
 ## The Key is the Error Handling
 
