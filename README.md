@@ -43,14 +43,9 @@ const value = result.data; // Value type is string!
 | [promiseAllSettled](./tests/fetch/promise.test.ts)           | TypeSafe promise.allSettled with a key/value return                                       |
 | [promiseAll](./tests/fetch/promise.test.ts)                  | TypeSafe promise.all with a key/value return                                              |
 | [parseFetchJson](./tests/fetch/json.test.ts)                 | Parse Request and Response bodies with Zod schema                                         |
+| [parseJson](./tests/json/json.test.ts)                       | Synchronously parse JSON string with Zod schema                                           |
 | [Object Merge](./tests/object/merge.test.ts)                 | Type safe object merge!                                                                   |
 | [HTTP_STATUS Constants](./src/constants/http.ts)             | Simple constants for HTTP statuses                                                        |
-
-### Parse JSON strings
-
-```ts
-const json = parseJson('{"hello": "world"}', z.object({hello: z.string()}));
-```
 
 ### fetcher with a cache interval
 

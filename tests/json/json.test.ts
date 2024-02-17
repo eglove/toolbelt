@@ -1,0 +1,32 @@
+import { describe, expect, it } from 'vitest';
+import { z, ZodError } from 'zod';
+
+import { parseJson } from '../../src/json/json.ts';
+
+describe('parse json', () => {
+  it('should parse json string correctly', async () => {
+    const json = JSON.stringify({ json: 'stuff' });
+
+    const results = parseJson(json, z.object({ json: z.string() }));
+
+    expect(results.isSuccess).toBe(true);
+
+    if (results.isSuccess) {
+      expect(results.data).toStrictEqual({ json: 'stuff' });
+    }
+  });
+
+  it('should return ZodError when validation is incorrect', async () => {
+    const json = JSON.stringify({ fail: 0 });
+
+    const results = parseJson(json, z.object({ fail: z.string() }));
+
+    expect(results.isSuccess).toBe(false);
+
+    if (!results.isSuccess && results.error instanceof ZodError) {
+      expect(results.error.issues[0].message).toStrictEqual(
+        'Expected string, received number',
+      );
+    }
+  });
+});
