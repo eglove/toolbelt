@@ -50,78 +50,8 @@ const value = result.data; // Value type is string!
 | [merge](./tests/object/merge.test.ts)                            | Type safe object merge!                                                                              |
 | [getCookieValue](./tests/http/cookie.test.ts)                    | Get cookie value from a string (document.cookie) or a Header object                                  |
 | [HTTP_STATUS](./src/constants/http.ts)                           | Simple constants for HTTP statuses                                                                   |
-
-### isBigIntOrNumber
-
-It's ok with strings!
-
-```ts
-isBigIntOrNumber('2') // true
-isBigIntOrNumber(2) // true
-isBigIntOrNumber(BigInt(123)) // true
-
-isBigIntOrNumber(0 / 0) // false
-isBigIntOrNumber('not a number') // false
-isBigIntOrNumber(undefined) // false
-isBigIntOrNumber(null) // false
-```
-
-### isBrowser
-
-```ts
-const isOnClient = isBrowser;
-```
-
-### isEmpty
-
-```ts
-isEmpty(undefined) // true
-isEmpty(null) // true
-isEmpty('') // true
-isEmpty(' ') // true (will trim empty spaces!)
-isEmpty([]) // true
-isEmpty({}) // true
-isEmpty(new Map()) // true
-isEmpty(new Set()) // true
-isEmpty(Buffer.from('')) // true
-
-isEmpty('1') // false
-isEmpty([1]) // false
-isEmpty({hello: 'world'}) // false
-isEmpty(new Map([['hello', 'world']])) // false
-isEmpty(new Set(['hello', 'world'])) // false
-isEmpty(Buffer.from('1')) // false
-```
-
-### isNil
-
-```ts
-isNil(undefined) // true
-isNil(null) // true
-```
-
-### isObject
-
-```ts
-isObject([]) // true
-isObject({}) // true
-isObject(new Map()) // true
-isObject(new Set()) // true
-isObject(Buffer.from('')) // true
-isObject(() => 'hello') // true
-
-isObject(undefined) // false
-isObject(null) // false
-isObject(' ') // false
-```
-
-### isString
-
-```ts
-isString('hello') // true
-isString(String('hello')) // true
-
-// This value typeof is NOT string! 
-// But we check for it properly in isString
-isString(new String('hello')) // true
-```
+| [isBigIntOrNumber](./tests/is/big-int-or-number.test.ts)         | Converts strings and tests for NaN's                                                                 |
+| [isEmpty](./tests/is/empty.test.ts)                              | Tests for empty strings, arrays, object, Maps, Sets and Buffers                                      |
+| [isNil](./tests/is/nil.test.ts)                                  | Why do we have both a null and undefined? Just check if it's nil!                                    |
+| [isObject](./tests/is/object.test.ts)                            | Arrays, Objects, Maps, Sets, it's all objects!                                                       |
+| [isString](./tests/is/string.test.ts)                            | Because it turns out `new String('string')` is not a sring.                                          |
