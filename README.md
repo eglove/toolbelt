@@ -49,53 +49,8 @@ Handle numbers safely, worry not about NaN! Includes internationalization and co
 
 Type safe object merge!
 
-```ts
-const target = {
-  a: 20,
-  b: null,
-  c: { from: 30, to: 60 },
-  d: [1, 2],
-};
+[Read the tests for usage.](./tests/object/merge.test.ts)
 
-const source = {
-  a: 10,
-  b: undefined,
-  c: { from: 50 },
-  d: [3],
-};
-
-// Arrays will be merged rather than replaced
-const isMergingArrays = true
-const result = merge(target, isMergingArrays, source)
-
-// {
-//   a: 10,
-//   b: undefined,
-//   c: { from: 50, to: 60 },
-//   d: [1, 2, 3],
-// }
-
-const object1 = { a: 1, b: { x: 10, y: 20 }, c: [1, 2, 3] };
-const object2 = { a: 2, b: { x: 15, z: 30 }, d: 'string1' };
-const object3 = { a: 3, b: { y: 25, z: 35 }, e: { f: 'string2' } };
-const object4 = {
-    a: 4,
-    b: { x: 20, y: 30, z: 40 },
-    c: [4, 5, 6],
-    e: { g: 'string3' },
-};
-
-// Arrays under the same key will be replaced
-const result2 = merge(object1, false, object2, object3, object4);
-
-// {
-//   a: 4,
-//   b: { x: 20, y: 30, z: 40 },
-//   c: [4, 5, 6],
-//   d: 'string1',
-//   e: { f: 'string2', g: 'string3' },
-// }
-```
 
 ### HTTP_STATUS constant
 
