@@ -61,36 +61,7 @@ if (asyncResult.isSuccess) {
 
 Handle numbers safely, worry not about NaN! Includes internationalization and conversion.
 
-```ts
-// Accepts big int and strings
-import {betterNumber} from "./number";
-
-betterNumber(123)
-betterNumber('123')
-betterNumber(BigInt(123))
-betterNumber('12345678901234567890') // BigInt
-
-// locale formatting, is locale is not provided, it will attempt to default to your browser
-const englishUs = betterNumber(1000, 'en-US', {
-    style: 'unit',
-    unit: 'inch',
-});
-englishUs.number // 1000
-englishUs.locale // en-US
-englishUs.format() // 1,000 in
-
-const portugueseBrazil = betterNumber(1000, 'pt-BR', {
-    style: 'unit',
-    unit: 'inch',
-});
-englishUs.number // 1000
-englishUs.locale // pt-BR
-englishUs.format() // 1.000 pol.
-
-// Invalid numbers return as undefined, not NaN!
-betterNumber(undefined).number // undefined
-betterNumber(null).number // undefined
-```
+[Read the tests for usage.](./tests/number/number.test.ts)
 
 ### Object Merge
 
