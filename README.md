@@ -40,6 +40,7 @@ const value = result.data; // Value type is string!
 |------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
 | [tryCatch / tryCatchAsync](./tests/functional/try-catch.test.ts) | Handle sync and async function errors functionally. Get rid of the try/catch bloat!                  |
 | [fetcher](./tests/fetch/fetcher.test.ts)                         | fetch wrapper that works with Cache API and IndexedDB to cache Request/Response pairs on an interval |
+| [urlBuilder](./tests/fetch/url-builder.test.ts)                  | Builder URLs with Zod schema and simple objects for search params and path variables                 |
 | [betterNumber](./tests/number/number.test.ts)                    | Handle numbers safely, worry not about NaN! Includes internationalization and conversion.            |
 | [promiseAllSettled](./tests/fetch/promise.test.ts)               | TypeSafe promise.allSettled with a key/value return                                                  |
 | [promiseAll](./tests/fetch/promise.test.ts)                      | TypeSafe promise.all with a key/value return                                                         |
