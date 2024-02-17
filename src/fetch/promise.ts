@@ -1,4 +1,5 @@
-import type { HandledError } from '../types/error.js';
+import { tryCatchAsync } from '../functional/try-catch.ts';
+import type { HandledError } from '../types/error.ts';
 
 const categorizeResults = <K extends PropertyKey, T>(
   promiseKeys: K[],
@@ -36,4 +37,30 @@ export async function promiseAllSettled<
   return categorizeResults(promiseKeys, results) as {
     [P in keyof T]: HandledError<Awaited<T[P]>, Error>;
   };
+}
+
+export async function promiseAll<
+  K extends PropertyKey,
+  T extends Record<K, Promise<unknown>>,
+>(promises: T) {
+  const promiseKeys = Object.keys(promises) as K[];
+  const promiseValues = Object.values(promises);
+
+  const results = await tryCatchAsync(async () => {
+    return Promise.all(promiseValues);
+  });
+
+  if (!results.isSuccess) {
+    return results;
+  }
+
+  const settledResults = {} as Record<K, Awaited<T[K]>>;
+  for (const [index, promiseKey] of promiseKeys.entries()) {
+    settledResults[promiseKey] = results.data[index] as Awaited<T[K]>;
+  }
+
+  return { data: settledResults, isSuccess: true } as HandledError<
+    { [P in keyof T]: Awaited<T[P]> },
+    Error
+  >;
 }
