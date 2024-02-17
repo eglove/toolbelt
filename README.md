@@ -41,25 +41,15 @@ const value = result.data; // Value type is string!
 | [tryCatch / tryCatchAsync](./tests/functional/try-catch.test.ts) | Handle sync and async function errors functionally. Get rid of the try/catch bloat!                  |
 | [fetcher](./tests/fetch/fetcher.test.ts)                         | fetch wrapper that works with Cache API and IndexedDB to cache Request/Response pairs on an interval |
 | [urlBuilder](./tests/fetch/url-builder.test.ts)                  | Build URLs with Zod schema and simple objects for search params and path variables                   |
+| [API](./tests/api/api.test.ts)                                   | Centralize API calls. Built on top of urlBuilder                                                     |
 | [betterNumber](./tests/number/number.test.ts)                    | Handle numbers safely, worry not about NaN! Includes internationalization and conversion.            |
 | [promiseAllSettled](./tests/fetch/promise.test.ts)               | TypeSafe promise.allSettled with a key/value return                                                  |
 | [promiseAll](./tests/fetch/promise.test.ts)                      | TypeSafe promise.all with a key/value return                                                         |
 | [parseFetchJson](./tests/fetch/json.test.ts)                     | Parse Request and Response bodies with Zod schema                                                    |
 | [parseJson](./tests/json/json.test.ts)                           | Synchronously parse JSON string with Zod schema                                                      |
 | [merge](./tests/object/merge.test.ts)                            | Type safe object merge!                                                                              |
+| [getCookieValue](./tests/http/cookie.test.ts)                    | Get cookie value from a string (document.cookie) or a Header object                                  |
 | [HTTP_STATUS](./src/constants/http.ts)                           | Simple constants for HTTP statuses                                                                   |
-
-### Cookie Getter
-
-Reader either a string (such as from document.cookie) or a Header object to get a cookie value.
-
-```ts
-const clientToken = getCookieValue('token', document.cookie);
-
-const headers = new Headers();
-headers.append('Set-Cookie', 'token=123;');
-const serverToken = getCookieValue('token', headers);
-```
 
 ### isBigIntOrNumber
 
