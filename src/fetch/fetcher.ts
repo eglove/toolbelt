@@ -101,9 +101,11 @@ class Fetcher {
   }
 
   public getRequestKey(): string {
-    return `${this._request.url}${this._request.headers.get('Vary') ?? ''}${
+    const varyHeader = this._request.headers.get('Vary');
+
+    return `${
       this._request.method
-    }`;
+    }_${this._request.url}${isNil(varyHeader) ? '' : `_${varyHeader}`}`;
   }
 
   public async isExpired(): Promise<HandledError<boolean, Error>> {
