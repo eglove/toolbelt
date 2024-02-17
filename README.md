@@ -6,8 +6,8 @@ Any utility that may throw an error uses a simple return type:
 
 ```ts
 type HandledError<T, E> =
-  | { data: T; isSuccess: true }
-  | { error: E; isSuccess: false };
+    | { data: T; isSuccess: true }
+    | { error: E; isSuccess: false };
 ```
 
 If you're familiar with Zod, you may be familiar with the return of [.safeParse()](https://zod.dev/?id=safeparse).
@@ -16,7 +16,9 @@ If you're familiar with Zod, you may be familiar with the return of [.safeParse(
 stringSchema.safeParse(12);
 // => { success: false; error: ZodError }
 ```
-With TypeScript, this forces you to check the value of `isSuccess` before TS knows which other property exists on the object.
+
+With TypeScript, this forces you to check the value of `isSuccess` before TS knows which other property exists on the
+object.
 
 ```ts
 const result: HandledError<string, Error> = foo();
@@ -32,31 +34,20 @@ if (!result.isSuccess) {
 const value = result.data; // Value type is string!
 ```
 
-### Functional Try/Catch
+Looking for docs? Read the tests!
 
-Handle sync and async function errors functionally. Get rid of the try/catch bloat!
-
-[Read the tests for usage.](./tests/functional/try-catch.test.ts)
-
-### betterNumber
-
-Handle numbers safely, worry not about NaN! Includes internationalization and conversion.
-
-[Read the tests for usage.](./tests/number/number.test.ts)
-
-### Object Merge
-
-Type safe object merge!
-
-[Read the tests for usage.](./tests/object/merge.test.ts)
-
+| Name                                                         | Description                                                                               | 
+|--------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [Functional try/catch](./tests/functional/try-catch.test.ts) | Handle sync and async function errors functionally. Get rid of the try/catch bloat!       | 
+| [betterNumber](./tests/number/number.test.ts)                | Handle numbers safely, worry not about NaN! Includes internationalization and conversion. |
+| [Object Merge](./tests/object/merge.test.ts)                 | Type safe object merge!                                                                   |
 
 ### HTTP_STATUS constant
 
 ```ts
-import { HTTP_STATUS } from '@ethang/toolbelt/constants/http';
+import {HTTP_STATUS} from '@ethang/toolbelt/constants/http';
 
-const { OK, INTERNAL_SERVER_ERROR, IM_A_TEAPOT, ... } = HTTP_STATUS;
+const {OK, INTERNAL_SERVER_ERROR, IM_A_TEAPOT, ...} = HTTP_STATUS;
 ```
 
 ### Parse JSON bodies
@@ -66,21 +57,21 @@ Parse JSON from Request and Response bodies with Zod schemas.
 ```ts
 const requestBody = await parseFetchJson(
     new Request('http://example.com', {
-        body: JSON.stringify({ value: 'hello' }),
+        body: JSON.stringify({value: 'hello'}),
     }),
-    z.object({ value: z.string() }),
+    z.object({value: z.string()}),
 );
 
 const responseBody = await parseFetchJson(
-    new Response(JSON.stringify({ value: 'hello' })),
-    z.object({ value: z.string() }),
+    new Response(JSON.stringify({value: 'hello'})),
+    z.object({value: z.string()}),
 );
 ```
 
 ### Parse JSON strings
 
 ```ts
-const json = parseJson('{"hello": "world"}', z.object({ hello: z.string() }));
+const json = parseJson('{"hello": "world"}', z.object({hello: z.string()}));
 ```
 
 ### Promise.AllSettled with keys
@@ -92,12 +83,12 @@ const results = await promiseAllSettled({
     third: fetch('http://example.com/todo/3'),
 });
 
-const { first, second, third } = results;
+const {first, second, third} = results;
 ```
 
 ### fetcher with a cache interval
 
-Will store a fetched response in Cache API. 
+Will store a fetched response in Cache API.
 cacheKey is the name of the cache for all requests.
 To get a key for a specific request, use .getRequestKey().
 
@@ -108,7 +99,7 @@ const example = fetcher({
     request: new Request('http://example.com'),
 });
 
-const requestKey = example.getRequestKey(); 
+const requestKey = example.getRequestKey();
 const isExpired = await example.isExpired();
 
 const response = await example.fetch();
@@ -121,8 +112,8 @@ Simple way to build URL with pathVariable and searchParams objects.
 ```ts
 const getTodo = (id: string) => {
     return urlBuilder('todo/:id', {
-        pathVariables: { id },
-        searchParams: { filter: 'name', orderBy: 'date' },
+        pathVariables: {id},
+        searchParams: {filter: 'name', orderBy: 'date'},
         urlBase: 'http://example.com/',
     });
 };
@@ -179,7 +170,7 @@ isEmpty(Buffer.from('')) // true
 
 isEmpty('1') // false
 isEmpty([1]) // false
-isEmpty({ hello: 'world' }) // false
+isEmpty({hello: 'world'}) // false
 isEmpty(new Map([['hello', 'world']])) // false
 isEmpty(new Set(['hello', 'world'])) // false
 isEmpty(Buffer.from('1')) // false
