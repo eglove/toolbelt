@@ -61,12 +61,12 @@ describe('merge', () => {
       e: { g: 'string3' },
     } as const;
 
-    const result = merge(object1, true, object2, object3, object4);
+    const result = merge(object1, false, object2, object3, object4);
 
     const expected = {
       a: 4,
       b: { x: 20, y: 30, z: 40 },
-      c: [1, 2, 3, 4, 5, 6],
+      c: [4, 5, 6],
       d: 'string1',
       e: { f: 'string2', g: 'string3' },
     };
