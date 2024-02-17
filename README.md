@@ -36,16 +36,16 @@ const value = result.data; // Value type is string!
 
 ## Looking for docs? Read the tests!
 
-| Name                                                         | Description                                                                               | 
-|--------------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| [Functional try/catch](./tests/functional/try-catch.test.ts) | Handle sync and async function errors functionally. Get rid of the try/catch bloat!       | 
-| [betterNumber](./tests/number/number.test.ts)                | Handle numbers safely, worry not about NaN! Includes internationalization and conversion. |
-| [promiseAllSettled](./tests/fetch/promise.test.ts)           | TypeSafe promise.allSettled with a key/value return                                       |
-| [promiseAll](./tests/fetch/promise.test.ts)                  | TypeSafe promise.all with a key/value return                                              |
-| [parseFetchJson](./tests/fetch/json.test.ts)                 | Parse Request and Response bodies with Zod schema                                         |
-| [parseJson](./tests/json/json.test.ts)                       | Synchronously parse JSON string with Zod schema                                           |
-| [Object Merge](./tests/object/merge.test.ts)                 | Type safe object merge!                                                                   |
-| [HTTP_STATUS Constants](./src/constants/http.ts)             | Simple constants for HTTP statuses                                                        |
+| Name                                                             | Description                                                                               | 
+|------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [tryCatch / tryCatchAsync](./tests/functional/try-catch.test.ts) | Handle sync and async function errors functionally. Get rid of the try/catch bloat!       | 
+| [betterNumber](./tests/number/number.test.ts)                    | Handle numbers safely, worry not about NaN! Includes internationalization and conversion. |
+| [promiseAllSettled](./tests/fetch/promise.test.ts)               | TypeSafe promise.allSettled with a key/value return                                       |
+| [promiseAll](./tests/fetch/promise.test.ts)                      | TypeSafe promise.all with a key/value return                                              |
+| [parseFetchJson](./tests/fetch/json.test.ts)                     | Parse Request and Response bodies with Zod schema                                         |
+| [parseJson](./tests/json/json.test.ts)                           | Synchronously parse JSON string with Zod schema                                           |
+| [merge](./tests/object/merge.test.ts)                            | Type safe object merge!                                                                   |
+| [HTTP_STATUS](./src/constants/http.ts)                           | Simple constants for HTTP statuses                                                        |
 
 ### fetcher with a cache interval
 
