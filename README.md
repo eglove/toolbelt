@@ -41,14 +41,7 @@ const value = result.data; // Value type is string!
 | [Functional try/catch](./tests/functional/try-catch.test.ts) | Handle sync and async function errors functionally. Get rid of the try/catch bloat!       | 
 | [betterNumber](./tests/number/number.test.ts)                | Handle numbers safely, worry not about NaN! Includes internationalization and conversion. |
 | [Object Merge](./tests/object/merge.test.ts)                 | Type safe object merge!                                                                   |
-
-### HTTP_STATUS constant
-
-```ts
-import {HTTP_STATUS} from '@ethang/toolbelt/constants/http';
-
-const {OK, INTERNAL_SERVER_ERROR, IM_A_TEAPOT, ...} = HTTP_STATUS;
-```
+| [HTTP_STATUS Constants](./src/constants/http.ts)             | Simple constants for HTTP statuses                                                        |
 
 ### Parse JSON bodies
 
