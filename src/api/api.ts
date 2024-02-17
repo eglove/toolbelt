@@ -65,27 +65,11 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
         return bodyValidation;
       }
 
-      const searchParametersValidation = this.validateSearchParams(
-        requestConfig,
-        options,
-      );
-
-      if (!searchParametersValidation.isSuccess) {
-        return searchParametersValidation;
-      }
-
-      const pathVariableValidation = this.validatePathVariables(
-        requestConfig,
-        options,
-      );
-
-      if (!pathVariableValidation.isSuccess) {
-        return pathVariableValidation;
-      }
-
       const builder = urlBuilder(requestConfig.path, {
         pathVariables: options?.pathVariables,
+        pathVariablesSchema: requestConfig.pathVariableSchema,
         searchParams: options?.searchParams,
+        searchParamsSchema: requestConfig.searchParamSchema,
         urlBase: this.config.baseUrl,
       });
 
@@ -126,44 +110,6 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
       }
 
       return { data: parsedBodyInit.data, isSuccess: true };
-    }
-
-    return { data: undefined, isSuccess: true };
-  }
-
-  private validateSearchParams(
-    requestConfig: RequestConfig,
-    options?: RequestOptions,
-  ): Validate<typeof requestConfig.searchParamSchema> {
-    if (!isNil(requestConfig.searchParamSchema)) {
-      const parsed = requestConfig.searchParamSchema.safeParse(
-        options?.searchParams,
-      );
-
-      if (!parsed.success) {
-        return { error: parsed.error, isSuccess: parsed.success };
-      }
-
-      return { data: parsed.data, isSuccess: true };
-    }
-
-    return { data: undefined, isSuccess: true };
-  }
-
-  private validatePathVariables(
-    requestConfig: RequestConfig,
-    options?: RequestOptions,
-  ): Validate<typeof requestConfig.pathVariableSchema> {
-    if (!isNil(requestConfig.pathVariableSchema)) {
-      const parsed = requestConfig.pathVariableSchema.safeParse(
-        options?.pathVariables,
-      );
-
-      if (!parsed.success) {
-        return { error: parsed.error, isSuccess: false };
-      }
-
-      return { data: parsed.data, isSuccess: true };
     }
 
     return { data: undefined, isSuccess: true };
