@@ -34,7 +34,7 @@ if (!result.isSuccess) {
 const value = result.data; // Value type is string!
 ```
 
-Looking for docs? Read the tests!
+## Looking for docs? Read the tests!
 
 | Name                                                         | Description                                                                               | 
 |--------------------------------------------------------------|-------------------------------------------------------------------------------------------|
