@@ -71,9 +71,11 @@ class BetterNumber {
   ) {
     this._formatOptions = formatOptions;
 
-    if (typeof number === 'bigint' || typeof number === 'number') {
+    if (!isBigIntOrNumber(number)) {
+      this._number = undefined;
+    } else if (typeof number === 'bigint' || typeof number === 'number') {
       this._number = number;
-    } else if (typeof number === 'string' && isBigIntOrNumber(number)) {
+    } else if (typeof number === 'string') {
       this._number =
         Number(number) > Number.MAX_SAFE_INTEGER
           ? BigInt(number)

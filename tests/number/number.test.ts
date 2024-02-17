@@ -3,45 +3,28 @@ import { describe, expect, it } from 'vitest';
 import { betterNumber } from '../../src/number/number.ts';
 
 describe('basic usage', () => {
-  it('should accept number', () => {
-    const value = betterNumber(123);
+  it.each([
+    [123, 123],
+    ['123', 123],
+    [BigInt(123), BigInt(123)],
+    ['12345678901234567890', BigInt('12345678901234567890')],
+  ])('should accept numbers, strings, and BigInt', (given, expected) => {
+    const value = betterNumber(given);
 
-    expect(value.number).toBe(123);
-  });
-
-  it('should accept number string', () => {
-    const value = betterNumber('123');
-
-    expect(value.number).toBe(123);
-  });
-
-  it('should accept bigint', () => {
-    const value = betterNumber(BigInt(123));
-
-    expect(value.number).toBe(BigInt(123));
-  });
-
-  it('should accept BigInt string', () => {
-    const value = betterNumber('12345678901234567890');
-
-    expect(value.number).toBe(BigInt('12345678901234567890'));
+    expect(value.number).toBe(expected);
   });
 });
 
 describe('handle NaN', () => {
-  it('should return undefined if number is NaN', () => {
-    const length = betterNumber(undefined, 'en-US');
+  it.each([undefined, null, Number.NaN, 'what?'])(
+    'should return undefined for invalid values',
+    () => {
+      const length = betterNumber(Number.NaN, 'en-US');
 
-    expect(length.number).toBe(undefined);
-    expect(length.format()).toBe(undefined);
-  });
-
-  it('should return undefined when number is null', () => {
-    const height = betterNumber(null, 'en-US');
-
-    expect(height.number).toBe(undefined);
-    expect(height.format()).toBe(undefined);
-  });
+      expect(length.number).toBe(undefined);
+      expect(length.format()).toBe(undefined);
+    },
+  );
 });
 
 describe('format with locale', () => {
@@ -58,39 +41,31 @@ describe('format with locale', () => {
     expect(value.locale).toBe('fr');
   });
 
-  it('should format to the locale', () => {
-    const englishUs = betterNumber(1000, 'en-US', {
+  it.each([
+    ['en-US', '1,000 in'],
+    ['pt-Br', '1.000 pol.'],
+  ])('should format to the proper locale', (locale, expected) => {
+    const value = betterNumber(1000, locale, {
       style: 'unit',
       unit: 'inch',
     });
 
-    expect(englishUs.number).toBe(1000);
-    expect(englishUs.locale).toBe('en-US');
-    expect(englishUs.format()).toBe('1,000 in');
-
-    const portugueseBrazil = betterNumber(1000, 'pt-BR', {
-      style: 'unit',
-      unit: 'inch',
-    });
-
-    expect(portugueseBrazil.locale).toBe('pt-BR');
-    expect(portugueseBrazil.format()).toBe('1.000 pol.');
+    expect(value.format()).toBe(expected);
   });
 });
 
 // See full docs for all conversions https://convert.js.org/
 describe('handle conversions', () => {
-  it('should convert temperature', () => {
-    const value = betterNumber(100);
-    const conversion = value.convert('celsius', 'fahrenheit');
+  it.each([
+    [100, 'celsius', 212, 'fahrenheit'] as const,
+    [120, 'minutes', 2, 'hours'] as const,
+  ])(
+    'should make correct conversions',
+    (originalValue, originalUnit, expectedValue, expectedUnit) => {
+      const value = betterNumber(originalValue);
+      const conversion = value.convert(originalUnit, expectedUnit);
 
-    expect(Math.round(conversion as unknown as number)).toBe(212);
-  });
-
-  it('should convert time', () => {
-    const value = betterNumber(120);
-    const conversion = value.convert('minutes', 'hours');
-
-    expect(conversion).toBe(2);
-  });
+      expect(Math.round(conversion as unknown as number)).toBe(expectedValue);
+    },
+  );
 });
