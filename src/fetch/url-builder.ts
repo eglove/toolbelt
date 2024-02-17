@@ -6,18 +6,18 @@ import { isString } from '../is/string.ts';
 import type { HandledError } from '../types/error.ts';
 
 export type UrlConfig = {
-  pathVariables?: Record<string, string | number>;
-  searchParams?: string | Record<string, unknown>;
-  urlBase?: string | URL;
+  pathVariables?: Record<string, number | string>;
+  searchParams?: Record<string, unknown> | string;
+  urlBase?: URL | string;
 };
 
 class UrlBuilder {
-  private _url: string | URL;
+  private _url: URL | string;
   private readonly searchParameters: URLSearchParams;
-  private readonly pathVariables?: Record<string, string | number>;
+  private readonly pathVariables?: Record<string, number | string>;
   private readonly _config: UrlConfig | undefined;
 
-  public constructor(urlString: string | URL, config?: UrlConfig) {
+  public constructor(urlString: URL | string, config?: UrlConfig) {
     this._url = urlString;
     this._config = config;
     this.pathVariables = config?.pathVariables;
@@ -38,7 +38,7 @@ class UrlBuilder {
     return { data: url.data.toString(), isSuccess: true };
   }
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
+  // eslint-disable-next-line max-statements,max-lines-per-function
   private buildUrl(): HandledError<URL, Error> {
     let urlString = this._url.toString();
 
@@ -57,11 +57,12 @@ class UrlBuilder {
           if (includesColon.data) {
             const replaced = tryCatch(() => {
               return urlString.replaceAll(
-                new RegExp(':' + key, 'g'),
+                new RegExp(`:${key}`, 'gu'),
                 String(pathVariables[key]),
               );
             });
 
+            // eslint-disable-next-line max-depth
             if (!replaced.isSuccess) {
               return replaced;
             }

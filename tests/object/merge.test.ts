@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { merge } from '../../src/object/merge.ts';
 
+// eslint-disable-next-line max-lines-per-function
 describe('merge', () => {
   it('should return original if objects are equal', () => {
     const equalObject = { a: 1, b: 2 };

@@ -5,8 +5,8 @@ export function isEmpty<T>(value: T): boolean {
     return true;
   }
 
-  if (typeof value === 'string' && value.trim().length > 0) {
-    return false;
+  if (typeof value === 'string') {
+    return value.trim().length <= 0;
   }
 
   if (Array.isArray(value)) {

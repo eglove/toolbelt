@@ -20,19 +20,19 @@ export type ApiConfig<T extends Record<string, Readonly<RequestConfig>>> = {
 };
 
 export type RequestOptions = {
-  pathVariables?: Record<string, string | number>;
+  pathVariables?: Record<string, number | string>;
   requestInit?: RequestInit;
-  searchParams?: Record<string, string | number | undefined>;
+  searchParams?: Record<string, number | string | undefined>;
 };
 
 export type RequestFunction = (
   options?: RequestOptions,
-) => HandledError<Request, z.ZodError | Error>;
+) => HandledError<Request, Error | z.ZodError>;
 
 export type FetchOptions = RequestOptions & { cacheInterval?: number };
 
 export type FetchFunction = (
   options?: FetchOptions,
 ) =>
-  | Promise<HandledError<Response | undefined, Error>>
-  | HandledError<Response | undefined, Error | z.ZodError>;
+  | HandledError<Response | undefined, Error | z.ZodError>
+  | Promise<HandledError<Response | undefined, Error>>;

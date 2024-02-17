@@ -1,3 +1,4 @@
+import type { IDBPDatabase } from 'idb';
 import { openDB } from 'idb';
 
 import { tryCatchAsync } from '../functional/try-catch.ts';
@@ -17,38 +18,39 @@ type RequestMeta = {
 };
 
 class Fetcher {
-  private _cacheInterval?: number;
-  private readonly _cacheKey: string;
-  private readonly _request: Request;
-
   private static readonly _DB_NAME = 'requests';
   private static readonly _DB_KEY = 'key';
 
+  private _cacheInterval: number;
+  private readonly _cacheKey: string;
+  private readonly _request: Request;
+
   public constructor({ cacheKey, cacheInterval, request }: FetcherOptions) {
     this._cacheKey = cacheKey ?? 'cache';
-    this._cacheInterval = cacheInterval;
+    this._cacheInterval = cacheInterval ?? 0;
     this._request = request;
   }
 
-  public get request() {
+  public get request(): Request {
     return this._request;
   }
 
-  public get cacheKey() {
+  public get cacheKey(): string {
     return this._cacheKey;
   }
 
-  public get cacheInterval() {
+  public get cacheInterval(): number {
     return this._cacheInterval;
   }
 
-  public set cacheInterval(interval: number | undefined) {
+  public set cacheInterval(interval: number) {
     this._cacheInterval = interval;
   }
 
+  // eslint-disable-next-line max-lines-per-function,max-statements
   public async fetch(): Promise<HandledError<Response | undefined, Error>> {
     if (!isBrowser || isNil(this._cacheInterval) || this._cacheInterval <= 0) {
-      return tryCatchAsync(() => {
+      return tryCatchAsync(async () => {
         return fetch(this._request);
       });
     }
@@ -77,9 +79,9 @@ class Fetcher {
     }
 
     const expires = new Date();
-    expires.setSeconds(expires.getSeconds() + (this._cacheInterval ?? 0));
+    expires.setSeconds(expires.getSeconds() + this._cacheInterval);
 
-    const results = await tryCatchAsync(() => {
+    const results = await tryCatchAsync(async () => {
       return Promise.all([
         cache.add(this._request),
         database.data
@@ -93,12 +95,12 @@ class Fetcher {
       return results;
     }
 
-    return tryCatchAsync(() => {
+    return tryCatchAsync(async () => {
       return cache.match(this._request);
     });
   }
 
-  public getRequestKey() {
+  public getRequestKey(): string {
     return `${this._request.url}${this._request.headers.get('Vary') ?? ''}${
       this._request.method
     }`;
@@ -125,9 +127,16 @@ class Fetcher {
     return { data: new Date() >= cachedMeta.expires, isSuccess: true };
   }
 
-  private readonly getRequestDatabase = async () => {
-    return tryCatchAsync(() => {
-      return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME, 1, {
+  private readonly getRequestDatabase = async (): Promise<
+    HandledError<
+      Awaited<ReturnType<() => Promise<IDBPDatabase<typeof Fetcher._DB_NAME>>>>,
+      Error
+    >
+  > => {
+    const DB_VERSION = 1;
+
+    return tryCatchAsync(async () => {
+      return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME, DB_VERSION, {
         upgrade(database_) {
           const store = database_.createObjectStore(Fetcher._DB_NAME, {
             keyPath: Fetcher._DB_KEY,
@@ -139,6 +148,6 @@ class Fetcher {
   };
 }
 
-export function fetcher(options: FetcherOptions) {
+export function fetcher(options: FetcherOptions): Fetcher {
   return new Fetcher(options);
 }

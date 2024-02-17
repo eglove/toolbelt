@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { betterNumber } from '../../src/number/number.ts';
 
+// eslint-disable-next-line max-lines-per-function
 describe('BetterNumber', () => {
   it('should accept bigint', () => {
     const value = betterNumber(BigInt(123));

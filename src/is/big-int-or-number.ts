@@ -7,7 +7,7 @@ export function isBigIntOrNumber(value: unknown): boolean {
   }
 
   if (typeof value === 'string') {
-    return /^-?\d+$/.test(value);
+    return /^-?\d+$/u.test(value);
   }
 
   return false;

@@ -17,7 +17,7 @@ import { convert } from 'convert';
 import { isBigIntOrNumber } from '../is/big-int-or-number.ts';
 import { isNil } from '../is/nil.ts';
 
-type FormatOptions = Intl.NumberFormatOptions & BigIntToLocaleStringOptions;
+type FormatOptions = BigIntToLocaleStringOptions & Intl.NumberFormatOptions;
 
 type ConversionUnit =
   | Angle
@@ -61,7 +61,7 @@ type IsSameFamily<T extends ConversionUnit> = T extends Angle
 
 class BetterNumber {
   private readonly _locale?: Intl.LocalesArgument;
-  private readonly _number?: number | bigint;
+  private readonly _number?: bigint | number;
   private readonly _formatOptions?: FormatOptions;
 
   public constructor(
@@ -87,6 +87,14 @@ class BetterNumber {
     }
   }
 
+  public get locale(): Intl.LocalesArgument {
+    return this._locale;
+  }
+
+  public get number(): bigint | number | undefined {
+    return this._number;
+  }
+
   public convert<From extends ConversionUnit, To extends IsSameFamily<From>>(
     from: From,
     to: To,
@@ -95,14 +103,6 @@ class BetterNumber {
       // @ts-expect-error ugh... this gives proper autocomplete
       return convert(this._number, from).to(to);
     }
-  }
-
-  public get locale(): Intl.LocalesArgument {
-    return this._locale;
-  }
-
-  public get number(): number | bigint | undefined {
-    return this._number;
   }
 
   public format(options?: FormatOptions): string | undefined {

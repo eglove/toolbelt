@@ -7,7 +7,7 @@ export function parseJson<Z extends ZodValidator>(
   text: string,
   validator: Z,
   reviver?: (this: unknown, key: string, value: unknown) => unknown,
-): HandledError<z.output<Z>, z.ZodError<Z> | Error> {
+): HandledError<z.output<Z>, Error | z.ZodError<Z>> {
   const unparsed = validator.safeParse(JSON.parse(text, reviver));
 
   if (!unparsed.success) {

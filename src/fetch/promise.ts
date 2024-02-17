@@ -2,13 +2,10 @@ import type { HandledError } from '../types/error.ts';
 
 type Promises<T> = Record<string, Promise<T>>;
 
-export async function promiseAllSettled<T>(
-  promises: Promises<T>,
-): Promise<Record<string, HandledError<T, Error>>> {
-  const promiseKeys = Object.keys(promises);
-  const promiseValues = Object.values(promises);
-
-  const results = await Promise.allSettled(promiseValues);
+const categorizeResults = <T>(
+  promiseKeys: string[],
+  results: PromiseSettledResult<Awaited<T>>[],
+) => {
   const settledPromises: Record<string, HandledError<T, Error>> = {};
 
   for (const [index, key] of promiseKeys.entries()) {
@@ -27,4 +24,15 @@ export async function promiseAllSettled<T>(
   }
 
   return settledPromises;
+};
+
+export async function promiseAllSettled<T>(
+  promises: Promises<T>,
+): Promise<Record<string, HandledError<T, Error>>> {
+  const promiseKeys = Object.keys(promises);
+  const promiseValues = Object.values(promises);
+
+  const results = await Promise.allSettled(promiseValues);
+
+  return categorizeResults(promiseKeys, results);
 }

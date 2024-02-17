@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { Api } from '../../src/api/api.ts';
 
+// eslint-disable-next-line max-lines-per-function
 describe('api setup', () => {
   test('initializes api correctly', () => {
     const testApi = new Api({
@@ -34,6 +35,7 @@ describe('api setup', () => {
     }
   });
 
+  // eslint-disable-next-line max-lines-per-function,max-statements
   test('calls fetch', async () => {
     const expectedResult = {
       completed: false,

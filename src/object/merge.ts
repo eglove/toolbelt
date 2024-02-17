@@ -1,10 +1,9 @@
 import type { MergeDeep, Simplify } from 'type-fest';
 
 import { isEmpty } from '../is/empty.ts';
-import { isNil } from '../is/nil.ts';
 import { isObject } from '../is/object.ts';
 
-type ValidObject = Record<string | symbol | number, unknown> | object;
+type ValidObject = Record<number | string | symbol, unknown> | object;
 type ValidObjectOptional = ValidObject | undefined;
 
 type MergedItem<
@@ -45,16 +44,15 @@ export function merge<
   return output as Simplify<RecursiveMerge<Target, Sources, ArrayMerge>>;
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 function mergeTwo<
   Target extends ValidObject,
   Source extends ValidObject,
   ArrayMerge extends boolean,
->(target?: Target, source?: Source, isMergingArrays = false as ArrayMerge) {
-  if (isNil(target) || isNil(source)) {
-    return (target ?? source ?? {}) as Merged<Target, Source, ArrayMerge>;
-  }
-
+>(
+  target: Target = {} as Target,
+  source: Source = {} as Source,
+  isMergingArrays = false as ArrayMerge,
+) {
   const output = { ...target } as Merged<Target, Source, ArrayMerge>;
 
   for (const key in source) {

@@ -15,9 +15,6 @@ import type {
 import type { Validate } from './validate-types.ts';
 
 export class Api<T extends Record<string, Readonly<RequestConfig>>> {
-  private readonly config: ApiConfig<T>;
-  private readonly globalCacheInterval: number;
-
   // @ts-expect-error initialized in constructor
   public readonly request: {
     [K in keyof T]: RequestFunction;
@@ -27,6 +24,9 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
   public readonly fetch: {
     [K in keyof T]: FetchFunction;
   } = {};
+
+  private readonly config: ApiConfig<T>;
+  private readonly globalCacheInterval: number;
 
   public constructor(config: ApiConfig<T>) {
     this.config = config;
@@ -53,13 +53,15 @@ export class Api<T extends Record<string, Readonly<RequestConfig>>> {
     };
   }
 
+  // eslint-disable-next-line max-lines-per-function
   private generateRequestMethod(key: string): RequestFunction {
     const requestConfig = this.config.requests[key];
 
+    // eslint-disable-next-line max-statements
     return (options?: RequestOptions): HandledError<Request, Error> => {
       const bodyValidation = this.validateBody(requestConfig, options);
 
-      if (!bodyValidation?.isSuccess) {
+      if (!bodyValidation.isSuccess) {
         return bodyValidation;
       }
 

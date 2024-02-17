@@ -18,4 +18,4 @@ type ValidateNoSchema = {
 export type Validate<T extends z.ZodType | undefined> = T extends undefined
   ? ValidateNoSchema
   : // @ts-expect-error we can safely assume T is defined
-    ValidateSuccess<T> | ValidateFailure<T>;
+    ValidateFailure<T> | ValidateSuccess<T>;
