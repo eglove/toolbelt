@@ -3,7 +3,7 @@ inspired by GoLang and Zod.
 
 ## The Key is the Error Handling
 
-Any utility that may throw and error uses a simple return type:
+Any utility that may throw an error uses a simple return type:
 
 ```ts
 type HandledError<T, E> =
