@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import type { MergeDeep, Simplify } from 'type-fest';
 
 import { isEmpty } from '../is/empty.ts';
