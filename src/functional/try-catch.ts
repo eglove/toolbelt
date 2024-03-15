@@ -14,11 +14,11 @@ export function tryCatch<T extends () => ReturnType<T>>(
   }
 }
 
-export async function tryCatchAsync<
-  T extends () => Promise<Awaited<ReturnType<T>>>,
->(function_: T): Promise<HandledError<Awaited<ReturnType<T>>, Error>> {
+export async function tryCatchAsync<T extends () => unknown>(
+  function_: T,
+): Promise<HandledError<Awaited<ReturnType<T>>, Error>> {
   try {
-    const data = await function_();
+    const data = (await function_()) as Awaited<ReturnType<T>>;
     return { data, isSuccess: true };
   } catch (error) {
     if (error instanceof Error) {
