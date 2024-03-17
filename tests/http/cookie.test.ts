@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { getCookieValue, setCookieValue } from '../../src/http/cookie.ts';
 
+// eslint-disable-next-line max-lines-per-function
 describe('get cookie', () => {
   it('should get cookie from string', () => {
     // @ts-expect-error allow for test
