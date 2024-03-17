@@ -49,6 +49,8 @@ const value = result.data; // Value type is string!
 | [parseJson](./tests/json/json.test.ts)                           | Synchronously parse JSON string with Zod schema                                                      |
 | [merge](./tests/object/merge.test.ts)                            | Type safe object merge!                                                                              |
 | [getCookieValue](./tests/http/cookie.test.ts)                    | Get cookie value from a string (document.cookie) or a Header object                                  |
+| [setCookieValue](./tests/http/cookie.test.ts)                    | Append Set-Cookie to Response Headers                                                                |
+| [getAcceptLanguage](./tests/http/headers.test.ts)                | Parse and get Accept-Language Headers                                                                |
 | [HTTP_STATUS](./src/constants/http.ts)                           | Simple constants for HTTP statuses                                                                   |
 | [isBigIntOrNumber](./tests/is/big-int-or-number.test.ts)         | Converts strings and tests for NaN's                                                                 |
 | [isEmpty](./tests/is/empty.test.ts)                              | Tests for empty strings, arrays, object, Maps, Sets and Buffers                                      |

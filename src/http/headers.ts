@@ -4,7 +4,10 @@ export function getAcceptLanguage(acceptLanguage: string) {
   return languages
     .map(lang => {
       const [name, q] = lang.split(';');
-      const [language, country] = name.split('-');
+      const [language, country] = name.split('-') as [
+        string | undefined,
+        string | undefined,
+      ];
 
       return {
         country,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getCookieValue } from '../../src/http/cookie.ts';
+import { getCookieValue, setCookieValue } from '../../src/http/cookie.ts';
 
 describe('get cookie', () => {
   it('should get cookie from string', () => {
@@ -25,5 +25,47 @@ describe('get cookie', () => {
     if (value.isSuccess) {
       expect(value.data).toBe('123');
     }
+  });
+
+  it('should set cookie', () => {
+    const cookieName = 'test-cookie';
+    const cookieValue = 'test-val';
+
+    const mockResponse = new Response();
+
+    setCookieValue({
+      cookieName,
+      cookieValue,
+      response: mockResponse,
+    });
+
+    expect(mockResponse.headers.get('Set-Cookie')).toBe(
+      `${cookieName}=${cookieValue}`,
+    );
+  });
+
+  it('should set cookie with options', () => {
+    const cookieName = 'test-cookie';
+    const cookieValue = 'test-val';
+    const expires = new Date();
+
+    const config = {
+      Expires: expires,
+      HttpOnly: true,
+      Path: '/some-path',
+    };
+
+    const mockResponse = new Response();
+
+    setCookieValue({
+      config,
+      cookieName,
+      cookieValue,
+      response: mockResponse,
+    });
+
+    expect(mockResponse.headers.get('Set-Cookie')).toBe(
+      `${cookieName}=${cookieValue}; Expires=${expires.toUTCString()}; ${config.HttpOnly}; Path=${config.Path}`,
+    );
   });
 });

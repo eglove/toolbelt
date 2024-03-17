@@ -25,3 +25,44 @@ export function getCookieValue(
 
   return { error: new Error('failed to get cookie'), isSuccess: false };
 }
+
+type SetCookieValueProperties = {
+  config?: {
+    Domain?: string;
+    Expires?: Date;
+    HttpOnly?: boolean;
+    'Max-Age'?: number;
+    Partitioned?: boolean;
+    Path?: string;
+    SameSite?: 'Lax' | 'None' | 'Secure' | 'Strict';
+    Secure?: boolean;
+  };
+  cookieName: string;
+  cookieValue: string;
+  response: Response;
+};
+
+export function setCookieValue({
+  config,
+  response,
+  cookieValue,
+  cookieName,
+}: SetCookieValueProperties) {
+  let cookieString = `${cookieName}=${cookieValue}`;
+
+  if (!isNil(config)) {
+    for (const key of Object.keys(config)) {
+      const value = config[key as keyof typeof config];
+
+      if (typeof value === 'string' || typeof value === 'number') {
+        cookieString += `; ${key}=${value}`;
+      } else if (typeof value === 'boolean') {
+        cookieString += `; ${value}`;
+      } else if (value instanceof Date) {
+        cookieString += `; Expires=${value.toUTCString()}`;
+      }
+    }
+  }
+
+  response.headers.append('Set-Cookie', cookieString);
+}
