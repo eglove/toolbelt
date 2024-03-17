@@ -10,6 +10,8 @@ describe('number', () => {
     [null, false],
     ['2', true],
     [2, true],
+    [0.1, true],
+    ['0.5', true],
   ])('should work', (number, expected) => {
     expect(isBigIntOrNumber(number)).toBe(expected);
   });

@@ -1,3 +1,6 @@
+import { isBigIntOrNumber } from '../is/big-int-or-number.ts';
+import { isNil } from '../is/nil.ts';
+
 export function getAcceptLanguage(acceptLanguage: string) {
   const languages = acceptLanguage.split(',');
 
@@ -9,11 +12,19 @@ export function getAcceptLanguage(acceptLanguage: string) {
         string | undefined,
       ];
 
+      let quality = 1;
+      if (!isNil(q)) {
+        const [_, value] = q.split('=');
+        if (isBigIntOrNumber(value)) {
+          quality = Number(value);
+        }
+      }
+
       return {
         country,
         language,
         name: name.trim(),
-        quality: q ? Number.parseFloat(q.split('=')[1]) : 1,
+        quality,
       };
     })
     .sort((a, b) => {
