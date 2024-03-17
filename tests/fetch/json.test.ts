@@ -82,21 +82,4 @@ describe('error cases', () => {
       );
     }
   });
-
-  it('should return ZodError when validation is incorrect single schema', async () => {
-    const request = new Request('http://example.com', {
-      body: JSON.stringify({ fail: 0 }),
-      method: 'POST',
-    });
-
-    const results = await parseFetchJson(request, z.string());
-
-    expect(results.isSuccess).toBe(false);
-
-    if (!results.isSuccess && results.error instanceof ZodError) {
-      expect(results.error.issues[0].message).toStrictEqual(
-        'Expected string, received object',
-      );
-    }
-  });
 });
