@@ -56,8 +56,8 @@ export function setCookieValue({
 
       if (typeof value === 'string' || typeof value === 'number') {
         cookieString += `; ${key}=${value}`;
-      } else if (typeof value === 'boolean') {
-        cookieString += `; ${value}`;
+      } else if (value === true) {
+        cookieString += `; ${key}`;
       } else if (value instanceof Date) {
         cookieString += `; Expires=${value.toUTCString()}`;
       }

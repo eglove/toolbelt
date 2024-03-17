@@ -66,7 +66,7 @@ describe('get cookie', () => {
     });
 
     expect(mockResponse.headers.get('Set-Cookie')).toBe(
-      `${cookieName}=${cookieValue}; Expires=${expires.toUTCString()}; ${config.HttpOnly}; Path=${config.Path}`,
+      `${cookieName}=${cookieValue}; Expires=${expires.toUTCString()}; HttpOnly; Path=${config.Path}`,
     );
   });
 });
