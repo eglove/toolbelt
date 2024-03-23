@@ -8,7 +8,9 @@ import { isString } from '../is/string.ts';
 import type { HandledError } from '../types/error.ts';
 
 type PathVariablesRecord = Record<string, number | string>;
-type SearchParametersRecord = Record<string, unknown> | string;
+type SearchParametersRecord =
+  | Record<string, number[] | string[] | number | string | undefined>
+  | string;
 
 export type UrlConfig = {
   pathVariables?: PathVariablesRecord;
@@ -154,7 +156,19 @@ class UrlBuilder {
 
       for (const key in parameters) {
         if (Object.hasOwn(parameters, key)) {
-          searchParameters.append(key, String(parameters[key]));
+          const values = parameters[key];
+
+          if (Array.isArray(values)) {
+            // eslint-disable-next-line max-depth
+            for (const value of values) {
+              // eslint-disable-next-line max-depth
+              if (!isNil(value)) {
+                searchParameters.append(key, String(value));
+              }
+            }
+          } else if (!isNil(values)) {
+            searchParameters.append(key, String(parameters[key]));
+          }
         }
       }
     }
