@@ -1,4 +1,4 @@
-import { isObject } from './object.js';
+import { isObject } from './object.ts';
 
 export function isSymbol(value: unknown): value is symbol {
   if (isObject(value)) {

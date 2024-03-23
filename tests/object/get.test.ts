@@ -61,7 +61,9 @@ describe('get', () => {
     [null, ['constructor', 'prototype', 'valueOf'], undefined],
     [undefined, 'constructor.prototype.valueOf', undefined],
     [undefined, ['constructor', 'prototype', 'valueOf'], undefined],
+    // eslint-disable-next-line no-sparse-arrays
     [{ a: [, null] }, 'a[1].b.c', undefined],
+    // eslint-disable-next-line no-sparse-arrays
     [{ a: [, null] }, ['a', '1', 'b', 'c'], undefined],
     [{ a: { b: null } }, 'a.b', null],
     [{ a: { b: null } }, ['a', 'b'], null],
@@ -74,6 +76,7 @@ describe('get', () => {
   it.each([
     [{ a: {} }, 'a.b', 'default', 'default'],
     [{ a: {} }, ['a', 'b'], 'default', 'default'],
+    // eslint-disable-next-line @typescript-eslint/max-params
   ])('should use default values', (object, path, result, fallback) => {
     expect(get(object, path, fallback)).toBe(result);
   });
