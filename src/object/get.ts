@@ -6,7 +6,7 @@ import { isString } from '../is/string.ts';
 import { isSymbol } from '../is/symbol.ts';
 
 export function get<T>(
-  object: Record<number | string | symbol, unknown>,
+  object: Record<number | string | symbol, unknown> | undefined,
   path: string[] | string,
   fallback?: T,
 ) {
