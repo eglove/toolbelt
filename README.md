@@ -43,6 +43,7 @@ const value = result.data; // Value type is string!
 | [urlBuilder](./tests/fetch/url-builder.test.ts)                  | Build URLs with Zod schema and simple objects for search params and path variables                   |
 | [API](./tests/api/api.test.ts)                                   | Centralize API calls. Built on top of urlBuilder                                                     |
 | [getRequestKeys](./tests/http/request.test.ts)                   | Array of unique keys for a request, perfect for React Query                                          |
+| [get](./tests/get/get.test.ts)                                   | Safetly get object values                                                                            |
 | [betterNumber](./tests/number/number.test.ts)                    | Handle numbers safely, worry not about NaN! Includes internationalization and conversion.            |
 | [promiseAllSettled](./tests/fetch/promise.test.ts)               | TypeSafe promise.allSettled with a key/value return                                                  |
 | [promiseAll](./tests/fetch/promise.test.ts)                      | TypeSafe promise.all with a key/value return                                                         |
@@ -60,3 +61,4 @@ const value = result.data; // Value type is string!
 | [isString](./tests/is/string.test.ts)                            | Because it turns out `new String('string')` is not a sring.                                          |
 | [isNumber](./tests/is/number.test.ts)                            | NaN's not included!                                                                                  |
 | [isNaN](./tests/is/nan.test.ts)                                  | Catches the sneaky new Object(Number.NaN)                                                            |
+| [isSymbol](./tests/is/symbol.test.ts)                            | Is it a symbol?                                                                                      |
