@@ -10,7 +10,15 @@
     "test": "vitest run --reporter=hanging-process"
   },
   "eslintConfig": {
-    "extends": "ethang"
+    "extends": "ethang",
+    "rules": {
+      "complexity": "off",
+      "max-depth": "off",
+      "max-lines": "off",
+      "max-lines-per-function": "off",
+      "prefer-named-capture-group": "off",
+      "require-unicode-regexp": "off"
+    }
   },
   "dependencies": {
     "@total-typescript/ts-reset": "^0.5.1",

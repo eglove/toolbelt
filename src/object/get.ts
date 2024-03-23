@@ -1,4 +1,4 @@
-import { tryCatch } from '../functional/try-catch.js';
+import { tryCatch } from '../functional/try-catch.ts';
 import { isNil } from '../is/nil.ts';
 import { isNumber } from '../is/number.ts';
 import { isObject } from '../is/object.ts';
@@ -10,25 +10,29 @@ export function get<T>(
   path: string[] | string,
   fallback?: T,
 ) {
-  if (isObject(path) && !Array.isArray(path)) {
-    path =
-      (path as Object).valueOf() === -0
+  let result = path;
+
+  if (isObject(result) && !Array.isArray(result)) {
+    result =
+      // eslint-disable-next-line no-compare-neg-zero
+      (result as NonNullable<unknown>).valueOf() === -0
         ? ['-0']
-        : String((path as Object).valueOf()).split('.');
-  } else if (isNumber(path)) {
-    path = path === -0 ? ['-0'] : String(path).split('.');
-  } else if (isString(path)) {
-    if (!isNil(path) && !isNil(object) && object.hasOwnProperty(path)) {
-      return object[path] as T;
+        : String((result as NonNullable<unknown>).valueOf()).split('.');
+  } else if (isNumber(result)) {
+    // eslint-disable-next-line no-compare-neg-zero
+    result = result === -0 ? ['-0'] : String(result).split('.');
+  } else if (isString(result)) {
+    if (!isNil(result) && !isNil(object) && Object.hasOwn(object, result)) {
+      return object[result] as T;
     }
 
-    path = path.replaceAll('[]', '[ ]');
-    const matches = path.match(
+    result = result.replaceAll('[]', '[ ]');
+    const matches = result.match(
       /[^.[\]]+|\[\s*-?[\d.]+\s*]|\["(?:[^"\\]|\\.)*"]|\['(?:[^'\\]|\\.)*']/g,
     );
 
     if (!isNil(matches)) {
-      for (let index = 0; index < matches.length; index++) {
+      for (let index = 0; index < matches.length; index += 1) {
         let value = matches[index];
 
         if (value === ' ') {
@@ -46,34 +50,35 @@ export function get<T>(
             value = value.slice(1);
             value = value.slice(0, -1);
 
+            // eslint-disable-next-line max-depth
             if (value.startsWith("'") && value.endsWith("'")) {
               value = value.slice(1);
               value = value.slice(0, -1);
             }
 
-            value = value.replaceAll(/\\(.)/g, '$1');
+            value = value.replaceAll(/\\(.)/gu, '$1');
           }
         }
 
         matches[index] = value;
       }
-      path = matches;
+      result = matches;
     }
-  } else if (isSymbol(path)) {
-    path = [path as unknown as string];
+  } else if (isSymbol(result)) {
+    result = [result as unknown as string];
   }
 
-  if (!Array.isArray(path) || path.length === 0) {
+  if (!Array.isArray(result) || result.length === 0) {
     return object as T;
   }
 
-  const newPath = path.shift();
+  const newPath = result.shift();
 
   if (!isNil(object) && !isNil(newPath) && object[newPath] === undefined) {
     return fallback as T;
   }
 
   if (!isNil(object) && !isNil(newPath) && object[newPath] !== undefined) {
-    return get(object[newPath] as typeof object, path, fallback);
+    return get(object[newPath] as typeof object, result, fallback);
   }
 }

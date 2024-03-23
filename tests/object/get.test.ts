@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { get } from '../../src/object/get.ts';
 
+// eslint-disable-next-line symbol-description
 const symbol = Symbol();
 
 describe('get', () => {
