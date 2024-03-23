@@ -2,7 +2,7 @@ import { projectBuilder } from '@ethang/project-builder/project-builder.js';
 
 await projectBuilder('toolbelt', 'main', {
   preVersionBumpScripts: ['UPDATE', 'PRUNE'],
-  postVersionBumpScripts: ['DEDUPE', 'LINT'],
+  postVersionBumpScripts: ['DEDUPE'],
   publishDirectory: 'dist',
   isLibrary: true,
   tsConfigOverrides: {
