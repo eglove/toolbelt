@@ -1,4 +1,6 @@
 import { isNil } from '../is/nil.ts';
+import { isNumber } from '../is/number.ts';
+import { isString } from '../is/string.ts';
 import type { HandledError } from '../types/error.ts';
 
 export function getCookieValue(
@@ -54,8 +56,8 @@ export function setCookieValue({
     for (const key of Object.keys(config)) {
       const value = config[key as keyof typeof config];
 
-      if (typeof value === 'string' || typeof value === 'number') {
-        cookieString += `; ${key}=${value}`;
+      if (isString(value) || isNumber(value)) {
+        cookieString += `; ${key}=${String(value)}`;
       } else if (value === true) {
         cookieString += `; ${key}`;
       } else if (value instanceof Date) {
