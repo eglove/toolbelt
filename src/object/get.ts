@@ -59,8 +59,6 @@ export function get<T>(
       }
       path = matches;
     }
-
-    // path = path.split(/\.|\[]/);
   } else if (isSymbol(path)) {
     path = [path as unknown as string];
   }
