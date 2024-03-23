@@ -49,7 +49,12 @@ class Fetcher {
 
   // eslint-disable-next-line max-lines-per-function,max-statements
   public async fetch(): Promise<HandledError<Response | undefined, Error>> {
-    if (!isBrowser || isNil(this._cacheInterval) || this._cacheInterval <= 0) {
+    if (
+      !isBrowser ||
+      isNil(this._cacheInterval) ||
+      this._cacheInterval <= 0 ||
+      this._request.method !== 'GET'
+    ) {
       return tryCatchAsync(async () => {
         return fetch(this._request);
       });
