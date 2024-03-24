@@ -122,16 +122,27 @@ class Fetcher {
 
     const requestKey = this.getRequestKey();
 
-    const cachedMeta = (await database.data
-      .transaction(Fetcher._DB_NAME, 'readonly')
-      .objectStore(Fetcher._DB_NAME)
-      .get(requestKey)) as RequestMeta | undefined;
+    const cachedMeta = (await database.data.get(
+      Fetcher._DB_NAME,
+      requestKey,
+    )) as RequestMeta | undefined;
 
     if (cachedMeta === undefined) {
       return { data: true, isSuccess: true };
     }
 
     return { data: new Date() >= cachedMeta.expires, isSuccess: true };
+  }
+
+  public async cacheBust() {
+    const database = await this.getRequestDatabase();
+
+    if (!database.isSuccess) {
+      return database;
+    }
+
+    const requestKey = this.getRequestKey();
+    await database.data.delete(Fetcher._DB_NAME, requestKey);
   }
 
   private readonly getRequestDatabase = async (): Promise<
