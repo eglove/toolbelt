@@ -1,4 +1,4 @@
-import { MAX_SAFE_INTEGER } from '../constants/number.js';
+import { MAX_SAFE_INTEGER } from '../constants/number.ts';
 
 export function isValidArrayLength(value: unknown) {
   return (

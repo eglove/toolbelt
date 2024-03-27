@@ -12,6 +12,7 @@ describe('isArrayLike', () => {
     },
   );
 
+  // eslint-disable-next-line no-sparse-arrays
   it.each([
     ,
     null,

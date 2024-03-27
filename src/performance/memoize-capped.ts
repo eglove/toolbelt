@@ -16,5 +16,7 @@ export function memoizeCapped<T extends unknown[], R>(
     return key;
   });
 
-  return result as (...arguments_: T) => R;
+  return result as unknown as ((...arguments_: T) => R) & {
+    cache: Map<T, R>;
+  };
 }

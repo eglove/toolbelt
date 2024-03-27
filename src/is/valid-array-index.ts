@@ -1,11 +1,10 @@
 import { MAX_SAFE_INTEGER } from '../constants/number.ts';
-import { isNullish } from './nullish.ts';
+import { isNil } from './nil.ts';
 
 const reIsUint = /^(?:0|[1-9]\d*)$/;
 
 export function isValidArrayIndex(value: unknown, length?: number) {
-  const type = typeof value;
-  length = isNullish(length) ? MAX_SAFE_INTEGER : length;
+  const newLength = isNil(length) ? MAX_SAFE_INTEGER : length;
 
   const isNumericOrIndex =
     typeof value === 'number' ||
@@ -13,7 +12,7 @@ export function isValidArrayIndex(value: unknown, length?: number) {
 
   const asNumber = value as number;
   const isInIndexRange =
-    asNumber > -1 && asNumber % 1 === 0 && asNumber < length!;
+    asNumber > -1 && asNumber % 1 === 0 && asNumber < newLength;
 
-  return length! > 0 && isNumericOrIndex && isInIndexRange;
+  return newLength > 0 && isNumericOrIndex && isInIndexRange;
 }

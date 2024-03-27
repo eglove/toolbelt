@@ -5,6 +5,7 @@ export function arrayEach<T extends unknown[]>(
   let index = -1;
   const { length } = array;
 
+  // eslint-disable-next-line no-unreachable-loop
   while (index < length) {
     index += 1;
 

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { MAX_SAFE_INTEGER } from '../../src/constants/number.js';
-import { isValidArrayIndex } from '../../src/is/valid-array-index.js';
+import { MAX_SAFE_INTEGER } from '../../src/constants/number.ts';
+import { isValidArrayIndex } from '../../src/is/valid-array-index.ts';
 
 describe('valid array index', () => {
   it.each([

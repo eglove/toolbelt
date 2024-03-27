@@ -8,11 +8,13 @@ export function baseFor<T extends NonNullable<unknown>>(
   let { length } = properties;
   let index = -1;
 
-  while (length--) {
-    const key = properties[++index];
+  while (length) {
+    index += 1;
+    const key = properties[index];
     if (!iteratee(iterable[key], key, iterable)) {
       break;
     }
+    length -= 1;
   }
   return object;
 }
