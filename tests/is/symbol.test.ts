@@ -1,14 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { isSymbol } from '../../src/is/symbol.ts';
+import { arguments_, falsey } from '../util-test.ts';
 
 describe('symbol', () => {
-  // eslint-disable-next-line symbol-description
-  let symbol = Symbol();
+  let symbol = Symbol('test');
 
   beforeEach(() => {
-    // eslint-disable-next-line symbol-description
-    symbol = Symbol();
+    symbol = Symbol('test');
   });
 
   it.each([symbol, new Object(symbol)])('should return true for %s', value => {
@@ -16,6 +15,8 @@ describe('symbol', () => {
   });
 
   it.each([
+    ...falsey,
+    arguments_,
     [1, 2, 3],
     true,
     new Date(),
@@ -25,7 +26,7 @@ describe('symbol', () => {
     1,
     /x/u,
     'a',
-  ])('should return false for %s', () => {
-    //
+  ])('should return false for %s', value => {
+    expect(isSymbol(value)).toBe(false);
   });
 });

@@ -1,8 +1,11 @@
-import { isObject } from './object.ts';
+import { getTag } from '../object/get-tag.ts';
+import { isNil } from './nil.ts';
 
 export function isSymbol(value: unknown): value is symbol {
-  if (isObject(value)) {
-    return typeof value.valueOf() === 'symbol';
-  }
-  return typeof value === 'symbol';
+  const type = typeof value;
+
+  return (
+    type === 'symbol' ||
+    (type === 'object' && !isNil(value) && getTag(value) === '[object Symbol]')
+  );
 }
