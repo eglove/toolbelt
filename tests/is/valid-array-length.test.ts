@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { MAX_SAFE_INTEGER } from '../../src/constants/number.js';
-import { isValidArrayLength } from '../../src/is/valid-array-length.js';
+import { MAX_SAFE_INTEGER } from '../../src/constants/number.ts';
+import { isValidArrayLength } from '../../src/is/valid-array-length.ts';
 
 describe('isValidArrayLength', () => {
   it.each([0, 3, MAX_SAFE_INTEGER])('should return true for %s', value => {

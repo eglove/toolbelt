@@ -22,6 +22,7 @@ describe('isArrayLike', () => {
     Number.NaN,
     true,
     new Date(),
+    // eslint-disable-next-line unicorn/error-message
     new Error(),
     tryCatchAsync(() => {
       return true;
