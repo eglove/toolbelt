@@ -39,7 +39,6 @@ const value = result.data; // Value type is string!
 | Name                                                             | Description                                                                                          | 
 |------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
 | [tryCatch / tryCatchAsync](./tests/functional/try-catch.test.ts) | Handle sync and async function errors functionally. Get rid of the try/catch bloat!                  |
-| [fetcher](./tests/fetch/fetcher.test.ts)                         | fetch wrapper that works with Cache API and IndexedDB to cache Request/Response pairs on an interval |
 | [urlBuilder](./tests/fetch/url-builder.test.ts)                  | Build URLs with Zod schema and simple objects for search params and path variables                   |
 | [API](./tests/api/api.test.ts)                                   | Centralize API calls. Built on top of urlBuilder                                                     |
 | [getRequestKeys](./tests/http/request.test.ts)                   | Array of unique keys for a request, perfect for React Query                                          |
