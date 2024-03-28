@@ -9,7 +9,7 @@ const reTypedTag =
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 const nodeIsTypedArray = nodeTypes?.isTypedArray as (value: unknown) => boolean;
 
-const isTypedArray = isNil(nodeIsTypedArray)
+export const isTypedArray = isNil(nodeIsTypedArray)
   ? (value: unknown) => {
       return isObjectLike(value) && reTypedTag.test(getTag(value));
     }
