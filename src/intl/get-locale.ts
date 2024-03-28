@@ -6,45 +6,47 @@ import { get } from '../object/get.ts';
 type LocaleSource = 'accept-language' | 'cookie' | 'localStorage' | 'navigator';
 
 export function getLocale(
-  sourceType: LocaleSource,
+  sourceTypes: LocaleSource[],
   source?: Headers | string,
   valueName?: string,
 ) {
-  if (sourceType === 'accept-language' && !isNil(source)) {
-    const value = getAcceptLanguage(source);
+  for (const sourceType of sourceTypes) {
+    if (sourceType === 'accept-language' && !isNil(source)) {
+      const value = getAcceptLanguage(source);
 
-    let language = get<string>(value, 'data[0].language');
-    const country = get<string>(value, 'data[0].country');
-    if (!isNil(language)) {
-      if (!isNil(country)) {
-        language += `-${country}`;
+      let language = get<string>(value, 'data[0].language');
+      const country = get<string>(value, 'data[0].country');
+      if (!isNil(language)) {
+        if (!isNil(country)) {
+          language += `-${country}`;
+        }
+
+        return language;
       }
-
-      return language;
     }
-  }
 
-  if (sourceType === 'cookie' && !isNil(valueName) && !isNil(source)) {
-    const value = getCookieValue(valueName, source);
+    if (sourceType === 'cookie' && !isNil(valueName) && !isNil(source)) {
+      const value = getCookieValue(valueName, source);
 
-    if (value.isSuccess) {
-      return value.data;
+      if (value.isSuccess) {
+        return value.data;
+      }
     }
-  }
 
-  if (sourceType === 'navigator' && typeof window !== 'undefined') {
-    return navigator.language;
-  }
+    if (sourceType === 'navigator' && typeof window !== 'undefined') {
+      return navigator.language;
+    }
 
-  if (
-    sourceType === 'localStorage' &&
-    typeof window !== 'undefined' &&
-    !isNil(valueName)
-  ) {
-    const value = localStorage.getItem(valueName);
+    if (
+      sourceType === 'localStorage' &&
+      typeof window !== 'undefined' &&
+      !isNil(valueName)
+    ) {
+      const value = localStorage.getItem(valueName);
 
-    if (!isNil(value)) {
-      return value;
+      if (!isNil(value)) {
+        return value;
+      }
     }
   }
 }
