@@ -7,7 +7,7 @@ export function get<T>(
   path: string[] | string,
   fallback?: T,
 ) {
-  const result = isNil(object) ? undefined : baseGet(object, path);
+  const result = isNil(object) ? undefined : (baseGet(object, path) as T);
 
   return isUndefined(result) ? fallback : result;
 }

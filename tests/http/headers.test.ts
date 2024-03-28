@@ -40,7 +40,19 @@ describe('headers', () => {
         },
       ],
     ],
+    [
+      new Headers({ 'accept-language': 'en-US,en;q=0.9' }),
+      [
+        { country: 'US', language: 'en', name: 'en-US', quality: 1 },
+        { country: undefined, language: 'en', name: 'en', quality: 0.9 },
+      ],
+    ],
   ])('should get accept language', (header, result) => {
-    expect(getAcceptLanguage(header)).toStrictEqual(result);
+    const value = getAcceptLanguage(header);
+
+    expect(value.isSuccess).toBe(true);
+    if (value.isSuccess) {
+      expect(getAcceptLanguage(header).data).toStrictEqual(result);
+    }
   });
 });

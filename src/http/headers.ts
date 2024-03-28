@@ -1,10 +1,17 @@
 import { isBigIntOrNumber } from '../is/big-int-or-number.ts';
 import { isNil } from '../is/nil.ts';
+import { isString } from '../is/string.ts';
 
-export function getAcceptLanguage(acceptLanguage: string) {
-  const languages = acceptLanguage.split(',');
+export function getAcceptLanguage(acceptLanguage: Headers | string) {
+  const languages = isString(acceptLanguage)
+    ? acceptLanguage.split(',')
+    : acceptLanguage.get('accept-language')?.split(',');
 
-  return languages
+  if (isNil(languages)) {
+    return { error: new Error('accept-language not found'), isSuccess: false };
+  }
+
+  const result = languages
     .map(lang => {
       const [name, q] = lang.split(';');
       const [language, country] = name.split('-') as [
@@ -30,4 +37,6 @@ export function getAcceptLanguage(acceptLanguage: string) {
     .sort((a, b) => {
       return b.quality - a.quality;
     });
+
+  return { data: result, isSuccess: true };
 }
