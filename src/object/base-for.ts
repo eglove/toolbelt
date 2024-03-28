@@ -1,8 +1,8 @@
-import type { Iteratee } from '../types/array.js';
+import type { ArrayIteratee } from '../types/array.js';
 
-export function baseFor<T extends NonNullable<unknown>>(
+export function baseFor<T extends unknown[]>(
   object: T,
-  iteratee: Iteratee<T>,
+  iteratee: ArrayIteratee<T>,
   keysFunction: (object: T) => (keyof T)[],
 ) {
   const iterable = new Object(object) as T;
@@ -13,6 +13,8 @@ export function baseFor<T extends NonNullable<unknown>>(
   while (length) {
     index += 1;
     const key = properties[index];
+    // @ts-expect-error ignore this thing
+    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression,@typescript-eslint/no-unnecessary-condition,@typescript-eslint/strict-boolean-expressions
     if (!iteratee(iterable[key], key, iterable)) {
       break;
     }

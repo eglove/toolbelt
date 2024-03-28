@@ -1,5 +1,11 @@
-export type Iteratee<T> = (
+export type ObjectIteratee<T> = (
   value: T[keyof T],
   key: keyof T,
   object: T,
-) => boolean;
+) => void;
+
+export type ArrayIteratee<T extends unknown[]> = (
+  value: T[0],
+  index: number,
+  array: T,
+) => void;

@@ -5,7 +5,6 @@ import { isNil } from '../is/nil.ts';
 export type FunctionToMemoize<T extends unknown[], R> = (...arguments_: T) => R;
 type CacheKeyResolver<T extends unknown[]> = (...arguments_: T) => T[number];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function memoize<T extends unknown[], R>(
   function_: FunctionToMemoize<T, R>,
   resolver?: CacheKeyResolver<T>,

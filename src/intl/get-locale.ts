@@ -14,8 +14,8 @@ export function getLocale(
     if (sourceType === 'accept-language' && !isNil(source)) {
       const value = getAcceptLanguage(source);
 
-      let language = get<string>(value, 'data[0].language');
-      const country = get<string>(value, 'data[0].country');
+      let language = get(value, 'data[0].language');
+      const country = get(value, 'data[0].country');
       if (!isNil(language)) {
         if (!isNil(country)) {
           language += `-${country}`;
