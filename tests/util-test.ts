@@ -16,10 +16,10 @@ export function identity(value: unknown) {
 // eslint-disable-next-line no-sparse-arrays
 export const falsey = [, null, undefined, false, 0, Number.NaN, ''];
 
-function toArguments(array: unknown[]) {
-  return (function (...arguments_: unknown[]) {
-    return arguments_;
-  })(...array);
+function toArguments(array) {
+  return function () {
+    return arguments;
+  }.apply(undefined, array);
 }
 
 export const arguments_ = toArguments([1, 2, 3]);

@@ -4,9 +4,12 @@ import { isArguments } from '../../src/is/arguments.ts';
 import { arguments_, falsey, noop, strictArguments } from '../util-test.ts';
 
 describe('arguments', () => {
-  it.each([arguments_, strictArguments])('should return true for %s', value => {
-    expect(isArguments(value)).toBe(true);
-  });
+  it.each([[arguments_], [strictArguments]])(
+    'should return true for %s',
+    value => {
+      expect(isArguments(value)).toBe(true);
+    },
+  );
 
   it.each([
     ...falsey,
