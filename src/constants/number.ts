@@ -1,1 +1,3 @@
 export const MAX_SAFE_INTEGER = 9_007_199_254_740_991;
+
+export const MAX_ARRAY_LENGTH = 4_294_967_295;

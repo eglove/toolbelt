@@ -1,6 +1,8 @@
+import type { Iteratee } from '../types/array.js';
+
 export function baseFor<T extends NonNullable<unknown>>(
   object: T,
-  iteratee: (value: T[keyof T], key: keyof T, object: T) => boolean,
+  iteratee: Iteratee<T>,
   keysFunction: (object: T) => (keyof T)[],
 ) {
   const iterable = new Object(object) as T;

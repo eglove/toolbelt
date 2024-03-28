@@ -1,3 +1,7 @@
+/* eslint-disable unicorn/no-abusive-eslint-disable */
+/* eslint-disable */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck strict arguments
 export function stubFalse() {
   return false;
 }
@@ -19,3 +23,9 @@ function toArguments(array: unknown[]) {
 }
 
 export const arguments_ = toArguments([1, 2, 3]);
+
+export const strictArguments = (function () {
+  'use strict';
+
+  return arguments;
+})(1, 2, 3);
