@@ -1,0 +1,5 @@
+{
+  "name": "@ethang/toolbelt",
+  "dockerFile": "Dockerfile",
+  "forwardPorts": [51204],
+}

@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint . --fix",
     "test": "vitest run --coverage.enabled=true",
-    "test:ui": "vitest --ui --coverage.enabled=true"
+    "test:ui": "vitest --ui --coverage.enabled=true --open=false"
   },
   "eslintConfig": {
     "extends": "ethang",
