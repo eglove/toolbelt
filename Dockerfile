@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm i -g pnpm
-RUN pnpm i
+RUN npm i -g bun
+RUN bun i
 
 EXPOSE 51204
 
-RUN pnpm test:ui
+RUN bun test:ui
