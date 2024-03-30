@@ -1,6 +1,6 @@
-import { fetcher } from './fetcher.ts';
+import { createFetcher } from './fetcher.ts';
 
 export async function cacheBust(request: Request) {
-  const buster = fetcher({ request });
-  await buster.cacheBust();
+  const fetcher = createFetcher({ request });
+  await fetcher.cacheBust();
 }

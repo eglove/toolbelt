@@ -1,5 +1,5 @@
 import type { QueryOptions as TanStackQueryOptions } from '@tanstack/query-core';
-import type { ZodError } from 'zod';
+import type { z, ZodError } from 'zod';
 
 import type { HandledError } from '../types/error.js';
 import type { ZodValidator } from '../types/zod-validator.js';
@@ -10,6 +10,7 @@ export type ParameterOptions = {
 };
 
 export type ParameterRequestOptions = ParameterOptions & {
+  cacheInterval?: number;
   defaultErrorMessage?: string;
   requestInit?: RequestInit;
 };
@@ -21,10 +22,10 @@ export type QueryOptions = ParameterRequestOptions & {
 export type RequestDetails = {
   fetch: (
     options?: QueryOptions,
-  ) => Promise<HandledError<Response, Error | ZodError>>;
-  fetchJson: <T>(
+  ) => Promise<HandledError<Response | undefined, Error | ZodError>>;
+  fetchJson: <T extends ZodValidator>(
     options?: ParameterRequestOptions,
-  ) => Promise<HandledError<T, Error | ZodError>>;
+  ) => Promise<HandledError<z.output<T>, Error | ZodError>>;
   keys: (
     options?: ParameterRequestOptions,
   ) => HandledError<string[], Error | ZodError>;
@@ -39,6 +40,7 @@ export type RequestDetails = {
 
 export type RequestConfig = {
   bodySchema?: ZodValidator;
+  cacheInterval?: number;
   defaultErrorMessage: string;
   defaultRequestInit?: RequestInit;
   path: string;
@@ -50,6 +52,7 @@ export type RequestConfigObject = Record<string, RequestConfig>;
 
 export type ApiConstructor<T extends RequestConfigObject> = {
   baseUrl: string;
+  defaultCacheInterval?: number;
   defaultRequestInit?: RequestInit;
   requests: T;
 };

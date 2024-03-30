@@ -5,6 +5,7 @@ import isNil from 'lodash/isNil.js';
 import { tryCatchAsync } from '../functional/try-catch.ts';
 import { isBrowser } from '../is/browser.ts';
 import type { HandledError } from '../types/error.ts';
+import { requestKey } from './request-key.ts';
 
 type FetcherOptions = {
   cacheInterval?: number;
@@ -106,11 +107,7 @@ class Fetcher {
   }
 
   public getRequestKey(): string {
-    const varyHeader = this._request.headers.get('Vary');
-
-    return `${
-      this._request.method
-    }_${this._request.url}${isNil(varyHeader) ? '' : `_${varyHeader}`}`;
+    return requestKey(this.request);
   }
 
   public async isExpired(): Promise<HandledError<boolean, Error>> {
@@ -166,6 +163,6 @@ class Fetcher {
   };
 }
 
-export function fetcher(options: FetcherOptions): Fetcher {
+export function createFetcher(options: FetcherOptions): Fetcher {
   return new Fetcher(options);
 }

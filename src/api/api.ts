@@ -1,12 +1,13 @@
 import type { QueryOptions as TanStackQueryOptions } from '@tanstack/query-core';
 import forEach from 'lodash/forEach.js';
 import get from 'lodash/get.js';
-import isEmpty from 'lodash/isEmpty.js';
 import isNil from 'lodash/isNil.js';
 import merge from 'lodash/merge.js';
-import type { ZodError } from 'zod';
+import type { z, ZodError } from 'zod';
 
+import { createFetcher } from '../fetch/fetcher.ts';
 import { parseFetchJson } from '../fetch/json.ts';
+import { requestKey } from '../fetch/request-key.ts';
 import { urlBuilder } from '../fetch/url-builder.ts';
 import { parseJson } from '../json/json.ts';
 import type { HandledError } from '../types/error.ts';
@@ -25,6 +26,7 @@ export class Api<T extends RequestConfigObject> {
   private readonly _baseUrl: string;
   private readonly _defaultRequestInit?: RequestInit;
   private readonly _requestConfig?: RequestConfigObject;
+  private readonly _defaultCacheInterval?: number;
   // @ts-expect-error initialized in constructor
   private readonly _request: { [K in keyof T]: RequestDetails } = {};
 
@@ -32,7 +34,9 @@ export class Api<T extends RequestConfigObject> {
     baseUrl,
     requests,
     defaultRequestInit,
+    defaultCacheInterval,
   }: ApiConstructor<T>) {
+    this._defaultCacheInterval = defaultCacheInterval;
     this._baseUrl = baseUrl;
     this._defaultRequestInit = defaultRequestInit;
     this._requestConfig = requests;
@@ -53,14 +57,16 @@ export class Api<T extends RequestConfigObject> {
         fetch: async (options?: QueryOptions) => {
           return this.fetch(item, options);
         },
-        fetchJson: async (options?: ParameterRequestOptions) => {
-          return this.fetchJson(item, options);
+        fetchJson: async <T extends ZodValidator>(
+          options?: ParameterRequestOptions,
+        ) => {
+          return this.fetchJson<T>(item, options);
         },
         keys: (options?: ParameterRequestOptions) => {
           return this.createKeys(item, options);
         },
-        queryOptions: <T>(options?: QueryOptions) => {
-          return this.createQueryOptions<T>(item, options);
+        queryOptions: (options?: QueryOptions) => {
+          return this.createQueryOptions(item, options);
         },
         request: (options?: ParameterRequestOptions) => {
           return this.createRequest(item, options);
@@ -81,38 +87,50 @@ export class Api<T extends RequestConfigObject> {
   private async fetch(
     item: RequestConfig,
     options?: QueryOptions,
-  ): Promise<HandledError<Response, Error | ZodError>> {
+  ): Promise<HandledError<Response | undefined, Error | ZodError>> {
     const fetchRequest = this.createRequest(item, options);
 
     if (!fetchRequest.isSuccess) {
       return { error: fetchRequest.error, isSuccess: false };
     }
 
-    const response = await fetch(fetchRequest.data);
+    const fetcher = createFetcher({
+      cacheInterval:
+        this._defaultCacheInterval ??
+        item.cacheInterval ??
+        options?.cacheInterval,
+      request: fetchRequest.data,
+    });
 
-    if (!response.ok) {
-      return { error: new Error(item.defaultErrorMessage), isSuccess: false };
+    const response = await fetcher.fetch();
+
+    if (!response.isSuccess) {
+      return { error: response.error, isSuccess: false };
     }
 
-    return { data: response, isSuccess: true };
+    return { data: response.data, isSuccess: true };
   }
 
-  private async fetchJson<T>(
+  private async fetchJson<T extends ZodValidator>(
     item: RequestConfig,
     options?: QueryOptions,
-  ): Promise<HandledError<T, Error | ZodError>> {
+  ): Promise<HandledError<z.output<T>, Error | ZodError>> {
     const response = await this.fetch(item, options);
 
     if (!response.isSuccess) {
       return { error: response.error, isSuccess: false };
     }
 
+    if (isNil(response.data)) {
+      return { error: new Error('failed to get response'), isSuccess: false };
+    }
+
     if (isNil(item.bodySchema)) {
       return { error: new Error('no bodySchema provided'), isSuccess: false };
     }
 
-    // @ts-expect-error allow use of T
-    return parseFetchJson(response.data, item.bodySchema);
+    // @ts-expect-error force this
+    return parseFetchJson<T>(response.data, item.bodySchema);
   }
 
   private createKeys(
@@ -125,23 +143,13 @@ export class Api<T extends RequestConfigObject> {
       return { error: request.error, isSuccess: false };
     }
 
-    const url = new URL(request.data.url);
-
     return {
-      data: [
-        request.data.method,
-        url.origin,
-        url.pathname,
-        ...url.searchParams.entries(),
-        request.data.headers.get('Vary'),
-      ].filter(item => {
-        return !isEmpty(item);
-      }) as string[],
+      data: [requestKey(request.data)],
       isSuccess: true,
     };
   }
 
-  private createQueryOptions<T>(
+  private createQueryOptions(
     item: RequestConfig,
     options?: QueryOptions,
   ): HandledError<TanStackQueryOptions, Error | ZodError> {
@@ -153,7 +161,7 @@ export class Api<T extends RequestConfigObject> {
 
     const queryOptions = {
       queryFn: async () => {
-        return this.fetchJson<T>(item, options);
+        return this.fetchJson(item, options);
       },
       queryKey: keys.data,
       ...options?.queryOptions,
