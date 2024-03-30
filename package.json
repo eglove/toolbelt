@@ -12,7 +12,9 @@
   },
   "eslintConfig": {
     "extends": "ethang",
-    "ignorePatterns": ["coverage/**"],
+    "ignorePatterns": [
+      "coverage/**"
+    ],
     "rules": {
       "complexity": "off",
       "max-depth": "off",
@@ -36,7 +38,7 @@
     "@types/node": "^20.11.30",
     "@vitest/coverage-v8": "^1.4.0",
     "@vitest/ui": "^1.4.0",
-    "eslint-config-ethang": "^14.1.5",
+    "eslint-config-ethang": "^14.1.6",
     "type-fest": "^4.14.0",
     "vitest": "^1.4.0"
   },
