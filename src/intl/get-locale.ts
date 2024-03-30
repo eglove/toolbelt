@@ -1,7 +1,8 @@
+import get from 'lodash/get.js';
+import isNil from 'lodash/isNil.js';
+
 import { getCookieValue } from '../http/cookie.ts';
 import { getAcceptLanguage } from '../http/headers.ts';
-import { isNil } from '../is/nil.ts';
-import { get } from '../object/get.ts';
 
 type LocaleSource = 'accept-language' | 'cookie' | 'localStorage' | 'navigator';
 

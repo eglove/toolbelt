@@ -13,9 +13,9 @@ import type {
   Volume,
 } from 'convert';
 import { convert } from 'convert';
+import isNil from 'lodash/isNil.js';
 
 import { isBigIntOrNumber } from '../is/big-int-or-number.ts';
-import { isNil } from '../is/nil.ts';
 
 type FormatOptions = BigIntToLocaleStringOptions & Intl.NumberFormatOptions;
 

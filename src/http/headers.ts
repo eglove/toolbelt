@@ -1,6 +1,7 @@
+import isNil from 'lodash/isNil.js';
+import isString from 'lodash/isString.js';
+
 import { isBigIntOrNumber } from '../is/big-int-or-number.ts';
-import { isNil } from '../is/nil.ts';
-import { isString } from '../is/string.ts';
 
 export function getAcceptLanguage(acceptLanguage: Headers | string) {
   const languages = isString(acceptLanguage)

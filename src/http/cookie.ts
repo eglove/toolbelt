@@ -1,6 +1,7 @@
-import { isNil } from '../is/nil.ts';
-import { isNumber } from '../is/number.ts';
-import { isString } from '../is/string.ts';
+import isNil from 'lodash/isNil.js';
+import isNumber from 'lodash/isNumber.js';
+import isString from 'lodash/isString.js';
+
 import type { HandledError } from '../types/error.ts';
 
 export function getCookieValue(

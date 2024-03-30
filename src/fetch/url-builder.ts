@@ -1,10 +1,10 @@
 /* eslint-disable unicorn/consistent-destructuring */
+import isNil from 'lodash/isNil.js';
+import isObject from 'lodash/isObject.js';
+import isString from 'lodash/isString.js';
 import type { ZodError, ZodSchema } from 'zod';
 
 import { tryCatch } from '../functional/try-catch.ts';
-import { isNil } from '../is/nil.ts';
-import { isObject } from '../is/object.ts';
-import { isString } from '../is/string.ts';
 import type { HandledError } from '../types/error.ts';
 
 type PathVariablesRecord = Record<string, number | string>;

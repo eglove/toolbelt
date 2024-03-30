@@ -54,10 +54,3 @@ const value = result.data; // Value type is string!
 | [getAcceptLanguage](./tests/http/headers.test.ts)                | Parse and get Accept-Language Headers                                                                |
 | [HTTP_STATUS](./src/constants/http.ts)                           | Simple constants for HTTP statuses                                                                   |
 | [isBigIntOrNumber](./tests/is/big-int-or-number.test.ts)         | Converts strings and tests for NaN's                                                                 |
-| [isEmpty](./tests/is/empty.test.ts)                              | Tests for empty strings, arrays, object, Maps, Sets and Buffers                                      |
-| [isNil](./tests/is/nil.test.ts)                                  | Why do we have both a null and undefined? Just check if it's nil!                                    |
-| [isObject](./tests/is/object.test.ts)                            | Arrays, Objects, Maps, Sets, it's all objects!                                                       |
-| [isString](./tests/is/string.test.ts)                            | Because it turns out `new String('string')` is not a sring.                                          |
-| [isNumber](./tests/is/number.test.ts)                            | NaN's not included!                                                                                  |
-| [isNaN](./tests/is/nan.test.ts)                                  | Catches the sneaky new Object(Number.NaN)                                                            |
-| [isSymbol](./tests/is/symbol.test.ts)                            | Is it a symbol?                                                                                      |

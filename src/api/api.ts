@@ -1,117 +1,235 @@
-import { fetcher } from '../fetch/fetcher.ts';
+import type { QueryOptions as TanStackQueryOptions } from '@tanstack/query-core';
+import forEach from 'lodash/forEach.js';
+import get from 'lodash/get.js';
+import isEmpty from 'lodash/isEmpty.js';
+import isNil from 'lodash/isNil.js';
+import merge from 'lodash/merge.js';
+import type { ZodError } from 'zod';
+
+import { parseFetchJson } from '../fetch/json.ts';
 import { urlBuilder } from '../fetch/url-builder.ts';
-import { isNil } from '../is/nil.ts';
 import { parseJson } from '../json/json.ts';
-import { merge } from '../object/merge.ts';
 import type { HandledError } from '../types/error.ts';
+import type { ZodValidator } from '../types/zod-validator.js';
 import type {
-  ApiConfig,
-  FetchFunction,
-  FetchOptions,
+  ApiConstructor,
+  ParameterOptions,
+  ParameterRequestOptions,
+  QueryOptions,
   RequestConfig,
-  RequestFunction,
-  RequestOptions,
+  RequestConfigObject,
+  RequestDetails,
 } from './api-types.ts';
-import type { Validate } from './validate-types.ts';
 
-export class Api<T extends Record<string, Readonly<RequestConfig>>> {
+export class Api<T extends RequestConfigObject> {
+  private readonly _baseUrl: string;
+  private readonly _defaultRequestInit?: RequestInit;
+  private readonly _requestConfig?: RequestConfigObject;
   // @ts-expect-error initialized in constructor
-  public readonly request: {
-    [K in keyof T]: RequestFunction;
-  } = {};
+  private readonly _request: { [K in keyof T]: RequestDetails } = {};
 
-  // @ts-expect-error initialized in constructor
-  public readonly fetch: {
-    [K in keyof T]: FetchFunction;
-  } = {};
-
-  private readonly config: ApiConfig<T>;
-  private readonly globalCacheInterval: number;
-
-  public constructor(config: ApiConfig<T>) {
-    this.config = config;
-    this.globalCacheInterval = config.cacheInterval ?? 0;
-
-    for (const key of Object.keys(this.config.requests)) {
-      this.request[key as keyof T] = this.generateRequestMethod(key);
-      this.fetch[key as keyof T] = this.generateFetchMethod(key);
-    }
+  public constructor({
+    baseUrl,
+    requests,
+    defaultRequestInit,
+  }: ApiConstructor<T>) {
+    this._baseUrl = baseUrl;
+    this._defaultRequestInit = defaultRequestInit;
+    this._requestConfig = requests;
+    this.generateRequests();
   }
 
-  private generateFetchMethod(key: string): FetchFunction {
-    return async (options?: FetchOptions) => {
-      const request = this.request[key](options);
-
-      if (!request.isSuccess) {
-        return request;
-      }
-
-      return fetcher({
-        cacheInterval: options?.cacheInterval ?? this.globalCacheInterval,
-        request: request.data,
-      }).fetch();
-    };
+  public get baseUrl() {
+    return this._baseUrl;
   }
 
-  // eslint-disable-next-line max-lines-per-function
-  private generateRequestMethod(key: string): RequestFunction {
-    const requestConfig = this.config.requests[key];
+  public get init() {
+    return this._request;
+  }
 
-    // eslint-disable-next-line max-statements
-    return (options?: RequestOptions): HandledError<Request, Error> => {
-      const bodyValidation = this.validateBody(requestConfig, options);
+  private generateRequests() {
+    forEach(this._requestConfig, (item, key) => {
+      this._request[key as keyof T] = {
+        fetch: async (options?: QueryOptions) => {
+          return this.fetch(item, options);
+        },
+        fetchJson: async (options?: ParameterRequestOptions) => {
+          return this.fetchJson(item, options);
+        },
+        keys: (options?: ParameterRequestOptions) => {
+          return this.createKeys(item, options);
+        },
+        queryOptions: <T>(options?: QueryOptions) => {
+          return this.createQueryOptions<T>(item, options);
+        },
+        request: (options?: ParameterRequestOptions) => {
+          return this.createRequest(item, options);
+        },
+        url: (options?: ParameterOptions) => {
+          const request = this.createRequest(item, options);
 
-      if (!bodyValidation.isSuccess) {
-        return bodyValidation;
-      }
+          if (!request.isSuccess) {
+            return { error: request.error, isSuccess: false };
+          }
 
-      const builder = urlBuilder(requestConfig.path, {
-        pathVariables: options?.pathVariables,
-        pathVariablesSchema: requestConfig.pathVariableSchema,
-        searchParams: options?.searchParams,
-        searchParamsSchema: requestConfig.searchParamSchema,
-        urlBase: this.config.baseUrl,
-      });
-
-      if (!builder.url.isSuccess) {
-        return builder.url;
-      }
-
-      const requestInit: RequestInit = merge(
-        {} as RequestInit,
-        false,
-        this.config.defaultRequestInit,
-        requestConfig.defaultRequestInit,
-        options?.requestInit,
-      );
-
-      return {
-        data: new Request(builder.url.data, requestInit),
-        isSuccess: true,
+          return { data: new URL(request.data.url), isSuccess: true };
+        },
       };
+    });
+  }
+
+  private async fetch(
+    item: RequestConfig,
+    options?: QueryOptions,
+  ): Promise<HandledError<Response, Error | ZodError>> {
+    const fetchRequest = this.createRequest(item, options);
+
+    if (!fetchRequest.isSuccess) {
+      return { error: fetchRequest.error, isSuccess: false };
+    }
+
+    const response = await fetch(fetchRequest.data);
+
+    if (!response.ok) {
+      return { error: new Error(item.defaultErrorMessage), isSuccess: false };
+    }
+
+    return { data: response, isSuccess: true };
+  }
+
+  private async fetchJson<T>(
+    item: RequestConfig,
+    options?: QueryOptions,
+  ): Promise<HandledError<T, Error | ZodError>> {
+    const response = await this.fetch(item, options);
+
+    if (!response.isSuccess) {
+      return { error: response.error, isSuccess: false };
+    }
+
+    if (isNil(item.bodySchema)) {
+      return { error: new Error('no bodySchema provided'), isSuccess: false };
+    }
+
+    // @ts-expect-error allow use of T
+    return parseFetchJson(response.data, item.bodySchema);
+  }
+
+  private createKeys(
+    item: RequestConfig,
+    options?: ParameterRequestOptions,
+  ): HandledError<string[], Error | ZodError> {
+    const request = this.createRequest(item, options);
+
+    if (!request.isSuccess) {
+      return { error: request.error, isSuccess: false };
+    }
+
+    const url = new URL(request.data.url);
+
+    return {
+      data: [
+        request.data.method,
+        url.origin,
+        url.pathname,
+        ...url.searchParams.entries(),
+        request.data.headers.get('Vary'),
+      ].filter(item => {
+        return !isEmpty(item);
+      }) as string[],
+      isSuccess: true,
     };
   }
 
-  private validateBody(
+  private createQueryOptions<T>(
+    item: RequestConfig,
+    options?: QueryOptions,
+  ): HandledError<TanStackQueryOptions, Error | ZodError> {
+    const keys = this.createKeys(item, options);
+
+    if (!keys.isSuccess) {
+      return { error: keys.error, isSuccess: false };
+    }
+
+    const queryOptions = {
+      queryFn: async () => {
+        return this.fetchJson<T>(item, options);
+      },
+      queryKey: keys.data,
+      ...options?.queryOptions,
+    } satisfies TanStackQueryOptions;
+
+    return { data: queryOptions, isSuccess: true };
+  }
+
+  private createRequest(
     requestConfig: RequestConfig,
-    options?: RequestOptions,
-  ): Validate<typeof requestConfig.bodySchema> {
-    if (!isNil(requestConfig.bodySchema)) {
-      const bodyInit = options?.requestInit?.body;
+    options?: QueryOptions,
+  ): HandledError<Request, Error | ZodError> {
+    const result = this.validateRequestBody(requestConfig, options);
 
-      if (typeof bodyInit === 'string') {
-        return parseJson(bodyInit, requestConfig.bodySchema);
+    if (!result.isSuccess) {
+      return { error: result.error, isSuccess: false };
+    }
+
+    const builder = urlBuilder(requestConfig.path, {
+      pathVariables: options?.pathVariables,
+      pathVariablesSchema: requestConfig.pathSchema,
+      searchParams: options?.searchParams,
+      searchParamsSchema: requestConfig.searchParamsSchema,
+      urlBase: this._baseUrl,
+    });
+
+    if (!builder.url.isSuccess) {
+      return builder.url;
+    }
+
+    const requestInit = merge(
+      {},
+      this._defaultRequestInit,
+      requestConfig.defaultRequestInit,
+      options?.requestInit,
+    );
+
+    return {
+      data: new Request(builder.url.data, requestInit),
+      isSuccess: true,
+    };
+  }
+
+  private validateRequestBody(
+    requestConfig: RequestConfig,
+    options?: ParameterRequestOptions,
+  ): HandledError<undefined, Error | ZodError> {
+    const body = get(options, 'requestInit.body');
+
+    if (isNil(requestConfig.bodySchema) && !isNil(body)) {
+      return { error: new Error('no bodySchema provided'), isSuccess: false };
+    }
+
+    if (!isNil(requestConfig.bodySchema) && !isNil(body)) {
+      if (typeof body === 'string') {
+        return this.validateRequestBodyString(body, requestConfig.bodySchema);
       }
 
-      const parsedBodyInit = requestConfig.bodySchema.safeParse(bodyInit);
+      const parsed = requestConfig.bodySchema.safeParse(body);
 
-      if (!parsedBodyInit.success) {
-        return { error: parsedBodyInit.error, isSuccess: false };
+      if (!parsed.success) {
+        return { error: parsed.error, isSuccess: false };
       }
-
-      return { data: parsedBodyInit.data, isSuccess: true };
     }
 
     return { data: undefined, isSuccess: true };
+  }
+
+  private validateRequestBodyString(
+    body: string,
+    bodySchema: ZodValidator,
+  ): HandledError<undefined, Error | ZodError> {
+    const parsedString = parseJson(body, bodySchema);
+
+    return parsedString.isSuccess
+      ? { data: undefined, isSuccess: true }
+      : { error: parsedString.error, isSuccess: false };
   }
 }
