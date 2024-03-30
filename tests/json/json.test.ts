@@ -29,4 +29,14 @@ describe('parse json', () => {
       );
     }
   });
+
+  it('should return error for invalid JSON', () => {
+    const results = parseJson('', z.object({ name: z.string() }));
+
+    expect(results.isSuccess).toBe(false);
+
+    if (!results.isSuccess) {
+      expect(results.error.message).toBe('Unexpected end of JSON input');
+    }
+  });
 });

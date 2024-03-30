@@ -40,7 +40,8 @@
     "@vitest/ui": "^1.4.0",
     "eslint-config-ethang": "^14.1.6",
     "type-fest": "^4.14.0",
-    "vitest": "^1.4.0"
+    "vitest": "^1.4.0",
+    "vitest-fetch-mock": "^0.2.2"
   },
   "peerDependencies": {
     "@total-typescript/ts-reset": "^0.5.1",

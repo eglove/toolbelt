@@ -15,6 +15,10 @@ export function getLocale(
     if (sourceType === 'accept-language' && !isNil(source)) {
       const value = getAcceptLanguage(source);
 
+      if (!value.isSuccess) {
+        return;
+      }
+
       let language = get(value, 'data[0].language');
       const country = get(value, 'data[0].country');
       if (!isNil(language)) {
@@ -34,13 +38,13 @@ export function getLocale(
       }
     }
 
-    if (sourceType === 'navigator' && typeof window !== 'undefined') {
+    if (sourceType === 'navigator' && typeof navigator !== 'undefined') {
       return navigator.language;
     }
 
     if (
       sourceType === 'localStorage' &&
-      typeof window !== 'undefined' &&
+      typeof localStorage !== 'undefined' &&
       !isNil(valueName)
     ) {
       const value = localStorage.getItem(valueName);

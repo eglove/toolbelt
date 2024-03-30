@@ -66,4 +66,60 @@ describe('url builder', () => {
       expect(badUrl.url.error).toBeInstanceOf(ZodError);
     }
   });
+
+  it('should return error if path variables are found but schema is not', () => {
+    const builder = urlBuilder('todos', {
+      pathVariables: { id: 1 },
+      urlBase: 'http://example.com',
+    });
+
+    expect(builder.url.isSuccess).toBe(false);
+
+    if (!builder.url.isSuccess) {
+      expect(builder.url.error.message).toBe(
+        'must provide path variables schema',
+      );
+    }
+  });
+
+  it('should return error for invalid url', () => {
+    const builder = urlBuilder('todos', {
+      urlBase: undefined,
+    });
+
+    expect(builder.url.isSuccess).toBe(false);
+
+    if (!builder.url.isSuccess) {
+      expect(builder.url.error.message).toBe('Invalid URL');
+    }
+  });
+
+  it('should return error for incorrect search params schema', () => {
+    const builder = urlBuilder('todos', {
+      searchParams: { id: 1 },
+      searchParamsSchema: z.object({ name: z.string() }),
+      urlBase: 'https://example.com',
+    });
+
+    expect(builder.url.isSuccess).toBe(false);
+
+    if (!builder.url.isSuccess) {
+      expect(builder.url.error).toBeInstanceOf(ZodError);
+    }
+  });
+
+  it('should return error is search params are provided but there is no schema', () => {
+    const builder = urlBuilder('todos', {
+      searchParams: { id: 1 },
+      urlBase: 'https://example.com',
+    });
+
+    expect(builder.url.isSuccess).toBe(false);
+
+    if (!builder.url.isSuccess) {
+      expect(builder.url.error.message).toBe(
+        'must provide search parameters schema',
+      );
+    }
+  });
 });

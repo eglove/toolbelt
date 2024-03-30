@@ -12,7 +12,25 @@ describe('number', () => {
     [2, true],
     [0.1, true],
     ['0.5', true],
-  ])('should work', (number, expected) => {
+  ])('should return true for %s', (number, expected) => {
     expect(isBigIntOrNumber(number)).toBe(expected);
+  });
+
+  it.each([
+    '',
+    'abc',
+    Number.NaN,
+    undefined,
+    null,
+    [],
+    ['123', '456'],
+    { a: '123' },
+    () => {
+      return true;
+    },
+    true,
+    false,
+  ])('should return false for %s', (value, expected) => {
+    expect(isBigIntOrNumber(value)).toBe(false);
   });
 });

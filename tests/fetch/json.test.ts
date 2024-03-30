@@ -82,4 +82,24 @@ describe('error cases', () => {
       );
     }
   });
+
+  it('should return error with invalid JSON', async () => {
+    const request = new Request('http://example.com', {
+      body: '',
+      method: 'POST',
+    });
+
+    const results = await parseFetchJson(
+      request,
+      z.array(z.object({ fail: z.string() })),
+    );
+
+    expect(results.isSuccess).toBe(false);
+
+    if (!results.isSuccess && results.error instanceof ZodError) {
+      expect(results.error.issues[0].message).toStrictEqual(
+        'Expected array, received object',
+      );
+    }
+  });
 });

@@ -9,6 +9,12 @@ describe('getLocale', () => {
     expect(locale).toEqual('en-US');
   });
 
+  it('should return undefined if value is not on headers', () => {
+    const source = new Headers();
+    const locale = getLocale(['accept-language'], source);
+    expect(locale).toEqual(undefined);
+  });
+
   it('should return the correct locale when sourceType is cookie and cookie value is success', () => {
     const source = 'locale=en-US; test=test';
     const locale = getLocale(['cookie'], source, 'locale');
@@ -24,5 +30,38 @@ describe('getLocale', () => {
   it('should return undefined when sourceType is localStorage and localStorage is null', () => {
     const locale = getLocale(['localStorage'], 'locale');
     expect(locale).toBeUndefined();
+  });
+
+  it('should get value from localStorage', () => {
+    // @ts-expect-error set for test
+    globalThis.localStorage = {
+      getItem(): string | null {
+        return 'value';
+      },
+    };
+
+    const locale = getLocale(['localStorage'], undefined, 'key');
+
+    expect(locale).toBe('value');
+  });
+
+  it('should return undefined if pulling from localStorage and no name provided', () => {
+    // @ts-expect-error set for test
+    globalThis.localStorage = {
+      getItem(): string | null {
+        return 'value';
+      },
+    };
+
+    const locale = getLocale(['localStorage']);
+
+    expect(locale).toBe(undefined);
+  });
+
+  it('should get value from navigator.language', () => {
+    // @ts-expect-error allow for test
+    globalThis.navigator = { language: 'en' };
+
+    expect(getLocale(['navigator'])).toBe('en');
   });
 });

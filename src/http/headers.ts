@@ -2,8 +2,18 @@ import isNil from 'lodash/isNil.js';
 import isString from 'lodash/isString.js';
 
 import { isBigIntOrNumber } from '../is/big-int-or-number.ts';
+import type { HandledError } from '../types/error.js';
 
-export function getAcceptLanguage(acceptLanguage: Headers | string) {
+type AcceptLanguageResults = {
+  country: string | undefined;
+  language: string | undefined;
+  name: string;
+  quality: number;
+}[];
+
+export function getAcceptLanguage(
+  acceptLanguage: Headers | string,
+): HandledError<AcceptLanguageResults, Error> {
   const languages = isString(acceptLanguage)
     ? acceptLanguage.split(',')
     : acceptLanguage.get('accept-language')?.split(',');

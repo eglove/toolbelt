@@ -52,7 +52,19 @@ describe('headers', () => {
 
     expect(value.isSuccess).toBe(true);
     if (value.isSuccess) {
-      expect(getAcceptLanguage(header).data).toStrictEqual(result);
+      expect(value.data).toStrictEqual(result);
+    }
+  });
+
+  it('should return error if accept-language source is not found', () => {
+    const headers = new Headers();
+
+    const result = getAcceptLanguage(headers);
+
+    expect(result.isSuccess).toBe(false);
+
+    if (!result.isSuccess) {
+      expect(result.error.message).toBe('accept-language not found');
     }
   });
 });

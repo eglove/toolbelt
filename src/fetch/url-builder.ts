@@ -1,16 +1,15 @@
 /* eslint-disable unicorn/consistent-destructuring */
 import isNil from 'lodash/isNil.js';
-import isObject from 'lodash/isObject.js';
-import isString from 'lodash/isString.js';
 import type { ZodError, ZodSchema } from 'zod';
 
 import { tryCatch } from '../functional/try-catch.ts';
 import type { HandledError } from '../types/error.ts';
 
 type PathVariablesRecord = Record<string, number | string>;
-type SearchParametersRecord =
-  | Record<string, number[] | string[] | number | string | undefined>
-  | string;
+type SearchParametersRecord = Record<
+  string,
+  number[] | string[] | number | string | undefined
+>;
 
 export type UrlConfig = {
   pathVariables?: PathVariablesRecord;
@@ -72,30 +71,13 @@ class UrlBuilder {
 
       for (const key in _pathVariables) {
         if (Object.hasOwn(_pathVariables, key)) {
-          const includesColon = tryCatch(() => {
-            return urlString.includes(':');
-          });
+          const includesColon = urlString.includes(':');
 
-          if (!includesColon.isSuccess) {
-            this._url = includesColon;
-            return;
-          }
-
-          if (includesColon.data) {
-            const replaced = tryCatch(() => {
-              return urlString.replaceAll(
-                new RegExp(`:${key}`, 'gu'),
-                String(_pathVariables[key]),
-              );
-            });
-
-            // eslint-disable-next-line max-depth
-            if (!replaced.isSuccess) {
-              this._url = replaced;
-              return;
-            }
-
-            urlString = replaced.data;
+          if (includesColon) {
+            urlString = urlString.replaceAll(
+              new RegExp(`:${key}`, 'gu'),
+              String(_pathVariables[key]),
+            );
           }
         }
       }
@@ -132,43 +114,39 @@ class UrlBuilder {
   private buildSearchParameters(
     parameters: UrlConfig['searchParams'],
   ): HandledError<URLSearchParams, Error | ZodError> {
-    let searchParameters = new URLSearchParams();
+    const searchParameters = new URLSearchParams();
 
-    if (isString(parameters)) {
-      searchParameters = new URLSearchParams(parameters);
-    } else if (isObject(parameters)) {
-      if (isNil(this._searchParametersSchema)) {
-        return {
-          error: new Error('must provide search parameters schema'),
-          isSuccess: false,
-        };
-      }
+    if (isNil(this._searchParametersSchema)) {
+      return {
+        error: new Error('must provide search parameters schema'),
+        isSuccess: false,
+      };
+    }
 
-      const parsedSearchParameters =
-        this._searchParametersSchema.safeParse(parameters);
+    const parsedSearchParameters =
+      this._searchParametersSchema.safeParse(parameters);
 
-      if (!parsedSearchParameters.success) {
-        return {
-          error: parsedSearchParameters.error,
-          isSuccess: parsedSearchParameters.success,
-        };
-      }
+    if (!parsedSearchParameters.success) {
+      return {
+        error: parsedSearchParameters.error,
+        isSuccess: parsedSearchParameters.success,
+      };
+    }
 
-      for (const key in parameters) {
-        if (Object.hasOwn(parameters, key)) {
-          const values = parameters[key];
+    for (const key in parameters) {
+      if (Object.hasOwn(parameters, key)) {
+        const values = parameters[key];
 
-          if (Array.isArray(values)) {
+        if (Array.isArray(values)) {
+          // eslint-disable-next-line max-depth
+          for (const value of values) {
             // eslint-disable-next-line max-depth
-            for (const value of values) {
-              // eslint-disable-next-line max-depth
-              if (!isNil(value)) {
-                searchParameters.append(key, String(value));
-              }
+            if (!isNil(value)) {
+              searchParameters.append(key, String(value));
             }
-          } else if (!isNil(values)) {
-            searchParameters.append(key, String(parameters[key]));
           }
+        } else if (!isNil(values)) {
+          searchParameters.append(key, String(parameters[key]));
         }
       }
     }

@@ -69,4 +69,30 @@ describe('get cookie', () => {
       `${cookieName}=${cookieValue}; Expires=${expires.toUTCString()}; HttpOnly; Path=${config.Path}`,
     );
   });
+
+  it('should return error if cookiesource is not found', () => {
+    globalThis.document = {
+      // @ts-expect-error allow for test
+      cookie: {
+        get() {
+          return null;
+        },
+      },
+    };
+    const value = getCookieValue('nonexistent', document.cookie);
+
+    expect(value.isSuccess).toBe(false);
+    if (!value.isSuccess) {
+      expect(value.error.message).toBe('cookies not found');
+    }
+  });
+
+  it('should return error if the cookie is not found', () => {
+    const value = getCookieValue('nope', '');
+
+    expect(value.isSuccess).toBe(false);
+    if (!value.isSuccess) {
+      expect(value.error.message).toBe('failed to get cookie');
+    }
+  });
 });
