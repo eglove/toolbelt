@@ -36,21 +36,4 @@ const value = result.data; // Value type is string!
 
 ## Looking for docs? Read the tests!
 
-| Name                                                             | Description                                                                                          | 
-|------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| [tryCatch / tryCatchAsync](./tests/functional/try-catch.test.ts) | Handle sync and async function errors functionally. Get rid of the try/catch bloat!                  |
-| [urlBuilder](./tests/fetch/url-builder.test.ts)                  | Build URLs with Zod schema and simple objects for search params and path variables                   |
-| [API](./tests/api/api.test.ts)                                   | Centralize API calls. Built on top of urlBuilder                                                     |
-| [getRequestKeys](./tests/http/request.test.ts)                   | Array of unique keys for a request, perfect for React Query                                          |
-| [get](./tests/get/get.test.ts)                                   | Safetly get object values                                                                            |
-| [betterNumber](./tests/number/number.test.ts)                    | Handle numbers safely, worry not about NaN! Includes internationalization and conversion.            |
-| [promiseAllSettled](./tests/fetch/promise.test.ts)               | TypeSafe promise.allSettled with a key/value return                                                  |
-| [promiseAll](./tests/fetch/promise.test.ts)                      | TypeSafe promise.all with a key/value return                                                         |
-| [parseFetchJson](./tests/fetch/json.test.ts)                     | Parse Request and Response bodies with Zod schema                                                    |
-| [parseJson](./tests/json/json.test.ts)                           | Synchronously parse JSON string with Zod schema                                                      |
-| [merge](./tests/object/merge.test.ts)                            | Type safe object merge!                                                                              |
-| [getCookieValue](./tests/http/cookie.test.ts)                    | Get cookie value from a string (document.cookie) or a Header object                                  |
-| [setCookieValue](./tests/http/cookie.test.ts)                    | Append Set-Cookie to Response Headers                                                                |
-| [getAcceptLanguage](./tests/http/headers.test.ts)                | Parse and get Accept-Language Headers                                                                |
-| [HTTP_STATUS](./src/constants/http.ts)                           | Simple constants for HTTP statuses                                                                   |
-| [isBigIntOrNumber](./tests/is/big-int-or-number.test.ts)         | Converts strings and tests for NaN's                                                                 |
+https://toolbelt.pages.dev/
