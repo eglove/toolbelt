@@ -1,5 +1,7 @@
 TypeScript utilities with error handling that is consistent, forced, and functional.
 
+Test Report: https://toolbelt.pages.dev/
+
 ## The Key is the Error Handling
 
 Any utility that may throw an error uses a simple return type:
@@ -34,6 +36,3 @@ if (!result.isSuccess) {
 const value = result.data; // Value type is string!
 ```
 
-## Looking for docs? Read the tests!
-
-https://toolbelt.pages.dev/
