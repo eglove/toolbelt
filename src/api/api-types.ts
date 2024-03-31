@@ -45,6 +45,7 @@ export type RequestConfig = {
   defaultRequestInit?: RequestInit;
   path: string;
   pathSchema?: ZodValidator;
+  responseSchema?: ZodValidator;
   searchParamsSchema?: ZodValidator;
 };
 

@@ -125,12 +125,15 @@ export class Api<T extends RequestConfigObject> {
       return { error: new Error('failed to get response'), isSuccess: false };
     }
 
-    if (isNil(item.bodySchema)) {
-      return { error: new Error('no bodySchema provided'), isSuccess: false };
+    if (isNil(item.responseSchema)) {
+      return {
+        error: new Error('no responseSchema provided'),
+        isSuccess: false,
+      };
     }
 
     // @ts-expect-error force this
-    return parseFetchJson<T>(response.data, item.bodySchema);
+    return parseFetchJson<T>(response.data, item.responseSchema);
   }
 
   private createKeys(
