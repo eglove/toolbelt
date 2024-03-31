@@ -1,6 +1,6 @@
 import type { z } from 'zod';
 
-import { tryCatch } from '../functional/try-catch.js';
+import { tryCatch } from '../functional/try-catch.ts';
 import type { HandledError } from '../types/error.ts';
 import type { ZodValidator } from '../types/zod-validator.ts';
 

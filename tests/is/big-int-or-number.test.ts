@@ -12,7 +12,7 @@ describe('number', () => {
     [2, true],
     [0.1, true],
     ['0.5', true],
-  ])('should return true for %s', (number, expected) => {
+  ])('should work for %s', (number, expected) => {
     expect(isBigIntOrNumber(number)).toBe(expected);
   });
 
@@ -30,7 +30,7 @@ describe('number', () => {
     },
     true,
     false,
-  ])('should return false for %s', (value, expected) => {
+  ])('should return false for %s', value => {
     expect(isBigIntOrNumber(value)).toBe(false);
   });
 });
