@@ -1,12 +1,16 @@
 import type { QueryOptions as TanStackQueryOptions } from '@tanstack/query-core';
 import type { z, ZodError } from 'zod';
 
+import type {
+  PathVariablesRecord,
+  SearchParametersRecord,
+} from '../fetch/url-builder.js';
 import type { HandledError } from '../types/error.js';
 import type { ZodValidator } from '../types/zod-validator.js';
 
 export type ParameterOptions = {
-  pathVariables?: Record<string, number | string>;
-  searchParams?: Record<string, number | string | undefined>;
+  pathVariables?: PathVariablesRecord;
+  searchParams?: SearchParametersRecord;
 };
 
 export type ParameterRequestOptions = ParameterOptions & {

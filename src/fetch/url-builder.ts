@@ -5,8 +5,8 @@ import type { ZodError, ZodSchema } from 'zod';
 import { tryCatch } from '../functional/try-catch.ts';
 import type { HandledError } from '../types/error.ts';
 
-type PathVariablesRecord = Record<string, number | string>;
-type SearchParametersRecord = Record<
+export type PathVariablesRecord = Record<string, number | string>;
+export type SearchParametersRecord = Record<
   string,
   number[] | string[] | number | string | undefined
 >;
