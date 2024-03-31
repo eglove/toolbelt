@@ -11,7 +11,6 @@ export type ParameterOptions = {
 
 export type ParameterRequestOptions = ParameterOptions & {
   cacheInterval?: number;
-  defaultErrorMessage?: string;
   requestInit?: RequestInit;
 };
 
@@ -41,7 +40,6 @@ export type RequestDetails = {
 export type RequestConfig = {
   bodySchema?: ZodValidator;
   cacheInterval?: number;
-  defaultErrorMessage: string;
   defaultRequestInit?: RequestInit;
   path: string;
   pathSchema?: ZodValidator;
