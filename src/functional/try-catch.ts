@@ -1,30 +1,15 @@
-import type { HandledError } from '../types/error.ts';
+import attempt from 'lodash/attempt.js';
 
-export function tryCatch<T extends () => ReturnType<T>>(
-  function_: T,
-): HandledError<ReturnType<T>, Error> {
+export async function attemptAsync(...parameters: Parameters<typeof attempt>) {
   try {
-    return { data: function_(), isSuccess: true };
+    // Assume this is used with async function, force the await to catch the error
+    // eslint-disable-next-line @typescript-eslint/return-await, @typescript-eslint/return-await
+    return await attempt(...parameters);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      return { error, isSuccess: false };
+      return error;
     }
 
-    return { error: new Error(`${function_.name} failed`), isSuccess: false };
-  }
-}
-
-export async function tryCatchAsync<T extends () => unknown>(
-  function_: T,
-): Promise<HandledError<Awaited<ReturnType<T>>, Error>> {
-  try {
-    const data = (await function_()) as Awaited<ReturnType<T>>;
-    return { data, isSuccess: true };
-  } catch (error) {
-    if (error instanceof Error) {
-      return { error, isSuccess: false };
-    }
-
-    return { error: new Error(`${function_.name} failed`), isSuccess: false };
+    return new Error(`${parameters[0].name} failed`);
   }
 }

@@ -5,7 +5,6 @@ import type {
   PathVariablesRecord,
   SearchParametersRecord,
 } from '../fetch/url-builder.js';
-import type { HandledError } from '../types/error.js';
 import type { ZodValidator } from '../types/zod-validator.js';
 
 export type ParameterOptions = {
@@ -25,20 +24,16 @@ export type QueryOptions = ParameterRequestOptions & {
 export type RequestDetails = {
   fetch: (
     options?: QueryOptions,
-  ) => Promise<HandledError<Response | undefined, Error | ZodError>>;
+  ) => Promise<Error | Response | ZodError | undefined>;
   fetchJson: <T extends ZodValidator>(
     options?: ParameterRequestOptions,
-  ) => Promise<HandledError<z.output<T>, Error | ZodError>>;
-  keys: (
-    options?: ParameterRequestOptions,
-  ) => HandledError<string[], Error | ZodError>;
+  ) => Promise<Error | z.output<T> | ZodError>;
+  keys: (options?: ParameterRequestOptions) => Error | string[] | ZodError;
   queryOptions: (
     options?: QueryOptions,
-  ) => HandledError<TanStackQueryOptions, Error | ZodError>;
-  request: (
-    options?: ParameterRequestOptions,
-  ) => HandledError<Request, Error | ZodError>;
-  url: (options?: ParameterOptions) => HandledError<URL, Error | ZodError>;
+  ) => Error | TanStackQueryOptions | ZodError;
+  request: (options?: ParameterRequestOptions) => Error | Request | ZodError;
+  url: (options?: ParameterOptions) => Error | URL | ZodError;
 };
 
 export type RequestConfig = {

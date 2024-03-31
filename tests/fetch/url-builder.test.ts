@@ -1,3 +1,4 @@
+import isError from 'lodash/isError.js';
 import { describe, expect, it } from 'vitest';
 import { z, ZodError } from 'zod';
 
@@ -14,17 +15,18 @@ describe('url builder', () => {
       urlBase: 'https://jsonplaceholder.typicode.com',
     });
 
-    expect(exampleUrl.url.isSuccess).toBe(true);
+    expect(isError(exampleUrl.url)).toBe(false);
+    expect(exampleUrl.url).toBeInstanceOf(URL);
 
-    if (exampleUrl.url.isSuccess) {
-      expect(exampleUrl.url.data.searchParams).toStrictEqual(
+    if (exampleUrl.url instanceof URL) {
+      expect(exampleUrl.url.searchParams).toStrictEqual(
         new URLSearchParams({
           filter: 'done',
           orderBy: 'due',
         }),
       );
 
-      expect(exampleUrl.url.data.toString()).toBe(
+      expect(exampleUrl.url.toString()).toBe(
         'https://jsonplaceholder.typicode.com/todos/2?filter=done&orderBy=due',
       );
     }
@@ -39,15 +41,16 @@ describe('url builder', () => {
       urlBase: 'https://jsonplaceholder.typicode.com',
     });
 
-    expect(multiUrl.url.isSuccess).toBe(true);
+    expect(isError(multiUrl.url)).toBe(false);
+    expect(multiUrl.url).toBeInstanceOf(URL);
 
-    if (multiUrl.url.isSuccess) {
+    if (multiUrl.url instanceof URL) {
       const searchParameters = new URLSearchParams();
       searchParameters.append('filter', 'done');
       searchParameters.append('filter', 'recent');
       searchParameters.append('filter', 'expired');
 
-      expect(multiUrl.url.data.searchParams).toStrictEqual(searchParameters);
+      expect(multiUrl.url.searchParams).toStrictEqual(searchParameters);
     }
   });
 
@@ -60,11 +63,8 @@ describe('url builder', () => {
       urlBase: 'https://jsonplaceholder.typicode.com',
     });
 
-    expect(badUrl.url.isSuccess).toBe(false);
-
-    if (!badUrl.url.isSuccess) {
-      expect(badUrl.url.error).toBeInstanceOf(ZodError);
-    }
+    expect(isError(badUrl.url)).toBe(true);
+    expect(badUrl.url).toBeInstanceOf(ZodError);
   });
 
   it('should return error if path variables are found but schema is not', () => {
@@ -73,12 +73,10 @@ describe('url builder', () => {
       urlBase: 'http://example.com',
     });
 
-    expect(builder.url.isSuccess).toBe(false);
-
-    if (!builder.url.isSuccess) {
-      expect(builder.url.error.message).toBe(
-        'must provide path variables schema',
-      );
+    expect(isError(builder.url)).toBe(true);
+    expect(builder.url).toBeInstanceOf(Error);
+    if (builder.url instanceof Error) {
+      expect(builder.url.message).toBe('must provide path variables schema');
     }
   });
 
@@ -87,10 +85,11 @@ describe('url builder', () => {
       urlBase: undefined,
     });
 
-    expect(builder.url.isSuccess).toBe(false);
+    expect(isError(builder.url)).toBe(true);
+    expect(builder.url).toBeInstanceOf(Error);
 
-    if (!builder.url.isSuccess) {
-      expect(builder.url.error.message).toBe('Invalid URL');
+    if (builder.url instanceof Error) {
+      expect(builder.url.message).toBe('Invalid URL');
     }
   });
 
@@ -101,11 +100,8 @@ describe('url builder', () => {
       urlBase: 'https://example.com',
     });
 
-    expect(builder.url.isSuccess).toBe(false);
-
-    if (!builder.url.isSuccess) {
-      expect(builder.url.error).toBeInstanceOf(ZodError);
-    }
+    expect(isError(builder.url)).toBe(true);
+    expect(builder.url).toBeInstanceOf(ZodError);
   });
 
   it('should return error is search params are provided but there is no schema', () => {
@@ -114,12 +110,11 @@ describe('url builder', () => {
       urlBase: 'https://example.com',
     });
 
-    expect(builder.url.isSuccess).toBe(false);
+    expect(isError(builder.url)).toBe(true);
+    expect(builder.url).toBeInstanceOf(Error);
 
-    if (!builder.url.isSuccess) {
-      expect(builder.url.error.message).toBe(
-        'must provide search parameters schema',
-      );
+    if (builder.url instanceof Error) {
+      expect(builder.url.message).toBe('must provide search parameters schema');
     }
   });
 });

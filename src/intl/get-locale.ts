@@ -1,4 +1,5 @@
 import get from 'lodash/get.js';
+import isError from 'lodash/isError.js';
 import isNil from 'lodash/isNil.js';
 
 import { getCookieValue } from '../http/cookie.ts';
@@ -15,12 +16,12 @@ export function getLocale(
     if (sourceType === 'accept-language' && !isNil(source)) {
       const value = getAcceptLanguage(source);
 
-      if (!value.isSuccess) {
+      if (isError(value)) {
         return;
       }
 
-      let language = get(value, 'data[0].language');
-      const country = get(value, 'data[0].country');
+      let language = get(value, [0, 'language']);
+      const country = get(value, [0, 'country']);
       if (!isNil(language)) {
         if (!isNil(country)) {
           language += `-${country}`;
@@ -33,8 +34,8 @@ export function getLocale(
     if (sourceType === 'cookie' && !isNil(valueName) && !isNil(source)) {
       const value = getCookieValue(valueName, source);
 
-      if (value.isSuccess) {
-        return value.data;
+      if (!isError(value)) {
+        return value;
       }
     }
 

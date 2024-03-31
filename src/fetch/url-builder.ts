@@ -1,9 +1,8 @@
 /* eslint-disable unicorn/consistent-destructuring */
+import attempt from 'lodash/attempt.js';
+import isError from 'lodash/isError.js';
 import isNil from 'lodash/isNil.js';
 import type { ZodError, ZodSchema } from 'zod';
-
-import { tryCatch } from '../functional/try-catch.ts';
-import type { HandledError } from '../types/error.ts';
 
 export type PathVariablesRecord = Record<string, number | string>;
 export type SearchParametersRecord = Record<
@@ -21,7 +20,7 @@ export type UrlConfig = {
 
 class UrlBuilder {
   // @ts-expect-error built in constructor
-  private _url: HandledError<URL, Error | ZodError>;
+  private _url: Error | URL | ZodError;
   private readonly _configUrl: URL | string;
   private readonly _searchParameters?: SearchParametersRecord;
   private readonly _pathVariables?: PathVariablesRecord;
@@ -39,7 +38,7 @@ class UrlBuilder {
     this.buildUrl();
   }
 
-  public get url(): HandledError<URL, Error | ZodError> {
+  public get url() {
     return this._url;
   }
 
@@ -50,10 +49,7 @@ class UrlBuilder {
     const { _pathVariables, _pathVariablesSchema } = this;
     if (!isNil(_pathVariables)) {
       if (isNil(_pathVariablesSchema)) {
-        this._url = {
-          error: new Error('must provide path variables schema'),
-          isSuccess: false,
-        };
+        this._url = new Error('must provide path variables schema');
         return;
       }
 
@@ -62,10 +58,7 @@ class UrlBuilder {
       );
 
       if (!parsePathVariables.success) {
-        this._url = {
-          error: parsePathVariables.error,
-          isSuccess: parsePathVariables.success,
-        };
+        this._url = parsePathVariables.error;
         return;
       }
 
@@ -83,11 +76,11 @@ class UrlBuilder {
       }
     }
 
-    const url = tryCatch(() => {
+    const url = attempt(() => {
       return new URL(urlString, this._config?.urlBase);
     });
 
-    if (!url.isSuccess) {
+    if (isError(url)) {
       this._url = url;
       return;
     }
@@ -97,14 +90,14 @@ class UrlBuilder {
     if (!isNil(this._searchParameters)) {
       const parameters = this.buildSearchParameters(this._searchParameters);
 
-      if (!parameters.isSuccess) {
+      if (isError(parameters)) {
         this._url = parameters;
         return;
       }
 
-      if (!isNil(parameters.data)) {
-        for (const [key, value] of parameters.data.entries()) {
-          this._url.data.searchParams.append(key, value);
+      if (!isNil(parameters)) {
+        for (const [key, value] of parameters.entries()) {
+          this._url.searchParams.append(key, value);
         }
       }
     }
@@ -113,24 +106,18 @@ class UrlBuilder {
   // eslint-disable-next-line max-statements
   private buildSearchParameters(
     parameters: UrlConfig['searchParams'],
-  ): HandledError<URLSearchParams, Error | ZodError> {
+  ): Error | URLSearchParams | ZodError {
     const searchParameters = new URLSearchParams();
 
     if (isNil(this._searchParametersSchema)) {
-      return {
-        error: new Error('must provide search parameters schema'),
-        isSuccess: false,
-      };
+      return new Error('must provide search parameters schema');
     }
 
     const parsedSearchParameters =
       this._searchParametersSchema.safeParse(parameters);
 
     if (!parsedSearchParameters.success) {
-      return {
-        error: parsedSearchParameters.error,
-        isSuccess: parsedSearchParameters.success,
-      };
+      return parsedSearchParameters.error;
     }
 
     for (const key in parameters) {
@@ -151,7 +138,7 @@ class UrlBuilder {
       }
     }
 
-    return { data: searchParameters, isSuccess: true };
+    return searchParameters;
   }
 }
 

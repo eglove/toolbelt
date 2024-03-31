@@ -1,3 +1,4 @@
+import isError from 'lodash/isError.js';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { createFetcher } from '../../src/fetch/fetcher.ts';
@@ -29,10 +30,8 @@ describe('fetcher', () => {
     const fetcher = createFetcher(mockOptions);
     const result = await fetcher.fetch();
 
-    expect(result.isSuccess).toBe(true);
-    if (result.isSuccess) {
-      expect(result.data).toStrictEqual({ data: true });
-    }
+    expect(isError(result)).toBe(false);
+    expect(result).toStrictEqual({ data: true });
   });
 
   it('should be able to set new cache interval', () => {

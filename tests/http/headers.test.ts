@@ -1,3 +1,4 @@
+import isError from 'lodash/isError.js';
 import { describe, expect, it } from 'vitest';
 
 import { getAcceptLanguage } from '../../src/http/headers.ts';
@@ -50,10 +51,9 @@ describe('headers', () => {
   ])('should get accept language', (header, result) => {
     const value = getAcceptLanguage(header);
 
-    expect(value.isSuccess).toBe(true);
-    if (value.isSuccess) {
-      expect(value.data).toStrictEqual(result);
-    }
+    expect(isError(value)).toBe(false);
+    expect(value).not.toBeInstanceOf(Error);
+    expect(value).toStrictEqual(result);
   });
 
   it('should return error if accept-language source is not found', () => {
@@ -61,10 +61,11 @@ describe('headers', () => {
 
     const result = getAcceptLanguage(headers);
 
-    expect(result.isSuccess).toBe(false);
+    expect(isError(result)).toBe(true);
+    expect(result).toBeInstanceOf(Error);
 
-    if (!result.isSuccess) {
-      expect(result.error.message).toBe('accept-language not found');
+    if (result instanceof Error) {
+      expect(result.message).toBe('accept-language not found');
     }
   });
 });

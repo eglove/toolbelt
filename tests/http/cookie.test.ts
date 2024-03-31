@@ -1,3 +1,4 @@
+import isError from 'lodash/isError.js';
 import { describe, expect, it } from 'vitest';
 
 import { getCookieValue, setCookieValue } from '../../src/http/cookie.ts';
@@ -10,10 +11,8 @@ describe('get cookie', () => {
 
     const value = getCookieValue('token', document.cookie);
 
-    expect(value.isSuccess).toBe(true);
-    if (value.isSuccess) {
-      expect(value.data).toBe('123');
-    }
+    expect(isError(value)).toBe(false);
+    expect(value).toBe('123');
   });
 
   it('should get cookies from headers', () => {
@@ -22,10 +21,8 @@ describe('get cookie', () => {
 
     const value = getCookieValue('token', headers);
 
-    expect(value.isSuccess).toBe(true);
-    if (value.isSuccess) {
-      expect(value.data).toBe('123');
-    }
+    expect(isError(value)).toBe(false);
+    expect(value).toBe('123');
   });
 
   it('should set cookie', () => {
@@ -81,18 +78,20 @@ describe('get cookie', () => {
     };
     const value = getCookieValue('nonexistent', document.cookie);
 
-    expect(value.isSuccess).toBe(false);
-    if (!value.isSuccess) {
-      expect(value.error.message).toBe('cookies not found');
+    expect(isError(value)).toBe(true);
+    expect(value).toBeInstanceOf(Error);
+    if (value instanceof Error) {
+      expect(value.message).toBe('cookies not found');
     }
   });
 
   it('should return error if the cookie is not found', () => {
     const value = getCookieValue('nope', '');
 
-    expect(value.isSuccess).toBe(false);
-    if (!value.isSuccess) {
-      expect(value.error.message).toBe('failed to get cookie');
+    expect(isError(value)).toBe(true);
+    expect(value).toBeInstanceOf(Error);
+    if (value instanceof Error) {
+      expect(value.message).toBe('failed to get cookie');
     }
   });
 });

@@ -2,19 +2,17 @@ import isNil from 'lodash/isNil.js';
 import isNumber from 'lodash/isNumber.js';
 import isString from 'lodash/isString.js';
 
-import type { HandledError } from '../types/error.ts';
-
 export function getCookieValue(
   cookieName: string,
   cookieSource: Headers | string,
-): HandledError<string, Error> {
+): Error | string {
   const cookies =
     typeof cookieSource === 'string'
       ? cookieSource
       : cookieSource.get('Cookie');
 
   if (isNil(cookies)) {
-    return { error: new Error('cookies not found'), isSuccess: false };
+    return new Error('cookies not found');
   }
 
   const cookieArray = cookies.split(';');
@@ -22,11 +20,11 @@ export function getCookieValue(
     const [name, value] = cookie.split('=');
 
     if (name.trim() === cookieName.trim()) {
-      return { data: value.trim(), isSuccess: true };
+      return value.trim();
     }
   }
 
-  return { error: new Error('failed to get cookie'), isSuccess: false };
+  return new Error('failed to get cookie');
 }
 
 type SetCookieValueProperties = {

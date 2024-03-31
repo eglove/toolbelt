@@ -1,29 +1,25 @@
-import type { z } from 'zod';
+import isError from 'lodash/isError.js';
 
-import { tryCatchAsync } from '../functional/try-catch.ts';
-import type { HandledError } from '../types/error.ts';
+import { attemptAsync } from '../functional/try-catch.ts';
 import type { ZodValidator } from '../types/zod-validator.ts';
 
 export async function parseFetchJson<Z extends ZodValidator>(
   value: Request | Response,
   schema: Z,
-): Promise<HandledError<z.output<Z>, Error | z.ZodError<Z>>> {
-  const unparsed = await tryCatchAsync(async () => {
+) {
+  const unparsed = await attemptAsync(async () => {
     return value.json();
   });
 
-  if (!unparsed.isSuccess) {
+  if (isError(unparsed)) {
     return unparsed;
   }
 
-  const parsed = schema.safeParse(unparsed.data);
+  const parsed = schema.safeParse(unparsed);
 
   if (!parsed.success) {
-    return {
-      error: parsed.error,
-      isSuccess: parsed.success,
-    };
+    return parsed.error;
   }
 
-  return { data: parsed.data, isSuccess: parsed.success };
+  return parsed.data;
 }

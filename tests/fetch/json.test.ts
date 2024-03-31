@@ -1,3 +1,4 @@
+import isError from 'lodash/isError.js';
 import { describe, expect, it } from 'vitest';
 import { z, ZodError } from 'zod';
 
@@ -15,11 +16,8 @@ describe('fetch json', () => {
       z.object({ json: z.string() }),
     );
 
-    expect(results.isSuccess).toBe(true);
-
-    if (results.isSuccess) {
-      expect(results.data).toStrictEqual({ json: 'stuff' });
-    }
+    expect(isError(results)).toBe(false);
+    expect(results).toStrictEqual({ json: 'stuff' });
   });
 
   it('should parse response body correctly', async () => {
@@ -34,11 +32,8 @@ describe('fetch json', () => {
       z.object({ json: z.string() }),
     );
 
-    expect(results.isSuccess).toBe(true);
-
-    if (results.isSuccess) {
-      expect(results.data).toStrictEqual({ json: 'stuff' });
-    }
+    expect(isError(results)).toBe(false);
+    expect(results).toStrictEqual({ json: 'stuff' });
   });
 });
 
@@ -54,10 +49,11 @@ describe('error cases', () => {
       z.object({ fail: z.string() }),
     );
 
-    expect(results.isSuccess).toBe(false);
+    expect(isError(results)).toBe(true);
+    expect(results).toBeInstanceOf(ZodError);
 
-    if (!results.isSuccess && results.error instanceof ZodError) {
-      expect(results.error.issues[0].message).toStrictEqual(
+    if (results instanceof ZodError) {
+      expect(results.issues[0].message).toStrictEqual(
         'Expected string, received number',
       );
     }
@@ -74,10 +70,11 @@ describe('error cases', () => {
       z.array(z.object({ fail: z.string() })),
     );
 
-    expect(results.isSuccess).toBe(false);
+    expect(isError(results)).toBe(true);
+    expect(results).toBeInstanceOf(ZodError);
 
-    if (!results.isSuccess && results.error instanceof ZodError) {
-      expect(results.error.issues[0].message).toStrictEqual(
+    if (results instanceof ZodError) {
+      expect(results.issues[0].message).toStrictEqual(
         'Expected array, received object',
       );
     }
@@ -94,10 +91,10 @@ describe('error cases', () => {
       z.array(z.object({ fail: z.string() })),
     );
 
-    expect(results.isSuccess).toBe(false);
+    expect(isError(results)).toBe(true);
 
-    if (!results.isSuccess && results.error instanceof ZodError) {
-      expect(results.error.issues[0].message).toStrictEqual(
+    if (results instanceof ZodError) {
+      expect(results.issues[0].message).toStrictEqual(
         'Expected array, received object',
       );
     }

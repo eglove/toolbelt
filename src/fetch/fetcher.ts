@@ -1,10 +1,9 @@
-import type { IDBPDatabase } from 'idb';
 import { openDB } from 'idb';
+import attempt from 'lodash/attempt.js';
+import isError from 'lodash/isError.js';
 import isNil from 'lodash/isNil.js';
 
-import { tryCatchAsync } from '../functional/try-catch.ts';
 import { isBrowser } from '../is/browser.ts';
-import type { HandledError } from '../types/error.ts';
 import { requestKey } from './request-key.ts';
 
 type FetcherOptions = {
@@ -49,14 +48,14 @@ class Fetcher {
   }
 
   // eslint-disable-next-line max-lines-per-function,max-statements
-  public async fetch(): Promise<HandledError<Response | undefined, Error>> {
+  public async fetch(): Promise<Error | Response | undefined> {
     if (
       !isBrowser ||
       isNil(this._cacheInterval) ||
       this._cacheInterval <= 0 ||
       this._request.method !== 'GET'
     ) {
-      return tryCatchAsync(async () => {
+      return attempt(async () => {
         return fetch(this._request);
       });
     }
@@ -65,43 +64,43 @@ class Fetcher {
     const requestKey = this.getRequestKey();
     const database = await this.getRequestDatabase();
 
-    if (!database.isSuccess) {
+    if (isError(database)) {
       return database;
     }
 
     const expired = await this.isExpired();
 
-    if (!expired.isSuccess) {
+    if (isError(expired)) {
       return expired;
     }
 
-    if (expired.data) {
+    if (expired) {
       await cache.delete(this._request);
     }
 
     const cachedResponse = await cache.match(this._request);
-    if (cachedResponse) {
-      return { data: cachedResponse, isSuccess: true };
+    if (!isNil(cachedResponse)) {
+      return cachedResponse;
     }
 
     const expires = new Date();
     expires.setSeconds(expires.getSeconds() + this._cacheInterval);
 
-    const results = await tryCatchAsync(async () => {
+    const results = await attempt(async () => {
       return Promise.all([
         cache.add(this._request),
-        database.data
+        database
           .transaction(Fetcher._DB_NAME, 'readwrite')
           .objectStore(Fetcher._DB_NAME)
           .put({ expires, key: requestKey } satisfies RequestMeta),
       ]);
     });
 
-    if (!results.isSuccess) {
+    if (isError(results)) {
       return results;
     }
 
-    return tryCatchAsync(async () => {
+    return attempt(async () => {
       return cache.match(this._request);
     });
   }
@@ -110,47 +109,41 @@ class Fetcher {
     return requestKey(this.request);
   }
 
-  public async isExpired(): Promise<HandledError<boolean, Error>> {
+  public async isExpired(): Promise<Error | boolean> {
     const database = await this.getRequestDatabase();
 
-    if (!database.isSuccess) {
+    if (isError(database)) {
       return database;
     }
 
     const requestKey = this.getRequestKey();
 
-    const cachedMeta = (await database.data.get(
-      Fetcher._DB_NAME,
-      requestKey,
-    )) as RequestMeta | undefined;
+    const cachedMeta = (await database.get(Fetcher._DB_NAME, requestKey)) as
+      | RequestMeta
+      | undefined;
 
     if (cachedMeta === undefined) {
-      return { data: true, isSuccess: true };
+      return true;
     }
 
-    return { data: new Date() >= cachedMeta.expires, isSuccess: true };
+    return new Date() >= cachedMeta.expires;
   }
 
   public async cacheBust() {
     const database = await this.getRequestDatabase();
 
-    if (!database.isSuccess) {
+    if (isError(database)) {
       return database;
     }
 
     const requestKey = this.getRequestKey();
-    await database.data.delete(Fetcher._DB_NAME, requestKey);
+    await database.delete(Fetcher._DB_NAME, requestKey);
   }
 
-  private readonly getRequestDatabase = async (): Promise<
-    HandledError<
-      Awaited<ReturnType<() => Promise<IDBPDatabase<typeof Fetcher._DB_NAME>>>>,
-      Error
-    >
-  > => {
+  private readonly getRequestDatabase = async () => {
     const DB_VERSION = 1;
 
-    return tryCatchAsync(async () => {
+    return attempt(async () => {
       return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME, DB_VERSION, {
         upgrade(database_) {
           const store = database_.createObjectStore(Fetcher._DB_NAME, {

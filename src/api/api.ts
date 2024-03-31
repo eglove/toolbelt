@@ -1,6 +1,7 @@
 import type { QueryOptions as TanStackQueryOptions } from '@tanstack/query-core';
 import forEach from 'lodash/forEach.js';
 import get from 'lodash/get.js';
+import isError from 'lodash/isError.js';
 import isNil from 'lodash/isNil.js';
 import merge from 'lodash/merge.js';
 import type { z, ZodError } from 'zod';
@@ -10,7 +11,6 @@ import { parseFetchJson } from '../fetch/json.ts';
 import { requestKey } from '../fetch/request-key.ts';
 import { urlBuilder } from '../fetch/url-builder.ts';
 import { parseJson } from '../json/json.ts';
-import type { HandledError } from '../types/error.ts';
 import type { ZodValidator } from '../types/zod-validator.js';
 import type {
   ApiConstructor,
@@ -74,11 +74,11 @@ export class Api<T extends RequestConfigObject> {
         url: (options?: ParameterOptions) => {
           const request = this.createRequest(item, options);
 
-          if (!request.isSuccess) {
-            return { error: request.error, isSuccess: false };
+          if (isError(request)) {
+            return request;
           }
 
-          return { data: new URL(request.data.url), isSuccess: true };
+          return new URL(request.url);
         },
       };
     });
@@ -87,11 +87,11 @@ export class Api<T extends RequestConfigObject> {
   private async fetch(
     item: RequestConfig,
     options?: QueryOptions,
-  ): Promise<HandledError<Response | undefined, Error | ZodError>> {
+  ): Promise<Error | Response | ZodError | undefined> {
     const fetchRequest = this.createRequest(item, options);
 
-    if (!fetchRequest.isSuccess) {
-      return { error: fetchRequest.error, isSuccess: false };
+    if (isError(fetchRequest)) {
+      return fetchRequest;
     }
 
     const fetcher = createFetcher({
@@ -99,88 +99,74 @@ export class Api<T extends RequestConfigObject> {
         this._defaultCacheInterval ??
         item.cacheInterval ??
         options?.cacheInterval,
-      request: fetchRequest.data,
+      request: fetchRequest,
     });
 
-    const response = await fetcher.fetch();
-
-    if (!response.isSuccess) {
-      return { error: response.error, isSuccess: false };
-    }
-
-    return { data: response.data, isSuccess: true };
+    return fetcher.fetch();
   }
 
   private async fetchJson<T extends ZodValidator>(
     item: RequestConfig,
     options?: QueryOptions,
-  ): Promise<HandledError<z.output<T>, Error | ZodError>> {
+  ): Promise<Error | z.output<T> | ZodError> {
     const response = await this.fetch(item, options);
 
-    if (!response.isSuccess) {
-      return { error: response.error, isSuccess: false };
+    if (isError(response)) {
+      return response;
     }
 
-    if (isNil(response.data)) {
-      return { error: new Error('failed to get response'), isSuccess: false };
+    if (isNil(response)) {
+      return new Error('failed to get response');
     }
 
     if (isNil(item.responseSchema)) {
-      return {
-        error: new Error('no responseSchema provided'),
-        isSuccess: false,
-      };
+      return new Error('no responseSchema provided');
     }
 
     // @ts-expect-error force this
-    return parseFetchJson<T>(response.data, item.responseSchema);
+    return parseFetchJson<T>(response, item.responseSchema);
   }
 
   private createKeys(
     item: RequestConfig,
     options?: ParameterRequestOptions,
-  ): HandledError<string[], Error | ZodError> {
+  ): Error | string[] | ZodError {
     const request = this.createRequest(item, options);
 
-    if (!request.isSuccess) {
-      return { error: request.error, isSuccess: false };
+    if (isError(request)) {
+      return request;
     }
 
-    return {
-      data: [requestKey(request.data)],
-      isSuccess: true,
-    };
+    return [requestKey(request)];
   }
 
   private createQueryOptions(
     item: RequestConfig,
     options?: QueryOptions,
-  ): HandledError<TanStackQueryOptions, Error | ZodError> {
+  ): Error | TanStackQueryOptions | ZodError {
     const keys = this.createKeys(item, options);
 
-    if (!keys.isSuccess) {
-      return { error: keys.error, isSuccess: false };
+    if (isError(keys)) {
+      return keys;
     }
 
-    const queryOptions = {
+    return {
       queryFn: async () => {
         return this.fetchJson(item, options);
       },
-      queryKey: keys.data,
+      queryKey: keys,
       ...options?.queryOptions,
     } satisfies TanStackQueryOptions;
-
-    return { data: queryOptions, isSuccess: true };
   }
 
   private createRequest(
     requestConfig: RequestConfig,
     options?: QueryOptions,
-  ): HandledError<Request, Error | ZodError> {
+  ): Error | Request | ZodError {
     const result = this.validateRequestBody(requestConfig, options);
 
-    if (!result.isSuccess) {
-      return { error: result.error, isSuccess: false };
+    if (isError(result)) {
+      return result;
     }
 
     const builder = urlBuilder(requestConfig.path, {
@@ -191,7 +177,7 @@ export class Api<T extends RequestConfigObject> {
       urlBase: this._baseUrl,
     });
 
-    if (!builder.url.isSuccess) {
+    if (isError(builder.url)) {
       return builder.url;
     }
 
@@ -202,20 +188,17 @@ export class Api<T extends RequestConfigObject> {
       options?.requestInit,
     );
 
-    return {
-      data: new Request(builder.url.data, requestInit),
-      isSuccess: true,
-    };
+    return new Request(builder.url, requestInit);
   }
 
   private validateRequestBody(
     requestConfig: RequestConfig,
     options?: ParameterRequestOptions,
-  ): HandledError<undefined, Error | ZodError> {
+  ): Error | ZodError | undefined {
     const body = get(options, 'requestInit.body');
 
     if (isNil(requestConfig.bodySchema) && !isNil(body)) {
-      return { error: new Error('no bodySchema provided'), isSuccess: false };
+      return new Error('no bodySchema provided');
     }
 
     if (!isNil(requestConfig.bodySchema) && !isNil(body)) {
@@ -226,21 +209,19 @@ export class Api<T extends RequestConfigObject> {
       const parsed = requestConfig.bodySchema.safeParse(body);
 
       if (!parsed.success) {
-        return { error: parsed.error, isSuccess: false };
+        return parsed.error;
       }
     }
 
-    return { data: undefined, isSuccess: true };
+    return undefined;
   }
 
   private validateRequestBodyString(
     body: string,
     bodySchema: ZodValidator,
-  ): HandledError<undefined, Error | ZodError> {
+  ): Error | ZodError | undefined {
     const parsedString = parseJson(body, bodySchema);
 
-    return parsedString.isSuccess
-      ? { data: undefined, isSuccess: true }
-      : { error: parsedString.error, isSuccess: false };
+    return isError(parsedString) ? parsedString : undefined;
   }
 }
