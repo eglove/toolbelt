@@ -142,6 +142,6 @@ class UrlBuilder {
   }
 }
 
-export function urlBuilder(urlString: string, config?: UrlConfig): UrlBuilder {
-  return new UrlBuilder(urlString, config);
+export function createUrl(urlString: string, config?: UrlConfig) {
+  return new UrlBuilder(urlString, config).url;
 }

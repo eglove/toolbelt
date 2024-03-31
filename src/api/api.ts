@@ -6,10 +6,10 @@ import isNil from 'lodash/isNil.js';
 import merge from 'lodash/merge.js';
 import type { z, ZodError } from 'zod';
 
+import { createUrl } from '../fetch/create-url.ts';
 import { createFetcher } from '../fetch/fetcher.ts';
 import { parseFetchJson } from '../fetch/json.ts';
 import { requestKey } from '../fetch/request-key.ts';
-import { urlBuilder } from '../fetch/url-builder.ts';
 import { parseJson } from '../json/json.ts';
 import type { ZodValidator } from '../types/zod-validator.js';
 import type {
@@ -169,7 +169,7 @@ export class Api<T extends RequestConfigObject> {
       return result;
     }
 
-    const builder = urlBuilder(requestConfig.path, {
+    const url = createUrl(requestConfig.path, {
       pathVariables: options?.pathVariables,
       pathVariablesSchema: requestConfig.pathSchema,
       searchParams: options?.searchParams,
@@ -177,8 +177,8 @@ export class Api<T extends RequestConfigObject> {
       urlBase: this._baseUrl,
     });
 
-    if (isError(builder.url)) {
-      return builder.url;
+    if (isError(url)) {
+      return url;
     }
 
     const requestInit = merge(
@@ -188,7 +188,7 @@ export class Api<T extends RequestConfigObject> {
       options?.requestInit,
     );
 
-    return new Request(builder.url, requestInit);
+    return new Request(url, requestInit);
   }
 
   private validateRequestBody(

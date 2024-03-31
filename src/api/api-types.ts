@@ -4,7 +4,7 @@ import type { z, ZodError } from 'zod';
 import type {
   PathVariablesRecord,
   SearchParametersRecord,
-} from '../fetch/url-builder.js';
+} from '../fetch/create-url.js';
 import type { ZodValidator } from '../types/zod-validator.js';
 
 export type ParameterOptions = {
