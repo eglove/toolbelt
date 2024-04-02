@@ -1,4 +1,7 @@
-import type { QueryOptions as TanStackQueryOptions } from '@tanstack/query-core';
+import type {
+  QueryClient,
+  QueryOptions as TanStackQueryOptions,
+} from '@tanstack/query-core';
 import type { z, ZodError } from 'zod';
 
 import type {
@@ -28,6 +31,9 @@ export type RequestDetails = {
   fetchJson: <T extends ZodValidator>(
     options?: ParameterRequestOptions,
   ) => Promise<Error | z.output<T> | ZodError>;
+  invalidateRequest: (
+    options?: ParameterRequestOptions & QueryOptions,
+  ) => Promise<void>;
   keys: (options?: ParameterRequestOptions) => Error | string[] | ZodError;
   queryOptions: (
     options?: QueryOptions,
@@ -52,5 +58,6 @@ export type ApiConstructor<T extends RequestConfigObject> = {
   baseUrl: string;
   defaultCacheInterval?: number;
   defaultRequestInit?: RequestInit;
+  queryClient?: QueryClient;
   requests: T;
 };

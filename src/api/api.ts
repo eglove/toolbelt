@@ -1,4 +1,7 @@
-import type { QueryOptions as TanStackQueryOptions } from '@tanstack/query-core';
+import type {
+  QueryClient,
+  QueryOptions as TanStackQueryOptions,
+} from '@tanstack/query-core';
 import forEach from 'lodash/forEach.js';
 import get from 'lodash/get.js';
 import isError from 'lodash/isError.js';
@@ -6,6 +9,7 @@ import isNil from 'lodash/isNil.js';
 import merge from 'lodash/merge.js';
 import type { z, ZodError } from 'zod';
 
+import { cacheBust } from '../fetch/cache-bust.ts';
 import { createUrl } from '../fetch/create-url.ts';
 import { createFetcher } from '../fetch/fetcher.ts';
 import { parseFetchJson } from '../fetch/json.ts';
@@ -23,6 +27,7 @@ import type {
 } from './api-types.ts';
 
 export class Api<T extends RequestConfigObject> {
+  private readonly _queryClient?: QueryClient;
   private readonly _baseUrl: string;
   private readonly _defaultRequestInit?: RequestInit;
   private readonly _requestConfig?: RequestConfigObject;
@@ -35,7 +40,9 @@ export class Api<T extends RequestConfigObject> {
     requests,
     defaultRequestInit,
     defaultCacheInterval,
+    queryClient,
   }: ApiConstructor<T>) {
+    this._queryClient = queryClient;
     this._defaultCacheInterval = defaultCacheInterval;
     this._baseUrl = baseUrl;
     this._defaultRequestInit = defaultRequestInit;
@@ -61,6 +68,11 @@ export class Api<T extends RequestConfigObject> {
           options?: ParameterRequestOptions,
         ) => {
           return this.fetchJson<T>(item, options);
+        },
+        invalidateRequest: async (
+          options?: ParameterRequestOptions & QueryOptions,
+        ) => {
+          return this.invalidateRequest(item, options);
         },
         keys: (options?: ParameterRequestOptions) => {
           return this.createKeys(item, options);
@@ -189,6 +201,21 @@ export class Api<T extends RequestConfigObject> {
     );
 
     return new Request(url, requestInit);
+  }
+
+  private async invalidateRequest(
+    requestConfig: RequestConfig,
+    options?: QueryOptions,
+  ) {
+    const request = this.createRequest(requestConfig, options);
+    const queryOptions = this.createQueryOptions(requestConfig, options);
+
+    if (isError(request) || isError(queryOptions)) {
+      return;
+    }
+
+    await cacheBust(request);
+    await this._queryClient?.invalidateQueries(queryOptions);
   }
 
   private validateRequestBody(
