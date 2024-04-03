@@ -21,7 +21,7 @@ export function getAcceptLanguage(
     return new Error('accept-language not found');
   }
 
-  const result = languages
+  return languages
     .map(lang => {
       const [name, q] = lang.split(';');
       const [language, country] = name.split('-') as [
@@ -47,6 +47,4 @@ export function getAcceptLanguage(
     .sort((a, b) => {
       return b.quality - a.quality;
     });
-
-  return result;
 }

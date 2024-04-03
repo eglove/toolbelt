@@ -2,8 +2,8 @@ import isNil from 'lodash/isNil.js';
 import isNumber from 'lodash/isNumber.js';
 import isString from 'lodash/isString.js';
 
-export function getCookieValue(
-  cookieName: string,
+export function getCookieValue<T extends string>(
+  cookieName: T,
   cookieSource: Headers | string,
 ): Error | string {
   const cookies =
@@ -27,7 +27,7 @@ export function getCookieValue(
   return new Error('failed to get cookie');
 }
 
-type SetCookieValueProperties = {
+type SetCookieValueProperties<T extends string> = {
   config?: {
     Domain?: string;
     Expires?: Date;
@@ -38,17 +38,17 @@ type SetCookieValueProperties = {
     SameSite?: 'Lax' | 'None' | 'Secure' | 'Strict';
     Secure?: boolean;
   };
-  cookieName: string;
+  cookieName: T;
   cookieValue: string;
   response: Response;
 };
 
-export function setCookieValue({
+export function setCookieValue<T extends string>({
   config,
   response,
   cookieValue,
   cookieName,
-}: SetCookieValueProperties) {
+}: SetCookieValueProperties<T>) {
   let cookieString = `${cookieName}=${cookieValue}`;
 
   if (!isNil(config)) {
