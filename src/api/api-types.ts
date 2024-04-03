@@ -36,9 +36,9 @@ export type RequestDetails = {
     options?: ParameterRequestOptions & QueryOptions,
   ) => Promise<void>;
   keys: (options?: ParameterRequestOptions) => Error | string[] | ZodError;
-  queryOptions: (
+  queryOptions: <T extends ZodValidator>(
     options?: QueryOptions,
-  ) => TanStackQueryOptions & { queryKey: QueryKey };
+  ) => TanStackQueryOptions<z.output<T>> & { queryKey: QueryKey };
   request: (options?: ParameterRequestOptions) => Error | Request | ZodError;
   url: (options?: ParameterOptions) => Error | URL | ZodError;
 };

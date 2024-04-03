@@ -1,4 +1,8 @@
-import type { QueryClient } from '@tanstack/query-core';
+import type {
+  QueryClient,
+  QueryKey,
+  QueryOptions as TanStackQueryOptions,
+} from '@tanstack/query-core';
 import forEach from 'lodash/forEach.js';
 import get from 'lodash/get.js';
 import isError from 'lodash/isError.js';
@@ -51,7 +55,7 @@ export class Api<T extends RequestConfigObject> {
     return this._baseUrl;
   }
 
-  public get init() {
+  public get requests() {
     return this._request;
   }
 
@@ -74,8 +78,8 @@ export class Api<T extends RequestConfigObject> {
         keys: (options?: ParameterRequestOptions) => {
           return this.createKeys(item, options);
         },
-        queryOptions: (options?: QueryOptions) => {
-          return this.createQueryOptions(item, options);
+        queryOptions: <T extends ZodValidator>(options?: QueryOptions) => {
+          return this.createQueryOptions<T>(item, options);
         },
         request: (options?: ParameterRequestOptions) => {
           return this.createRequest(item, options);
@@ -149,16 +153,19 @@ export class Api<T extends RequestConfigObject> {
     return [requestKey(request)];
   }
 
-  private createQueryOptions(item: RequestConfig, options?: QueryOptions) {
+  private createQueryOptions<T extends ZodValidator>(
+    item: RequestConfig,
+    options?: QueryOptions,
+  ) {
     const keys = this.createKeys(item, options);
 
     return {
       queryFn: async () => {
-        return this.fetchJson(item, options);
+        return this.fetchJson<T>(item, options);
       },
       queryKey: isError(keys) ? [] : keys,
       ...options?.queryOptions,
-    };
+    } as TanStackQueryOptions<z.output<T>> & { queryKey: QueryKey };
   }
 
   private createRequest(
