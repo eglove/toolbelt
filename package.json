@@ -33,9 +33,9 @@
   },
   "devDependencies": {
     "@ethang/project-builder": "^1.1.31",
-    "@tanstack/query-core": "^5.28.9",
+    "@tanstack/query-core": "^5.28.13",
     "@types/lodash": "^4.17.0",
-    "@types/node": "^20.12.2",
+    "@types/node": "^20.12.3",
     "@vitest/coverage-v8": "^1.4.0",
     "@vitest/ui": "^1.4.0",
     "eslint-config-ethang": "^14.1.6",
