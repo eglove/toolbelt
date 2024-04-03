@@ -35,9 +35,7 @@ export type RequestDetails = {
     options?: ParameterRequestOptions & QueryOptions,
   ) => Promise<void>;
   keys: (options?: ParameterRequestOptions) => Error | string[] | ZodError;
-  queryOptions: (
-    options?: QueryOptions,
-  ) => Error | TanStackQueryOptions | ZodError;
+  queryOptions: (options?: QueryOptions) => TanStackQueryOptions;
   request: (options?: ParameterRequestOptions) => Error | Request | ZodError;
   url: (options?: ParameterOptions) => Error | URL | ZodError;
 };
