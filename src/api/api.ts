@@ -1,7 +1,4 @@
-import type {
-  QueryClient,
-  QueryOptions as TanStackQueryOptions,
-} from '@tanstack/query-core';
+import type { QueryClient } from '@tanstack/query-core';
 import forEach from 'lodash/forEach.js';
 import get from 'lodash/get.js';
 import isError from 'lodash/isError.js';
@@ -152,10 +149,7 @@ export class Api<T extends RequestConfigObject> {
     return [requestKey(request)];
   }
 
-  private createQueryOptions(
-    item: RequestConfig,
-    options?: QueryOptions,
-  ): TanStackQueryOptions {
+  private createQueryOptions(item: RequestConfig, options?: QueryOptions) {
     const keys = this.createKeys(item, options);
 
     return {

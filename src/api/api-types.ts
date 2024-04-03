@@ -1,5 +1,6 @@
 import type {
   QueryClient,
+  QueryKey,
   QueryOptions as TanStackQueryOptions,
 } from '@tanstack/query-core';
 import type { z, ZodError } from 'zod';
@@ -35,7 +36,9 @@ export type RequestDetails = {
     options?: ParameterRequestOptions & QueryOptions,
   ) => Promise<void>;
   keys: (options?: ParameterRequestOptions) => Error | string[] | ZodError;
-  queryOptions: (options?: QueryOptions) => TanStackQueryOptions;
+  queryOptions: (
+    options?: QueryOptions,
+  ) => TanStackQueryOptions & { queryKey: QueryKey };
   request: (options?: ParameterRequestOptions) => Error | Request | ZodError;
   url: (options?: ParameterOptions) => Error | URL | ZodError;
 };
