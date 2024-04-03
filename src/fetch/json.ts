@@ -1,4 +1,5 @@
 import isError from 'lodash/isError.js';
+import type { z, ZodError } from 'zod';
 
 import { attemptAsync } from '../functional/attempt-async.ts';
 import type { ZodValidator } from '../types/zod-validator.ts';
@@ -6,7 +7,7 @@ import type { ZodValidator } from '../types/zod-validator.ts';
 export async function parseFetchJson<Z extends ZodValidator>(
   value: Request | Response,
   schema: Z,
-) {
+): Promise<Error | z.output<Z> | ZodError<Z>> {
   const unparsed = await attemptAsync(async () => {
     return value.json();
   });
