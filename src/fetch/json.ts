@@ -4,7 +4,7 @@ import type { z, ZodError } from 'zod';
 import { attemptAsync } from '../functional/attempt-async.ts';
 import type { ZodValidator } from '../types/zod-validator.ts';
 
-export async function parseFetchJson<Z extends ZodValidator>(
+export async function parseFetchJson<Z extends ZodValidator<Z>>(
   value: Request | Response,
   schema: Z,
 ): Promise<Error | z.output<Z> | ZodError<Z>> {

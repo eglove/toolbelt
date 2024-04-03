@@ -65,7 +65,7 @@ export class Api<T extends RequestConfigObject> {
         fetch: async (options?: QueryOptions) => {
           return this.fetch(item, options);
         },
-        fetchJson: async <T extends ZodValidator>(
+        fetchJson: async <T extends ZodValidator<T>>(
           options?: ParameterRequestOptions,
         ) => {
           return this.fetchJson<T>(item, options);
@@ -78,7 +78,7 @@ export class Api<T extends RequestConfigObject> {
         keys: (options?: ParameterRequestOptions) => {
           return this.createKeys(item, options);
         },
-        queryOptions: <T extends ZodValidator>(options?: QueryOptions) => {
+        queryOptions: <T extends ZodValidator<T>>(options?: QueryOptions) => {
           return this.createQueryOptions<T>(item, options);
         },
         request: (options?: ParameterRequestOptions) => {
@@ -118,7 +118,7 @@ export class Api<T extends RequestConfigObject> {
     return fetcher.fetch();
   }
 
-  private async fetchJson<T extends ZodValidator>(
+  private async fetchJson<T extends ZodValidator<T>>(
     item: RequestConfig,
     options?: QueryOptions,
   ): Promise<Error | z.output<T> | ZodError> {
@@ -153,7 +153,7 @@ export class Api<T extends RequestConfigObject> {
     return [requestKey(request)];
   }
 
-  private createQueryOptions<T extends ZodValidator>(
+  private createQueryOptions<T extends ZodValidator<T>>(
     item: RequestConfig,
     options?: QueryOptions,
   ) {
@@ -240,9 +240,9 @@ export class Api<T extends RequestConfigObject> {
     return undefined;
   }
 
-  private validateRequestBodyString(
+  private validateRequestBodyString<T extends ZodValidator<T>>(
     body: string,
-    bodySchema: ZodValidator,
+    bodySchema: ZodValidator<T>,
   ): Error | ZodError | undefined {
     const parsedString = parseJson(body, bodySchema);
 

@@ -4,7 +4,7 @@ import type { z } from 'zod';
 
 import type { ZodValidator } from '../types/zod-validator.ts';
 
-export function parseJson<Z extends ZodValidator>(
+export function parseJson<Z extends ZodValidator<Z>>(
   text: string,
   validator: Z,
   reviver?: (this: unknown, key: string, value: unknown) => unknown,

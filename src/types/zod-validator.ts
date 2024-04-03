@@ -1,6 +1,3 @@
-import type { z } from 'zod';
+import type { z, ZodSchema } from 'zod';
 
-export type ZodValidator =
-  | z.ZodArray<z.ZodObject<z.ZodRawShape>>
-  | z.ZodObject<z.ZodRawShape>
-  | z.ZodRecord<z.ZodString, z.ZodString>;
+export type ZodValidator<Z extends ZodSchema> = ZodSchema<z.output<Z>>;

@@ -3,7 +3,7 @@ import type {
   QueryKey,
   QueryOptions as TanStackQueryOptions,
 } from '@tanstack/query-core';
-import type { z, ZodError } from 'zod';
+import type { z, ZodAny, ZodError } from 'zod';
 
 import type {
   PathVariablesRecord,
@@ -29,14 +29,14 @@ export type RequestDetails = {
   fetch: (
     options?: QueryOptions,
   ) => Promise<Error | Response | ZodError | undefined>;
-  fetchJson: <T extends ZodValidator>(
+  fetchJson: <T extends ZodValidator<T>>(
     options?: ParameterRequestOptions,
   ) => Promise<Error | z.output<T> | ZodError>;
   invalidateRequest: (
     options?: ParameterRequestOptions & QueryOptions,
   ) => Promise<void>;
   keys: (options?: ParameterRequestOptions) => Error | string[] | ZodError;
-  queryOptions: <T extends ZodValidator>(
+  queryOptions: <T extends ZodValidator<T>>(
     options?: QueryOptions,
   ) => TanStackQueryOptions<z.output<T>> & { queryKey: QueryKey };
   request: (options?: ParameterRequestOptions) => Error | Request | ZodError;
@@ -44,13 +44,13 @@ export type RequestDetails = {
 };
 
 export type RequestConfig = {
-  bodySchema?: ZodValidator;
+  bodySchema?: ZodValidator<ZodAny>;
   cacheInterval?: number;
   defaultRequestInit?: RequestInit;
   path: string;
-  pathSchema?: ZodValidator;
-  responseSchema?: ZodValidator;
-  searchParamsSchema?: ZodValidator;
+  pathSchema?: ZodValidator<ZodAny>;
+  responseSchema?: ZodValidator<ZodAny>;
+  searchParamsSchema?: ZodValidator<ZodAny>;
 };
 
 export type RequestConfigObject = Record<string, RequestConfig>;
