@@ -152,15 +152,11 @@ export class Api<T extends RequestConfigObject> {
   private createQueryOptions(item: RequestConfig, options?: QueryOptions) {
     const keys = this.createKeys(item, options);
 
-    if (isError(keys)) {
-      return keys;
-    }
-
     return {
       queryFn: async () => {
         return this.fetchJson(item, options);
       },
-      queryKey: keys,
+      queryKey: isError(keys) ? [] : keys,
       ...options?.queryOptions,
     };
   }
