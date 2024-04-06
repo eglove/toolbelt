@@ -10,7 +10,6 @@ import isNil from 'lodash/isNil.js';
 import type { FromUnit, ToUnit } from './conversion-types.ts';
 import { unitsMap } from './conversion-types.ts';
 
-// eslint-disable-next-line @typescript-eslint/max-params
 export function convertNumber<From extends FromUnit, To extends ToUnit<From>>(
   value: number,
   from: From,
