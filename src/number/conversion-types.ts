@@ -258,7 +258,7 @@ export const unitsMap = new Map<Set<string>, FactorDef[]>([
 ]);
 
 const unitMap = {
-  acre: [...areaUnits],
+  acre: ['square-foot'],
   'acre-foot': ['cubic-foot'],
   ampere: ['milliampere'],
   'arc-minute': ['degree'],
