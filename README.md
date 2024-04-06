@@ -1,3 +1,3 @@
-TypeScript utilities with error handling that is consistent, forced, and functional.
+TypeScript utilities with consistent, forced, and functional error handling.
 
 Test Report: https://toolbelt.pages.dev/
