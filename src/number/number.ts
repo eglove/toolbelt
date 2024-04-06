@@ -1,63 +1,11 @@
-import type {
-  Angle,
-  Area,
-  Data,
-  Energy,
-  Force,
-  Length,
-  Mass,
-  Power,
-  Pressure,
-  Temperature,
-  Time,
-  Volume,
-} from 'convert';
-import { convert } from 'convert';
 import isNil from 'lodash/isNil.js';
 
 import { isBigIntOrNumber } from '../is/big-int-or-number.ts';
+import { isNumber } from '../is/number.ts';
+import type { FromUnit, ToUnit } from './conversion-types.js';
+import { convertNumber } from './convert.ts';
 
 type FormatOptions = BigIntToLocaleStringOptions & Intl.NumberFormatOptions;
-
-type ConversionUnit =
-  | Angle
-  | Area
-  | Data
-  | Energy
-  | Force
-  | Length
-  | Mass
-  | Power
-  | Pressure
-  | Temperature
-  | Time
-  | Volume;
-
-type IsSameFamily<T extends ConversionUnit> = T extends Angle
-  ? Angle
-  : T extends Area
-    ? Area
-    : T extends Data
-      ? Data
-      : T extends Energy
-        ? Energy
-        : T extends Force
-          ? Force
-          : T extends Length
-            ? Length
-            : T extends Mass
-              ? Mass
-              : T extends Power
-                ? Power
-                : T extends Pressure
-                  ? Pressure
-                  : T extends Temperature
-                    ? Temperature
-                    : T extends Time
-                      ? Time
-                      : T extends Volume
-                        ? Volume
-                        : never;
 
 class BetterNumber {
   private readonly _locale?: Intl.LocalesArgument;
@@ -97,13 +45,12 @@ class BetterNumber {
     return this._number;
   }
 
-  public convert<From extends ConversionUnit, To extends IsSameFamily<From>>(
+  public convert<From extends FromUnit, To extends ToUnit<From>>(
     from: From,
     to: To,
   ) {
-    if (!isNil(this._number)) {
-      // @ts-expect-error ugh... this gives proper autocomplete
-      return convert(this._number, from).to(to);
+    if (!isNil(this._number) && isNumber(this._number)) {
+      return convertNumber(this._number, from, to);
     }
   }
 

@@ -5,12 +5,18 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@phensley/cldr':
+    specifier: ^1.8.0
+    version: 1.8.0
+  '@phensley/unit-converter':
+    specifier: ^1.8.0
+    version: 1.8.0
   '@total-typescript/ts-reset':
     specifier: ^0.5.1
     version: 0.5.1
-  convert:
-    specifier: ^5.0.0
-    version: 5.0.0
+  cldr-core:
+    specifier: ^44.1.0
+    version: 44.1.0
   idb:
     specifier: ^8.0.0
     version: 8.0.0
@@ -717,6 +723,101 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
     dev: true
+
+  /@phensley/cldr-core@1.8.0:
+    resolution: {integrity: sha512-k5gwXw7L9chGSUclQj/RnBlCNCbm+ZSB0c0qbuSCQteYdZNZbEBIOrva/iSuNFjKbhWHyhdBFzvNTq0gQ1nzMg==}
+    dependencies:
+      '@phensley/cldr-types': 1.8.0
+      '@phensley/cldr-utils': 1.8.0
+      '@phensley/decimal': 1.8.0
+      '@phensley/language-tag': 1.8.0
+      '@phensley/locale': 1.8.0
+      '@phensley/locale-matcher': 1.8.0
+      '@phensley/messageformat': 1.8.0
+      '@phensley/plurals': 1.8.0
+      '@phensley/timezone': 1.8.0
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/cldr-types@1.8.0:
+    resolution: {integrity: sha512-MK/iu9dqz1rPqTQLfiTCy4vL9EEXAUnNTMPEv5C/OCrwA7U+Yp3/zXGFNHKDimpIGd50yjzb8+xue5ASvzcTmw==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/cldr-utils@1.8.0:
+    resolution: {integrity: sha512-eL88075xl0yiLcYSsldU5zbM1cpj6usf4vpgVwr0WdyWVoxUaIImB1rsLYpEijvLciByNl5A4GA1Z8bVhTdyOA==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/cldr@1.8.0:
+    resolution: {integrity: sha512-4TcT8TJXovQ634ATqmS18cjPmL75GcqtUlN9oXPTh6H1pMffxAYs/34IvYLjkTK8+q69GyoorhVsnT/oGEmxlg==}
+    dependencies:
+      '@phensley/cldr-core': 1.8.0
+      '@phensley/cldr-utils': 1.8.0
+      '@phensley/messageformat': 1.8.0
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/decimal@1.8.0:
+    resolution: {integrity: sha512-XyQ1spq4K1EdDiQadlehTeysk13ovHRoo++HPIZ+3rGy2Eywjk5yifxJkA0C61cC54IjW2Xqey17hoffpWXbDg==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/language-tag@1.8.0:
+    resolution: {integrity: sha512-9zUKCZ2T4dtdaQs/hlcuDh5etH60ncUDBi5UlRuzzloXxmgLO/TNC3u6uYAzz4GBfDh787rVfOr/JnjNKAalyw==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/locale-matcher@1.8.0:
+    resolution: {integrity: sha512-x4ZdbknHGU7OKvNP3JUagmXJ+GTF5HiU33t1XJPMttuBMhlwRjyc6v/gDyXZ7D7INeqUYiVNQv09IE8xhVAa0w==}
+    dependencies:
+      '@phensley/language-tag': 1.8.0
+      '@phensley/locale': 1.8.0
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/locale@1.8.0:
+    resolution: {integrity: sha512-lc8FUoKnWhO2rQdpoBaRidmdxiGRWdIgsQQnPTSIZDxKuTWkLtq6Z490c8tXQqEXxTGbZeWNlrPkYjHuKGqW+A==}
+    dependencies:
+      '@phensley/language-tag': 1.8.0
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/messageformat@1.8.0:
+    resolution: {integrity: sha512-Ty2+4QrCK2KLNR3vwj2humgO79pyg/Z+monu4GMk7LP7XhXikyST/xoTN+0FPIwQ8KaE4ywDyw9GCTqQBDO+DQ==}
+    dependencies:
+      '@phensley/cldr-utils': 1.8.0
+      '@phensley/decimal': 1.8.0
+      '@phensley/plurals': 1.8.0
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/plurals@1.8.0:
+    resolution: {integrity: sha512-bXxOG1WrU522uFWWTgvePDNo7rWtOwUNRDNF0g/q+6kn+63cbveEkP1daGUzrrg1/ts71DjNFFyfRtKdL4P/Fw==}
+    dependencies:
+      '@phensley/decimal': 1.8.0
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/timezone@1.8.0:
+    resolution: {integrity: sha512-VTUaTrhSOhiqlIGNXXVVWO3z2SaxUQPU0Ro9JtmjMSxdYUohg80ZXOzfYm7OD1u2AcuVo3xFufkehUgO8ndiLQ==}
+    dependencies:
+      '@phensley/cldr-utils': 1.8.0
+      tslib: 2.6.2
+    dev: false
+
+  /@phensley/unit-converter@1.8.0:
+    resolution: {integrity: sha512-SThoJP+zmignCvEnd0wxdsBu9ciqDVfX6PrmadW/mPu5rs4zB3hdKWt7pzrAWstXQBi0hE0uWMSSqqOTrBElAw==}
+    dependencies:
+      '@phensley/cldr-types': 1.8.0
+      '@phensley/cldr-utils': 1.8.0
+      '@phensley/decimal': 1.8.0
+      tslib: 2.6.2
+    dev: false
 
   /@pkgjs/parseargs@0.11.0:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1599,6 +1700,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /cldr-core@44.1.0:
+    resolution: {integrity: sha512-ssbJaXu3pCkc4YqNC6xHhgleZG7YqnOFZ9laMlJfHOfnspoA9waI4AH54gKB3Fe/+wI4i3cVxKFdCTVGTRw+UA==}
+    dev: false
+
   /clean-regexp@1.0.0:
     resolution: {integrity: sha512-GfisEZEJvzKrmGWkvfhgzcz/BllN1USeqD2V6tg14OAOgaCD2Z/PUEuxnAZ/nPvmaHRG7a8y77p1T/IRQ4D1Hw==}
     engines: {node: '>=4'}
@@ -1661,10 +1766,6 @@ packages:
   /convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: true
-
-  /convert@5.0.0:
-    resolution: {integrity: sha512-29kAvWXhWpL2Lhhmseb0Y/sJnE4RA62TAwG9qTJP4dJvnABqFOLNLlwuYCiRYCeOfTD0GPkCJBlKDY50gDjVbg==}
-    dev: false
 
   /core-js-compat@3.36.1:
     resolution: {integrity: sha512-Dk997v9ZCt3X/npqzyGdTlq6t7lDBhZwGvV94PKzDArjp7BTRm7WlDAXYd/OWdeFHO8OChQYRJNJvUCqCbrtKA==}
@@ -4547,7 +4648,6 @@ packages:
 
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
-    dev: true
 
   /tsup@8.0.2(postcss@8.4.38)(typescript@5.4.3):
     resolution: {integrity: sha512-NY8xtQXdH7hDUAZwcQdY/Vzlw9johQsaqf7iwZ6g1DOUlFYQ5/AtVAjTvihhEyeRlGo4dLRVHtrRaL35M1daqQ==}

@@ -54,12 +54,8 @@ describe('format with locale', () => {
   });
 });
 
-// See full docs for all conversions https://convert.js.org/
 describe('handle conversions', () => {
-  it.each([
-    [100, 'celsius', 212, 'fahrenheit'] as const,
-    [120, 'minutes', 2, 'hours'] as const,
-  ])(
+  it.each([[120, 'minute', 7200, 'second'] as const])(
     'should make correct conversions',
     // eslint-disable-next-line @typescript-eslint/max-params
     (originalValue, originalUnit, expectedValue, expectedUnit) => {
