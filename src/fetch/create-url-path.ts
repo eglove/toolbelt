@@ -11,7 +11,7 @@ export type ParseUrlParameters<Url> =
         ? { [K in Parameter]: string }
         : NonNullable<unknown>;
 
-export function urlWithPathVariables<T extends string>(
+export function createUrlPath<T extends string>(
   path: T,
   parameters: ParseUrlParameters<T>,
   parametersSchema?: ZodSchema,

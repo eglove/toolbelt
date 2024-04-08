@@ -4,8 +4,8 @@ import isError from 'lodash/isError.js';
 import isNil from 'lodash/isNil.js';
 import type { ZodError, ZodSchema } from 'zod';
 
-import type { ParseUrlParameters } from './url-with-path-variables.ts';
-import { urlWithPathVariables } from './url-with-path-variables.ts';
+import type { ParseUrlParameters } from './create-url-path.ts';
+import { createUrlPath } from './create-url-path.ts';
 
 export type PathVariablesRecord = Record<string, number | string>;
 export type SearchParametersRecord = Record<
@@ -47,7 +47,7 @@ class UrlBuilder<Url extends string> {
 
   // eslint-disable-next-line max-statements,max-lines-per-function
   private buildUrl() {
-    const urlString = urlWithPathVariables(
+    const urlString = createUrlPath(
       this._configUrl,
       this._pathVariables ?? {},
       this._pathVariablesSchema,

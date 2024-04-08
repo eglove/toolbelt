@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { z, ZodError } from 'zod';
 
-import { urlWithPathVariables } from '../../src/fetch/url-with-path-variables.ts';
+import { createUrlPath } from '../../src/fetch/create-url-path.ts';
 
-describe('urlWithPathVariables', () => {
+describe('createUrlPath', () => {
   it('should build path with correct variables', () => {
-    const result = urlWithPathVariables(
+    const result = createUrlPath(
       'user/:userId',
       { userId: '2' },
       z.object({ userId: z.string() }),
@@ -15,7 +15,7 @@ describe('urlWithPathVariables', () => {
   });
 
   it('should build path with optional variables', () => {
-    const result = urlWithPathVariables(
+    const result = createUrlPath(
       'user/:userId/dashboard(/:dashboardId)',
       {
         userId: '2',
@@ -27,7 +27,7 @@ describe('urlWithPathVariables', () => {
   });
 
   it('should be a type error when missing userId', () => {
-    const result = urlWithPathVariables(
+    const result = createUrlPath(
       'user/:userId/dashboard(/:dashboardId)',
       // @ts-expect-error allow for test
       { dashboardId: '2' },
