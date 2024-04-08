@@ -4,31 +4,34 @@ import isError from 'lodash/isError.js';
 import isNil from 'lodash/isNil.js';
 import type { ZodError, ZodSchema } from 'zod';
 
+import type { ParseUrlParameters } from './url-with-path-variables.ts';
+import { urlWithPathVariables } from './url-with-path-variables.ts';
+
 export type PathVariablesRecord = Record<string, number | string>;
 export type SearchParametersRecord = Record<
   string,
   number[] | string[] | number | string | undefined
 >;
 
-export type UrlConfig = {
-  pathVariables?: PathVariablesRecord;
+export type UrlConfig<Url extends string> = {
+  pathVariables?: ParseUrlParameters<Url>;
   pathVariablesSchema?: ZodSchema;
   searchParams?: SearchParametersRecord;
   searchParamsSchema?: ZodSchema;
   urlBase?: URL | string;
 };
 
-class UrlBuilder {
+class UrlBuilder<Url extends string> {
   // @ts-expect-error built in constructor
   private _url: Error | URL | ZodError;
-  private readonly _configUrl: URL | string;
+  private readonly _configUrl: string;
   private readonly _searchParameters?: SearchParametersRecord;
   private readonly _pathVariables?: PathVariablesRecord;
-  private readonly _config: UrlConfig | undefined;
+  private readonly _config: UrlConfig<Url> | undefined;
   private readonly _searchParametersSchema?: ZodSchema;
   private readonly _pathVariablesSchema?: ZodSchema;
 
-  public constructor(urlString: URL | string, config?: UrlConfig) {
+  public constructor(urlString: Url, config?: UrlConfig<Url>) {
     this._configUrl = urlString;
     this._config = config;
     this._pathVariables = config?.pathVariables;
@@ -44,36 +47,15 @@ class UrlBuilder {
 
   // eslint-disable-next-line max-statements,max-lines-per-function
   private buildUrl() {
-    let urlString = this._configUrl.toString();
+    const urlString = urlWithPathVariables(
+      this._configUrl,
+      this._pathVariables ?? {},
+      this._pathVariablesSchema,
+    );
 
-    const { _pathVariables, _pathVariablesSchema } = this;
-    if (!isNil(_pathVariables)) {
-      if (isNil(_pathVariablesSchema)) {
-        this._url = new Error('must provide path variables schema');
-        return;
-      }
-
-      const parsePathVariables = _pathVariablesSchema.safeParse(
-        this._pathVariables,
-      );
-
-      if (!parsePathVariables.success) {
-        this._url = parsePathVariables.error;
-        return;
-      }
-
-      for (const key in _pathVariables) {
-        if (Object.hasOwn(_pathVariables, key)) {
-          const includesColon = urlString.includes(':');
-
-          if (includesColon) {
-            urlString = urlString.replaceAll(
-              new RegExp(`:${key}`, 'gu'),
-              String(_pathVariables[key]),
-            );
-          }
-        }
-      }
+    if (isError(urlString)) {
+      this._url = urlString;
+      return;
     }
 
     const url = attempt(() => {
@@ -105,7 +87,7 @@ class UrlBuilder {
 
   // eslint-disable-next-line max-statements
   private buildSearchParameters(
-    parameters: UrlConfig['searchParams'],
+    parameters: UrlConfig<Url>['searchParams'],
   ): Error | URLSearchParams | ZodError {
     const searchParameters = new URLSearchParams();
 
@@ -142,6 +124,9 @@ class UrlBuilder {
   }
 }
 
-export function createUrl(urlString: string, config?: UrlConfig) {
+export function createUrl<Url extends string>(
+  urlString: Url,
+  config?: UrlConfig<Url>,
+) {
   return new UrlBuilder(urlString, config).url;
 }

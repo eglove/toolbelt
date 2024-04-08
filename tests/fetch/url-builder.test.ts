@@ -8,8 +8,8 @@ import { createUrl } from '../../src/fetch/create-url.ts';
 describe('url builder', () => {
   it('build the url', () => {
     const url = createUrl('todos/:id', {
-      pathVariables: { id: 2 },
-      pathVariablesSchema: z.object({ id: z.number() }),
+      pathVariables: { id: '2' },
+      pathVariablesSchema: z.object({ id: z.string() }),
       searchParams: { filter: 'done', orderBy: 'due' },
       searchParamsSchema: z.object({ filter: z.string(), orderBy: z.string() }),
       urlBase: 'https://jsonplaceholder.typicode.com',
@@ -64,12 +64,12 @@ describe('url builder', () => {
     });
 
     expect(isError(badUrl)).toBe(true);
-    expect(badUrl).toBeInstanceOf(ZodError);
+    expect(badUrl).toBeInstanceOf(Error);
   });
 
   it('should return error if path variables are found but schema is not', () => {
     const url = createUrl('todos', {
-      pathVariables: { id: 1 },
+      pathVariables: { id: '2' },
       urlBase: 'http://example.com',
     });
 
@@ -115,6 +115,24 @@ describe('url builder', () => {
 
     if (url instanceof Error) {
       expect(url.message).toBe('must provide search parameters schema');
+    }
+  });
+
+  it('should allow optional path variables', () => {
+    const url = createUrl('user/:userId/dashboard/(:dashboardId)', {
+      pathVariables: { userId: '3' },
+      pathVariablesSchema: z.object({
+        dashboardId: z.string().optional(),
+        userId: z.string(),
+      }),
+      urlBase: 'http://example.com',
+    });
+
+    expect(isError(url)).toBe(false);
+    expect(url).toBeInstanceOf(URL);
+
+    if (url instanceof URL) {
+      expect(url.toString()).toBe('http://example.com/user/3/dashboard/');
     }
   });
 });
