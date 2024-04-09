@@ -92,7 +92,7 @@ class Fetcher {
         database
           .transaction(Fetcher._DB_NAME, 'readwrite')
           .objectStore(Fetcher._DB_NAME)
-          .put({ expires, key: requestKey } satisfies RequestMeta),
+          .put({ expires, key: requestKey.join(',') } satisfies RequestMeta),
       ]);
     });
 
@@ -105,7 +105,7 @@ class Fetcher {
     });
   }
 
-  public getRequestKeys(): string {
+  public getRequestKeys(): string[] {
     return requestKeys(this.request);
   }
 
@@ -118,9 +118,10 @@ class Fetcher {
 
     const requestKey = this.getRequestKeys();
 
-    const cachedMeta = (await database.get(Fetcher._DB_NAME, requestKey)) as
-      | RequestMeta
-      | undefined;
+    const cachedMeta = (await database.get(
+      Fetcher._DB_NAME,
+      requestKey.join(','),
+    )) as RequestMeta | undefined;
 
     if (cachedMeta === undefined) {
       return true;
@@ -137,7 +138,7 @@ class Fetcher {
     }
 
     const requestKey = this.getRequestKeys();
-    await database.delete(Fetcher._DB_NAME, requestKey);
+    await database.delete(Fetcher._DB_NAME, requestKey.join(','));
   }
 
   private readonly getRequestDatabase = async () => {
