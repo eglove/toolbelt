@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { requestKey } from '../../src/fetch/request-key.ts';
+import { requestKeys } from '../../src/fetch/request-keys.ts';
 
 describe('request key', () => {
   it('should return correct key for GET request', () => {
@@ -12,10 +12,14 @@ describe('request key', () => {
       },
     );
 
-    const result = requestKey(request);
-    expect(result).toEqual(
-      'GET,https://test.com,/path,param1=test1param2=test2,Accept-Language',
-    );
+    const result = requestKeys(request);
+    expect(result).toEqual([
+      'GET',
+      'https://test.com',
+      '/path',
+      'param1=test1param2=test2',
+      'Accept-Language',
+    ]);
   });
 
   it('should return correct key for POST request', () => {
@@ -24,8 +28,13 @@ describe('request key', () => {
       method: 'POST',
     });
 
-    const result = requestKey(request);
-    expect(result).toEqual('POST,https://test.com,/path,Accept-Language');
+    const result = requestKeys(request);
+    expect(result).toEqual([
+      'POST',
+      'https://test.com',
+      '/path',
+      'Accept-Language',
+    ]);
   });
 
   it('should return correct key when no Vary header', () => {
@@ -33,8 +42,8 @@ describe('request key', () => {
       method: 'GET',
     });
 
-    const result = requestKey(request);
-    expect(result).toEqual('GET,https://test.com,/path');
+    const result = requestKeys(request);
+    expect(result).toEqual(['GET', 'https://test.com', '/path']);
   });
 
   it('should return correct key when no parameters', () => {
@@ -43,7 +52,12 @@ describe('request key', () => {
       method: 'GET',
     });
 
-    const result = requestKey(request);
-    expect(result).toEqual('GET,https://test.com,/path,Accept-Language');
+    const result = requestKeys(request);
+    expect(result).toEqual([
+      'GET',
+      'https://test.com',
+      '/path',
+      'Accept-Language',
+    ]);
   });
 });

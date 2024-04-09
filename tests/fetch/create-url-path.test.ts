@@ -36,4 +36,14 @@ describe('createUrlPath', () => {
 
     expect(result).toBeInstanceOf(ZodError);
   });
+
+  it('should return error if not path variable schema is provided', () => {
+    const result = createUrlPath('user/:userId', { userId: '2' });
+
+    expect(result).toBeInstanceOf(Error);
+
+    if (result instanceof Error) {
+      expect(result.message).toBe('must provide path variables schema');
+    }
+  });
 });

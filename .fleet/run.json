@@ -1,0 +1,9 @@
+{
+    "configurations": [
+        {
+            "type": "vitest",
+            "name": "Vitest configuration",
+            "file": ".",
+        },
+    ]
+}

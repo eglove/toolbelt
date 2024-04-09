@@ -21,7 +21,11 @@ describe('fetcher', () => {
     expect(fetcher.request).toBeInstanceOf(Request);
     expect(fetcher.cacheKey).toBe('cache');
     expect(fetcher.cacheInterval).toBe(101);
-    expect(fetcher.getRequestKey()).toBe('GET,https://example.com,/');
+    expect(fetcher.getRequestKeys()).toStrictEqual([
+      'GET',
+      'https://example.com',
+      '/',
+    ]);
   });
 
   it('should call fetch and return data', async () => {

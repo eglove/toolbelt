@@ -4,7 +4,7 @@ import isError from 'lodash/isError.js';
 import isNil from 'lodash/isNil.js';
 
 import { isBrowser } from '../is/browser.ts';
-import { requestKey } from './request-key.ts';
+import { requestKeys } from './request-keys.ts';
 
 type FetcherOptions = {
   cacheInterval?: number;
@@ -61,7 +61,7 @@ class Fetcher {
     }
 
     const cache = await caches.open(this._cacheKey);
-    const requestKey = this.getRequestKey();
+    const requestKey = this.getRequestKeys();
     const database = await this.getRequestDatabase();
 
     if (isError(database)) {
@@ -105,8 +105,8 @@ class Fetcher {
     });
   }
 
-  public getRequestKey(): string {
-    return requestKey(this.request);
+  public getRequestKeys(): string {
+    return requestKeys(this.request);
   }
 
   public async isExpired(): Promise<Error | boolean> {
@@ -116,7 +116,7 @@ class Fetcher {
       return database;
     }
 
-    const requestKey = this.getRequestKey();
+    const requestKey = this.getRequestKeys();
 
     const cachedMeta = (await database.get(Fetcher._DB_NAME, requestKey)) as
       | RequestMeta
@@ -136,7 +136,7 @@ class Fetcher {
       return database;
     }
 
-    const requestKey = this.getRequestKey();
+    const requestKey = this.getRequestKeys();
     await database.delete(Fetcher._DB_NAME, requestKey);
   }
 

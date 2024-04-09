@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty.js';
 
-export function requestKey(request: Request) {
+export function requestKeys(request: Request): string[] {
   const url = new URL(request.url);
 
   return [
@@ -13,9 +13,7 @@ export function requestKey(request: Request) {
       })
       .join(''),
     request.headers.get('Vary'),
-  ]
-    .filter(item => {
-      return !isEmpty(item);
-    })
-    .join(',');
+  ].filter(item => {
+    return !isEmpty(item);
+  }) as string[];
 }

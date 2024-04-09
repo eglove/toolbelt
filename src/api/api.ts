@@ -14,7 +14,7 @@ import { cacheBust } from '../fetch/cache-bust.ts';
 import { createUrl } from '../fetch/create-url.ts';
 import { createFetcher } from '../fetch/fetcher.ts';
 import { parseFetchJson } from '../fetch/json.ts';
-import { requestKey } from '../fetch/request-key.ts';
+import { requestKeys } from '../fetch/request-keys.ts';
 import { parseJson } from '../json/json.ts';
 import type { ZodValidator } from '../types/zod-validator.js';
 import type {
@@ -150,7 +150,7 @@ export class Api<T extends RequestConfigObject> {
       return request;
     }
 
-    return [requestKey(request)];
+    return requestKeys(request);
   }
 
   private createQueryOptions<T extends ZodValidator<T>>(
