@@ -1,7 +1,7 @@
 import { projectBuilder } from '@ethang/project-builder/project-builder.js';
 
 await projectBuilder('toolbelt', 'main', {
-  preVersionBumpScripts: ['UPDATE', 'PRUNE'],
+  preVersionBumpScripts: ['UPDATE'],
   postVersionBumpScripts: ['DEDUPE', 'LINT', 'TEST'],
   publishDirectory: 'dist',
   isLibrary: true,
