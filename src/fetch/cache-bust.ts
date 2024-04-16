@@ -1,4 +1,4 @@
-import { createFetcher } from './fetcher.ts';
+import { createFetcher } from "./fetcher.ts";
 
 export async function cacheBust(request: Request) {
   const fetcher = createFetcher({ request });
