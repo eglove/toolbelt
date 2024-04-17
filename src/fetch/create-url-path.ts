@@ -1,6 +1,7 @@
-import isEmpty from 'lodash/isEmpty.js';
-import isNil from 'lodash/isNil.js';
-import type { ZodError, ZodSchema } from 'zod';
+import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
+import type { ReadonlyDeep } from "type-fest";
+import type { ZodError, ZodSchema } from "zod";
 
 export type ParseUrlParameters<Url> =
   Url extends `${infer Path}(${infer OptionalPath})`
@@ -11,15 +12,15 @@ export type ParseUrlParameters<Url> =
         ? { [K in Parameter]: string }
         : NonNullable<unknown>;
 
-export function createUrlPath<T extends string>(
+export const createUrlPath = <T extends string>(
   path: T,
-  parameters: ParseUrlParameters<T>,
-  parametersSchema?: ZodSchema,
-): Error | ZodError<typeof parametersSchema> | string {
+  parameters: ReadonlyDeep<ParseUrlParameters<T>>,
+  parametersSchema?: ReadonlyDeep<ZodSchema>,
+): Error | ZodError<typeof parametersSchema> | string => {
   let url = String(path);
 
   if (!isEmpty(parameters) && isNil(parametersSchema)) {
-    return new Error('must provide path variables schema');
+    return new Error("must provide path variables schema");
   }
 
   if (!isNil(parametersSchema)) {
@@ -34,5 +35,5 @@ export function createUrlPath<T extends string>(
     url = path.replace(`:${key}`, value);
   }
 
-  return url.replaceAll(/(\(|\)|\/?:[^/]+)/g, '');
-}
+  return url.replaceAll(/(\(|\)|\/?:[^/]+)/g, "");
+};

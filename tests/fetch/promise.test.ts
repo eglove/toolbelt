@@ -1,24 +1,24 @@
-import isError from 'lodash/isError.js';
-import { describe, expect, it } from 'vitest';
+import isError from "lodash/isError.js";
+import { describe, expect, it } from "vitest";
 
-import { promiseAllSettled } from '../../src/fetch/promise.ts';
+import { promiseAllSettled } from "../../src/fetch/promise.ts";
 
 const promiseFunction = async (value: number) => {
   return new Promise<string>((resolve, reject) => {
     if (value === 0) {
       setTimeout(() => {
-        reject(new Error('wrong number'));
+        reject(new Error("wrong number"));
       }, 3);
     } else {
       setTimeout(() => {
-        resolve('good!');
+        resolve("good!");
       }, 3);
     }
   });
 };
 
-describe('promiseAllSettled', () => {
-  it('should work with proper types', async () => {
+describe("promiseAllSettled", () => {
+  it("should work with proper types", async () => {
     const results = await promiseAllSettled({
       fail: promiseFunction(0),
       success: promiseFunction(1),
@@ -28,20 +28,19 @@ describe('promiseAllSettled', () => {
     expect(isError(results.fail)).toBe(true);
     expect(results.fail).toBeInstanceOf(Error);
 
-    expect(results.success).toBe('good!');
+    expect(results.success).toBe("good!");
 
     if (results.fail instanceof Error) {
-      expect(results.fail.message).toBe('wrong number');
+      expect(results.fail.message).toBe("wrong number");
     }
   });
 
-  it('should be faster than sequential promises', async () => {
+  it("should be faster than sequential promises", async () => {
     const startSequential = performance.now();
     await promiseFunction(1);
     await promiseFunction(2);
     await promiseFunction(3);
     const sequential = performance.now() - startSequential;
-
     const startAll = performance.now();
     await promiseAllSettled({
       promise1: promiseFunction(1),

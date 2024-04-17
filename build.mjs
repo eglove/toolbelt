@@ -1,21 +1,21 @@
-import { projectBuilder } from '@ethang/project-builder/project-builder.js';
+import { projectBuilder } from "@ethang/project-builder/project-builder.js";
 
-await projectBuilder('toolbelt', 'main', {
-  preVersionBumpScripts: ['UPDATE'],
-  postVersionBumpScripts: ['DEDUPE', 'LINT', 'TEST'],
-  publishDirectory: 'dist',
+await projectBuilder("toolbelt", "maipnpmn", {
   isLibrary: true,
+  postVersionBumpScripts: ["DEDUPE", "LINT", "TEST"],
+  preVersionBumpScripts: ["UPDATE"],
+  publishDirectory: "dist",
   tsConfigOverrides: {
-    include: ['src'],
     compilerOptions: {
       emitDeclarationOnly: true,
     },
+    include: ["src"],
   },
   tsupOptions: {
-    format: ['cjs', 'esm'],
-    minify: true,
-    outDir: 'dist',
-    entry: ['src'],
     bundle: true,
+    entry: ["src"],
+    format: ["cjs", "esm"],
+    minify: true,
+    outDir: "dist",
   },
 });

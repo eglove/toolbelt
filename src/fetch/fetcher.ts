@@ -1,16 +1,17 @@
-import { openDB } from 'idb';
-import attempt from 'lodash/attempt.js';
-import isError from 'lodash/isError.js';
-import isNil from 'lodash/isNil.js';
+import { openDB } from "idb";
+import attempt from "lodash/attempt.js";
+import isError from "lodash/isError.js";
+import isNil from "lodash/isNil.js";
+import type { ReadonlyDeep } from "type-fest";
 
-import { isBrowser } from '../is/browser.ts';
-import { requestKeys } from './request-keys.ts';
+import { isBrowser } from "../is/browser.ts";
+import { requestKeys } from "./request-keys.ts";
 
-type FetcherOptions = {
+type FetcherOptions = ReadonlyDeep<{
   cacheInterval?: number;
   cacheKey?: string;
   request: Request;
-};
+}>;
 
 type RequestMeta = {
   expires: Date;
@@ -18,15 +19,15 @@ type RequestMeta = {
 };
 
 class Fetcher {
-  private static readonly _DB_NAME = 'requests';
-  private static readonly _DB_KEY = 'key';
+  private static readonly _DB_NAME = "requests";
+  private static readonly _DB_KEY = "key";
 
   private _cacheInterval: number;
   private readonly _cacheKey: string;
   private readonly _request: Request;
 
   public constructor({ cacheKey, cacheInterval, request }: FetcherOptions) {
-    this._cacheKey = cacheKey ?? 'cache';
+    this._cacheKey = cacheKey ?? "cache";
     this._cacheInterval = cacheInterval ?? 0;
     this._request = request;
   }
@@ -47,13 +48,12 @@ class Fetcher {
     this._cacheInterval = interval;
   }
 
-  // eslint-disable-next-line max-lines-per-function,max-statements
   public async fetch(): Promise<Error | Response | undefined> {
     if (
       !isBrowser ||
       isNil(this._cacheInterval) ||
       this._cacheInterval <= 0 ||
-      this._request.method !== 'GET'
+      this._request.method !== "GET"
     ) {
       return attempt(async () => {
         return fetch(this._request);
@@ -90,9 +90,9 @@ class Fetcher {
       return Promise.all([
         cache.add(this._request),
         database
-          .transaction(Fetcher._DB_NAME, 'readwrite')
+          .transaction(Fetcher._DB_NAME, "readwrite")
           .objectStore(Fetcher._DB_NAME)
-          .put({ expires, key: requestKey.join(',') } satisfies RequestMeta),
+          .put({ expires, key: requestKey.join(",") } satisfies RequestMeta),
       ]);
     });
 
@@ -117,10 +117,9 @@ class Fetcher {
     }
 
     const requestKey = this.getRequestKeys();
-
     const cachedMeta = (await database.get(
       Fetcher._DB_NAME,
-      requestKey.join(','),
+      requestKey.join(","),
     )) as RequestMeta | undefined;
 
     if (cachedMeta === undefined) {
@@ -138,7 +137,7 @@ class Fetcher {
     }
 
     const requestKey = this.getRequestKeys();
-    await database.delete(Fetcher._DB_NAME, requestKey.join(','));
+    await database.delete(Fetcher._DB_NAME, requestKey.join(","));
   }
 
   private readonly getRequestDatabase = async () => {
@@ -146,6 +145,7 @@ class Fetcher {
 
     return attempt(async () => {
       return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME, DB_VERSION, {
+        // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
         upgrade(database_) {
           const store = database_.createObjectStore(Fetcher._DB_NAME, {
             keyPath: Fetcher._DB_KEY,
@@ -157,6 +157,6 @@ class Fetcher {
   };
 }
 
-export function createFetcher(options: FetcherOptions): Fetcher {
+export const createFetcher = (options: FetcherOptions): Fetcher => {
   return new Fetcher(options);
-}
+};

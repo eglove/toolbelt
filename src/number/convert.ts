@@ -1,20 +1,20 @@
-import type { FactorDef } from '@phensley/unit-converter';
 import {
   DIGITAL_DECIMAL,
+  type FactorDef,
   UnitFactors,
   VOLUME,
   VOLUME_UK,
-} from '@phensley/unit-converter';
-import isNil from 'lodash/isNil.js';
+} from "@phensley/unit-converter";
+import isNil from "lodash/isNil.js";
 
-import type { FromUnit, ToUnit } from './conversion-types.ts';
-import { unitsMap } from './conversion-types.ts';
+import type { FromUnit, ToUnit } from "./conversion-types.ts";
+import { unitsMap } from "./conversion-types.ts";
 
-export function convertNumber<From extends FromUnit, To extends ToUnit<From>>(
+export const convertNumber = <From extends FromUnit, To extends ToUnit<From>>(
   value: number,
   from: From,
   to: To,
-) {
+) => {
   let factorDefinition: FactorDef[] = [];
   let mutableTo = to;
   let mutableFrom = from;
@@ -25,18 +25,18 @@ export function convertNumber<From extends FromUnit, To extends ToUnit<From>>(
 
       switch (factorDefinitions) {
         case DIGITAL_DECIMAL: {
-          mutableTo = to.replace('Decimal', '') as To;
-          mutableFrom = from.replace('Decimal', '') as From;
+          mutableTo = to.replace("Decimal", "") as To;
+          mutableFrom = from.replace("Decimal", "") as From;
           break;
         }
         case VOLUME: {
-          mutableTo = to.replace('-US', '') as To;
-          mutableFrom = from.replace('-US', '') as From;
+          mutableTo = to.replace("-US", "") as To;
+          mutableFrom = from.replace("-US", "") as From;
           break;
         }
         case VOLUME_UK: {
-          mutableTo = to.replace('-UK', '') as To;
-          mutableFrom = from.replace('-UK', '') as From;
+          mutableTo = to.replace("-UK", "") as To;
+          mutableFrom = from.replace("-UK", "") as From;
           break;
         }
         // No default
@@ -50,8 +50,8 @@ export function convertNumber<From extends FromUnit, To extends ToUnit<From>>(
   const factor = factors.get(mutableFrom, mutableTo);
 
   if (isNil(factor)) {
-    return new Error('conversion not possible');
+    return new Error("conversion not possible");
   }
 
   return Number(factor.factors[0].multiply(value).toDecimal().toString());
-}
+};

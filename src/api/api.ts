@@ -2,21 +2,22 @@ import type {
   QueryClient,
   QueryKey,
   QueryOptions as TanStackQueryOptions,
-} from '@tanstack/query-core';
-import forEach from 'lodash/forEach.js';
-import get from 'lodash/get.js';
-import isError from 'lodash/isError.js';
-import isNil from 'lodash/isNil.js';
-import merge from 'lodash/merge.js';
-import type { z, ZodError } from 'zod';
+} from "@tanstack/query-core";
+import forEach from "lodash/forEach.js";
+import get from "lodash/get.js";
+import isError from "lodash/isError.js";
+import isNil from "lodash/isNil.js";
+import merge from "lodash/merge.js";
+import type { Merge, ReadonlyDeep } from "type-fest";
+import type { z, ZodError } from "zod";
 
-import { cacheBust } from '../fetch/cache-bust.ts';
-import { createUrl } from '../fetch/create-url.ts';
-import { createFetcher } from '../fetch/fetcher.ts';
-import { parseFetchJson } from '../fetch/json.ts';
-import { requestKeys } from '../fetch/request-keys.ts';
-import { parseJson } from '../json/json.ts';
-import type { ZodValidator } from '../types/zod-validator.js';
+import { cacheBust } from "../fetch/cache-bust.ts";
+import { createUrl } from "../fetch/create-url.ts";
+import { createFetcher } from "../fetch/fetcher.ts";
+import { parseFetchJson } from "../fetch/json.ts";
+import { requestKeys } from "../fetch/request-keys.ts";
+import { parseJson } from "../json/json.ts";
+import type { ZodValidator } from "../types/zod-validator.js";
 import type {
   ApiConstructor,
   ParameterOptions,
@@ -25,12 +26,12 @@ import type {
   RequestConfig,
   RequestConfigObject,
   RequestDetails,
-} from './api-types.ts';
+} from "./api-types.ts";
 
 export class Api<T extends RequestConfigObject> {
-  private readonly _queryClient?: QueryClient;
+  private readonly _queryClient?: ReadonlyDeep<QueryClient>;
   private readonly _baseUrl: string;
-  private readonly _defaultRequestInit?: RequestInit;
+  private readonly _defaultRequestInit?: ReadonlyDeep<RequestInit>;
   private readonly _requestConfig?: RequestConfigObject;
   private readonly _defaultCacheInterval?: number;
   // @ts-expect-error initialized in constructor
@@ -65,21 +66,21 @@ export class Api<T extends RequestConfigObject> {
         fetch: async (options?: QueryOptions) => {
           return this.fetch(item, options);
         },
-        fetchJson: async <T extends ZodValidator<T>>(
+        fetchJson: async <JSON extends ZodValidator<JSON>>(
           options?: ParameterRequestOptions,
         ) => {
-          return this.fetchJson<T>(item, options);
+          return this.fetchJson<JSON>(item, options);
         },
         invalidateRequest: async (
-          options?: ParameterRequestOptions & QueryOptions,
+          options?: Merge<ParameterRequestOptions, QueryOptions>,
         ) => {
           return this.invalidateRequest(item, options);
         },
         keys: (options?: ParameterRequestOptions) => {
           return this.createKeys(item, options);
         },
-        queryOptions: <T extends ZodValidator<T>>(options?: QueryOptions) => {
-          return this.createQueryOptions<T>(item, options);
+        queryOptions: <V extends ZodValidator<V>>(options?: QueryOptions) => {
+          return this.createQueryOptions<V>(item, options);
         },
         request: (options?: ParameterRequestOptions) => {
           return this.createRequest(item, options);
@@ -118,10 +119,10 @@ export class Api<T extends RequestConfigObject> {
     return fetcher.fetch();
   }
 
-  private async fetchJson<T extends ZodValidator<T>>(
+  private async fetchJson<JSON extends ZodValidator<JSON>>(
     item: RequestConfig,
     options?: QueryOptions,
-  ): Promise<Error | z.output<T> | ZodError> {
+  ): Promise<Error | z.output<JSON> | ZodError> {
     const response = await this.fetch(item, options);
 
     if (isError(response)) {
@@ -129,15 +130,15 @@ export class Api<T extends RequestConfigObject> {
     }
 
     if (isNil(response)) {
-      return new Error('failed to get response');
+      return new Error("failed to get response");
     }
 
     if (isNil(item.responseSchema)) {
-      return new Error('no responseSchema provided');
+      return new Error("no responseSchema provided");
     }
 
     // @ts-expect-error force this
-    return parseFetchJson<T>(response, item.responseSchema);
+    return parseFetchJson<JSON>(response, item.responseSchema);
   }
 
   private createKeys(
@@ -153,7 +154,7 @@ export class Api<T extends RequestConfigObject> {
     return requestKeys(request);
   }
 
-  private createQueryOptions<T extends ZodValidator<T>>(
+  private createQueryOptions<V extends ZodValidator<V>>(
     item: RequestConfig,
     options?: QueryOptions,
   ) {
@@ -161,11 +162,11 @@ export class Api<T extends RequestConfigObject> {
 
     return {
       queryFn: async () => {
-        return this.fetchJson<T>(item, options);
+        return this.fetchJson<V>(item, options);
       },
       queryKey: isError(keys) ? [] : keys,
       ...options?.queryOptions,
-    } as TanStackQueryOptions<z.output<T>> & { queryKey: QueryKey };
+    } as TanStackQueryOptions<z.output<V>> & { queryKey: QueryKey };
   }
 
   private createRequest(
@@ -197,7 +198,7 @@ export class Api<T extends RequestConfigObject> {
       options?.requestInit,
     );
 
-    return new Request(url, requestInit);
+    return new Request(url, requestInit as RequestInit);
   }
 
   private async invalidateRequest(
@@ -219,14 +220,14 @@ export class Api<T extends RequestConfigObject> {
     requestConfig: RequestConfig,
     options?: ParameterRequestOptions,
   ): Error | ZodError | undefined {
-    const body = get(options, 'requestInit.body');
+    const body = get(options, "requestInit.body");
 
     if (isNil(requestConfig.bodySchema) && !isNil(body)) {
-      return new Error('no bodySchema provided');
+      return new Error("no bodySchema provided");
     }
 
     if (!isNil(requestConfig.bodySchema) && !isNil(body)) {
-      if (typeof body === 'string') {
+      if (typeof body === "string") {
         return this.validateRequestBodyString(body, requestConfig.bodySchema);
       }
 
@@ -240,12 +241,12 @@ export class Api<T extends RequestConfigObject> {
     return undefined;
   }
 
-  private validateRequestBodyString<T extends ZodValidator<T>>(
+  private readonly validateRequestBodyString = <V extends ZodValidator<V>>(
     body: string,
-    bodySchema: ZodValidator<T>,
-  ): Error | ZodError | undefined {
-    const parsedString = parseJson(body, bodySchema);
+    bodySchema: ReadonlyDeep<ZodValidator<V>>,
+  ): Error | ZodError | undefined => {
+    const parsedString = parseJson(body, bodySchema as ZodValidator<V>);
 
     return isError(parsedString) ? parsedString : undefined;
-  }
+  };
 }

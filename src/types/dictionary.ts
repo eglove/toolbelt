@@ -13,8 +13,8 @@ export type FieldWithPossiblyUndefined<T, Key> =
 export type GetIndexedField<T, K> = K extends keyof T
   ? T[K]
   : K extends `${number}`
-    ? 'length' extends keyof T
-      ? number extends T['length']
+    ? "length" extends keyof T
+      ? number extends T["length"]
         ? number extends keyof T
           ? T[number]
           : undefined

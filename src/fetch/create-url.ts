@@ -1,11 +1,12 @@
-import attempt from 'lodash/attempt.js';
-import isError from 'lodash/isError.js';
-import isNil from 'lodash/isNil.js';
-import type { ZodError, ZodSchema } from 'zod';
+import attempt from "lodash/attempt.js";
+import isError from "lodash/isError.js";
+import isNil from "lodash/isNil.js";
+import type { ReadonlyDeep } from "type-fest";
+import type { ZodError, ZodSchema } from "zod";
 
-import { createSearchParameters } from './create-search-parameters.ts';
-import type { ParseUrlParameters } from './create-url-path.ts';
-import { createUrlPath } from './create-url-path.ts';
+import { createSearchParameters } from "./create-search-parameters.ts";
+import type { ParseUrlParameters } from "./create-url-path.ts";
+import { createUrlPath } from "./create-url-path.ts";
 
 export type PathVariablesRecord = Record<string, number | string>;
 export type SearchParametersRecord = Record<
@@ -13,25 +14,29 @@ export type SearchParametersRecord = Record<
   number[] | string[] | number | string | undefined
 >;
 
-export type UrlConfig<Url extends string> = {
+export type UrlConfig<Url extends string> = ReadonlyDeep<{
   pathVariables?: ParseUrlParameters<Url>;
   pathVariablesSchema?: ZodSchema;
   searchParams?: SearchParametersRecord;
   searchParamsSchema?: ZodSchema;
   urlBase?: URL | string;
-};
+}>;
 
-export function createUrl<Url extends string>(
+export const createUrl = <Url extends string>(
   urlString: Url,
   config?: UrlConfig<Url>,
-): Error | URL | ZodError {
-  if (!isNil(config?.pathVariables) && isNil(config.pathVariablesSchema)) {
-    return new Error('must provide path variables schema');
+): Error | URL | ZodError => {
+  if (
+    !isNil(config) &&
+    !isNil(config.pathVariables) &&
+    isNil(config.pathVariablesSchema)
+  ) {
+    return new Error("must provide path variables schema");
   }
 
   let mutableUrlString = urlString;
 
-  if (!isNil(config?.pathVariables)) {
+  if (!isNil(config) && !isNil(config.pathVariables)) {
     const path = createUrlPath(
       urlString,
       config.pathVariables,
@@ -46,18 +51,29 @@ export function createUrl<Url extends string>(
   }
 
   const url = attempt(() => {
-    return new URL(mutableUrlString, config?.urlBase);
+    return new URL(
+      mutableUrlString,
+      config?.urlBase as string | URL | undefined,
+    );
   });
 
   if (isError(url)) {
     return url;
   }
 
-  if (!isNil(config?.searchParams) && isNil(config.searchParamsSchema)) {
-    return new Error('must provide search parameters schema');
+  if (
+    !isNil(config) &&
+    !isNil(config.searchParams) &&
+    isNil(config.searchParamsSchema)
+  ) {
+    return new Error("must provide search parameters schema");
   }
 
-  if (!isNil(config?.searchParams) && !isNil(config.searchParamsSchema)) {
+  if (
+    !isNil(config) &&
+    !isNil(config.searchParams) &&
+    !isNil(config.searchParamsSchema)
+  ) {
     const parameters = createSearchParameters(
       config.searchParams,
       config.searchParamsSchema,
@@ -75,4 +91,4 @@ export function createUrl<Url extends string>(
   }
 
   return url;
-}
+};

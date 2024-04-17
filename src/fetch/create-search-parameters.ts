@@ -1,15 +1,15 @@
-import isNil from 'lodash/isNil.js';
-import type { ZodError, ZodSchema } from 'zod';
+import isNil from "lodash/isNil.js";
+import type { ReadonlyDeep } from "type-fest";
+import type { ZodError, ZodSchema } from "zod";
 
-type SearchParametersRecord = Record<
-  string,
-  number[] | string[] | number | string | undefined
+type SearchParametersRecord = ReadonlyDeep<
+  Record<string, number[] | string[] | number | string | undefined>
 >;
 
-export function createSearchParameters<Z extends ZodSchema>(
+export const createSearchParameters = <Z extends ZodSchema>(
   searchParameters: SearchParametersRecord,
-  searchParametersSchema: ZodSchema,
-): URLSearchParams | ZodError<Z> {
+  searchParametersSchema: ReadonlyDeep<ZodSchema>,
+): URLSearchParams | ZodError<Z> => {
   const result = searchParametersSchema.safeParse(searchParameters);
 
   if (!result.success) {
@@ -35,4 +35,4 @@ export function createSearchParameters<Z extends ZodSchema>(
   }
 
   return search;
-}
+};

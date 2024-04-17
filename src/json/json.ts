@@ -1,14 +1,14 @@
-import attempt from 'lodash/attempt.js';
-import isError from 'lodash/isError.js';
-import type { z } from 'zod';
+import attempt from "lodash/attempt.js";
+import isError from "lodash/isError.js";
+import type { z } from "zod";
 
-import type { ZodValidator } from '../types/zod-validator.ts';
+import type { ZodValidator } from "../types/zod-validator.ts";
 
-export function parseJson<Z extends ZodValidator<Z>>(
+export const parseJson = <Z extends ZodValidator<Z>>(
   text: string,
   validator: Z,
   reviver?: (this: unknown, key: string, value: unknown) => unknown,
-): Error | z.output<Z> | z.ZodError<Z> {
+): Error | z.output<Z> | z.ZodError<Z> => {
   const caught = attempt(() => {
     return JSON.parse(text, reviver);
   });
@@ -20,4 +20,4 @@ export function parseJson<Z extends ZodValidator<Z>>(
   const unparsed = validator.safeParse(caught);
 
   return unparsed.success ? unparsed.data : unparsed.error;
-}
+};

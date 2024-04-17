@@ -1,54 +1,55 @@
-import isError from 'lodash/isError.js';
-import { describe, expect, it } from 'vitest';
+import isError from "lodash/isError.js";
+import { describe, expect, it } from "vitest";
 
-import { getAcceptLanguage } from '../../src/http/headers.ts';
+import { getAcceptLanguage } from "../../src/http/headers.ts";
 
-describe('headers', () => {
+describe("headers", () => {
   it.each([
     [
-      'en-US,en;q=0.9',
+      "en-US,en;q=0.9",
       [
-        { country: 'US', language: 'en', name: 'en-US', quality: 1 },
-        { country: undefined, language: 'en', name: 'en', quality: 0.9 },
+        { country: "US", language: "en", name: "en-US", quality: 1 },
+        { country: undefined, language: "en", name: "en", quality: 0.9 },
       ],
     ],
     [
-      'en-US,en;q=0.9,fr;q=0.8,de;q=0.7',
+      "en-US,en;q=0.9,fr;q=0.8,de;q=0.7",
       [
         {
-          country: 'US',
-          language: 'en',
-          name: 'en-US',
+          country: "US",
+          language: "en",
+          name: "en-US",
           quality: 1,
         },
         {
           country: undefined,
-          language: 'en',
-          name: 'en',
+          language: "en",
+          name: "en",
           quality: 0.9,
         },
         {
           country: undefined,
-          language: 'fr',
-          name: 'fr',
+          language: "fr",
+          name: "fr",
           quality: 0.8,
         },
         {
           country: undefined,
-          language: 'de',
-          name: 'de',
+          language: "de",
+          name: "de",
           quality: 0.7,
         },
       ],
     ],
     [
-      new Headers({ 'accept-language': 'en-US,en;q=0.9' }),
+      new Headers({ "accept-language": "en-US,en;q=0.9" }),
       [
-        { country: 'US', language: 'en', name: 'en-US', quality: 1 },
-        { country: undefined, language: 'en', name: 'en', quality: 0.9 },
+        { country: "US", language: "en", name: "en-US", quality: 1 },
+        { country: undefined, language: "en", name: "en", quality: 0.9 },
       ],
     ],
-  ])('should get accept language', (header, result) => {
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+  ] as const)("should get accept language", (header, result) => {
     const value = getAcceptLanguage(header);
 
     expect(isError(value)).toBe(false);
@@ -56,16 +57,15 @@ describe('headers', () => {
     expect(value).toStrictEqual(result);
   });
 
-  it('should return error if accept-language source is not found', () => {
+  it("should return error if accept-language source is not found", () => {
     const headers = new Headers();
-
     const result = getAcceptLanguage(headers);
 
     expect(isError(result)).toBe(true);
     expect(result).toBeInstanceOf(Error);
 
     if (result instanceof Error) {
-      expect(result.message).toBe('accept-language not found');
+      expect(result.message).toBe("accept-language not found");
     }
   });
 });

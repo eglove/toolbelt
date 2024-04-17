@@ -1,5 +1,5 @@
-import { CLDRFramework } from '@phensley/cldr';
+import { CLDRFramework } from "@phensley/cldr";
 
-export function getLocales() {
+export const getLocales = () => {
   return CLDRFramework.availableLocales();
-}
+};

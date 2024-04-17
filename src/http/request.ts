@@ -1,14 +1,13 @@
-import isEmpty from 'lodash/isEmpty.js';
-import isNil from 'lodash/isNil.js';
+import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
+import type { ReadonlyDeep } from "type-fest";
 
-export function getRequestKeys(request: Request) {
+export const getRequestKeys = (request: ReadonlyDeep<Request>) => {
   const url = new URL(request.url);
-
   const keys = [request.method, url.origin];
+  const varyHeader = request.headers.get("Vary");
 
-  const varyHeader = request.headers.get('Vary');
-
-  if (!isEmpty(url.pathname) && url.pathname !== '/') {
+  if (!isEmpty(url.pathname) && url.pathname !== "/") {
     keys.push(url.pathname);
   }
 
@@ -21,4 +20,4 @@ export function getRequestKeys(request: Request) {
   }
 
   return keys;
-}
+};

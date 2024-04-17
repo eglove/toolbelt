@@ -1,6 +1,8 @@
+import type { ReadonlyDeep } from "type-fest";
+
 import { createFetcher } from "./fetcher.ts";
 
-export async function cacheBust(request: Request) {
+export const cacheBust = async (request: ReadonlyDeep<Request>) => {
   const fetcher = createFetcher({ request });
   await fetcher.cacheBust();
-}
+};

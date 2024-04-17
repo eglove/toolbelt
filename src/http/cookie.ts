@@ -1,54 +1,56 @@
-import isNil from 'lodash/isNil.js';
-import isNumber from 'lodash/isNumber.js';
-import isString from 'lodash/isString.js';
+import isNil from "lodash/isNil.js";
+import isNumber from "lodash/isNumber.js";
+import isString from "lodash/isString.js";
+import type { ReadonlyDeep } from "type-fest";
 
-export function getCookieValue<T extends string>(
+export const getCookieValue = <T extends string>(
   cookieName: T,
-  cookieSource: Headers | string,
-): Error | string {
+  cookieSource: Readonly<Headers | string>,
+): Error | string => {
   const cookies =
-    typeof cookieSource === 'string'
+    typeof cookieSource === "string"
       ? cookieSource
-      : cookieSource.get('Cookie');
+      : cookieSource.get("Cookie");
 
   if (isNil(cookies)) {
-    return new Error('cookies not found');
+    return new Error("cookies not found");
   }
 
-  const cookieArray = cookies.split(';');
+  const cookieArray = cookies.split(";");
   for (const cookie of cookieArray) {
-    const [name, value] = cookie.split('=');
+    const [name, value] = cookie.split("=");
 
     if (name.trim() === cookieName.trim()) {
       return value.trim();
     }
   }
 
-  return new Error('failed to get cookie');
-}
+  return new Error("failed to get cookie");
+};
 
-type SetCookieValueProperties<T extends string> = {
+type SetCookieValueProperties<T extends string> = ReadonlyDeep<{
   config?: {
     Domain?: string;
     Expires?: Date;
     HttpOnly?: boolean;
-    'Max-Age'?: number;
+    "Max-Age"?: number;
     Partitioned?: boolean;
     Path?: string;
-    SameSite?: 'Lax' | 'None' | 'Secure' | 'Strict';
+    SameSite?: "Lax" | "None" | "Secure" | "Strict";
     Secure?: boolean;
   };
   cookieName: T;
   cookieValue: string;
   response: Response;
-};
+}>;
 
-export function setCookieValue<T extends string>({
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+export const setCookieValue = <T extends string>({
   config,
   response,
   cookieValue,
   cookieName,
-}: SetCookieValueProperties<T>) {
+}: SetCookieValueProperties<T>) => {
   let cookieString = `${cookieName}=${cookieValue}`;
 
   if (!isNil(config)) {
@@ -65,5 +67,5 @@ export function setCookieValue<T extends string>({
     }
   }
 
-  response.headers.append('Set-Cookie', cookieString);
-}
+  response.headers.append("Set-Cookie", cookieString);
+};

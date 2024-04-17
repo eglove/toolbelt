@@ -1,4 +1,4 @@
-import type { z } from 'zod';
+import type { z } from "zod";
 
 type ValidateSuccess<T extends z.ZodType> = {
   data: z.output<T>;

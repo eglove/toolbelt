@@ -1,34 +1,33 @@
-import isError from 'lodash/isError.js';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import isError from "lodash/isError.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { createFetcher } from '../../src/fetch/fetcher.ts';
+import { createFetcher } from "../../src/fetch/fetcher.ts";
 
-describe('fetcher', () => {
+describe("fetcher", () => {
   const mockFetch = vi.fn();
-
   const mockOptions = {
     cacheInterval: 101,
-    request: new Request('https://example.com'),
+    request: new Request("https://example.com"),
   };
 
   beforeEach(() => {
     globalThis.fetch = mockFetch;
   });
 
-  it('should construct fetcher', () => {
+  it("should construct fetcher", () => {
     const fetcher = createFetcher(mockOptions);
 
     expect(fetcher.request).toBeInstanceOf(Request);
-    expect(fetcher.cacheKey).toBe('cache');
+    expect(fetcher.cacheKey).toBe("cache");
     expect(fetcher.cacheInterval).toBe(101);
     expect(fetcher.getRequestKeys()).toStrictEqual([
-      'GET',
-      'https://example.com',
-      '/',
+      "GET",
+      "https://example.com",
+      "/",
     ]);
   });
 
-  it('should call fetch and return data', async () => {
+  it("should call fetch and return data", async () => {
     mockFetch.mockResolvedValueOnce({ data: true });
 
     const fetcher = createFetcher(mockOptions);
@@ -38,7 +37,7 @@ describe('fetcher', () => {
     expect(result).toStrictEqual({ data: true });
   });
 
-  it('should be able to set new cache interval', () => {
+  it("should be able to set new cache interval", () => {
     const fetcher = createFetcher(mockOptions);
     fetcher.cacheInterval = 22;
 

@@ -1,11 +1,13 @@
-import isNil from 'lodash/isNil.js';
+import isNil from "lodash/isNil.js";
 
-import { isBigIntOrNumber } from '../is/big-int-or-number.ts';
-import { isNumber } from '../is/number.ts';
-import type { FromUnit, ToUnit } from './conversion-types.js';
-import { convertNumber } from './convert.ts';
+import { isBigIntOrNumber } from "../is/big-int-or-number.ts";
+import { isNumber } from "../is/number.ts";
+import type { FromUnit, ToUnit } from "./conversion-types.js";
+import { convertNumber } from "./convert.ts";
 
-type FormatOptions = BigIntToLocaleStringOptions & Intl.NumberFormatOptions;
+type FormatOptions = Readonly<
+  BigIntToLocaleStringOptions & Intl.NumberFormatOptions
+>;
 
 class BetterNumber {
   private readonly _locale?: Intl.LocalesArgument;
@@ -21,16 +23,16 @@ class BetterNumber {
 
     if (!isBigIntOrNumber(number)) {
       this._number = undefined;
-    } else if (typeof number === 'bigint' || typeof number === 'number') {
+    } else if (typeof number === "bigint" || typeof number === "number") {
       this._number = number;
-    } else if (typeof number === 'string') {
+    } else if (typeof number === "string") {
       this._number =
         Number(number) > Number.MAX_SAFE_INTEGER
           ? BigInt(number)
           : Number(number);
     }
 
-    if (isNil(locale) && typeof navigator !== 'undefined') {
+    if (isNil(locale) && typeof navigator !== "undefined") {
       this._locale = navigator.language;
     } else if (!isNil(locale)) {
       this._locale = locale;

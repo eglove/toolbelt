@@ -1,25 +1,25 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from "vitest";
 
-import { betterNumber } from '../../src/number/number.ts';
+import { betterNumber } from "../../src/number/number.ts";
 
-describe('basic usage', () => {
+describe("basic usage", () => {
   it.each([
     [123, 123],
-    ['123', 123],
+    ["123", 123],
     [BigInt(123), BigInt(123)],
-    ['12345678901234567890', BigInt('12345678901234567890')],
-  ])('should accept numbers, strings, and BigInt', (given, expected) => {
+    ["12345678901234567890", BigInt("12345678901234567890")],
+  ])("should accept numbers, strings, and BigInt", (given, expected) => {
     const value = betterNumber(given);
 
     expect(value.number).toBe(expected);
   });
 });
 
-describe('handle NaN', () => {
-  it.each([undefined, null, Number.NaN, 'what?'])(
-    'should return undefined for invalid values',
+describe("handle NaN", () => {
+  it.each([undefined, null, Number.NaN, "what?"])(
+    "should return undefined for invalid values",
     () => {
-      const length = betterNumber(Number.NaN, 'en-US');
+      const length = betterNumber(Number.NaN, "en-US");
 
       expect(length.number).toBe(undefined);
       expect(length.format()).toBe(undefined);
@@ -27,37 +27,38 @@ describe('handle NaN', () => {
   );
 });
 
-describe('format with locale', () => {
-  it('should use navigators language when undefined', () => {
-    Object.defineProperty(globalThis, 'navigator', {
+describe("format with locale", () => {
+  it("should use navigators language when undefined", () => {
+    Object.defineProperty(globalThis, "navigator", {
       value: {
-        language: 'fr',
+        language: "fr",
       },
     });
 
     const value = betterNumber(123, undefined, {
-      style: 'unit',
+      style: "unit",
     });
-    expect(value.locale).toBe('fr');
+    expect(value.locale).toBe("fr");
   });
 
   it.each([
-    ['en-US', '1,000 in'],
-    ['pt-Br', '1.000 pol.'],
-  ])('should format to the proper locale', (locale, expected) => {
+    ["en-US", "1,000 in"],
+    ["pt-Br", "1.000 pol."],
+  ])("should format to the proper locale", (locale, expected) => {
     const value = betterNumber(1000, locale, {
-      style: 'unit',
-      unit: 'inch',
+      style: "unit",
+      unit: "inch",
     });
 
     expect(value.format()).toBe(expected);
   });
 });
 
-describe('handle conversions', () => {
-  it.each([[120, 'minute', 7200, 'second'] as const])(
-    'should make correct conversions',
-    // eslint-disable-next-line @typescript-eslint/max-params
+describe("handle conversions", () => {
+  it.each([[120, "minute", 7200, "second"] as const])(
+    "should make correct conversions",
+
+    // eslint-disable-next-line max-params
     (originalValue, originalUnit, expectedValue, expectedUnit) => {
       const value = betterNumber(originalValue);
       const conversion = value.convert(originalUnit, expectedUnit);

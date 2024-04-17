@@ -1,27 +1,27 @@
-import get from 'lodash/get.js';
-import isError from 'lodash/isError.js';
-import isNil from 'lodash/isNil.js';
+import get from "lodash/get.js";
+import isError from "lodash/isError.js";
+import isNil from "lodash/isNil.js";
 
-import { getCookieValue } from '../http/cookie.ts';
-import { getAcceptLanguage } from '../http/headers.ts';
+import { getCookieValue } from "../http/cookie.ts";
+import { getAcceptLanguage } from "../http/headers.ts";
 
-type LocaleSource = 'accept-language' | 'cookie' | 'localStorage' | 'navigator';
+type LocaleSource = "accept-language" | "cookie" | "localStorage" | "navigator";
 
-export function getLocale(
-  sourceTypes: LocaleSource[],
-  source?: Headers | string,
-  valueName?: string,
-) {
+export const getLocale = (
+  sourceTypes: Readonly<LocaleSource[]>,
+  source?: Readonly<Headers | string>,
+  valueName?: Readonly<string>,
+) => {
   for (const sourceType of sourceTypes) {
-    if (sourceType === 'accept-language' && !isNil(source)) {
+    if (sourceType === "accept-language" && !isNil(source)) {
       const value = getAcceptLanguage(source);
 
       if (isError(value)) {
         return;
       }
 
-      let language = get(value, [0, 'language']);
-      const country = get(value, [0, 'country']);
+      let language = get(value, [0, "language"]);
+      const country = get(value, [0, "country"]);
       if (!isNil(language)) {
         if (!isNil(country)) {
           language += `-${country}`;
@@ -31,7 +31,7 @@ export function getLocale(
       }
     }
 
-    if (sourceType === 'cookie' && !isNil(valueName) && !isNil(source)) {
+    if (sourceType === "cookie" && !isNil(valueName) && !isNil(source)) {
       const value = getCookieValue(valueName, source);
 
       if (!isError(value)) {
@@ -39,13 +39,13 @@ export function getLocale(
       }
     }
 
-    if (sourceType === 'navigator' && typeof navigator !== 'undefined') {
+    if (sourceType === "navigator" && typeof navigator !== "undefined") {
       return navigator.language;
     }
 
     if (
-      sourceType === 'localStorage' &&
-      typeof localStorage !== 'undefined' &&
+      sourceType === "localStorage" &&
+      typeof localStorage !== "undefined" &&
       !isNil(valueName)
     ) {
       const value = localStorage.getItem(valueName);
@@ -55,4 +55,4 @@ export function getLocale(
       }
     }
   }
-}
+};

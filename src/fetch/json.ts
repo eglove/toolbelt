@@ -1,13 +1,14 @@
-import isError from 'lodash/isError.js';
-import type { z, ZodError } from 'zod';
+import isError from "lodash/isError.js";
+import type { ReadonlyDeep } from "type-fest";
+import type { z, ZodError } from "zod";
 
-import { attemptAsync } from '../functional/attempt-async.ts';
-import type { ZodValidator } from '../types/zod-validator.ts';
+import { attemptAsync } from "../functional/attempt-async.ts";
+import type { ZodValidator } from "../types/zod-validator.ts";
 
-export async function parseFetchJson<Z extends ZodValidator<Z>>(
-  value: Request | Response,
+export const parseFetchJson = async <Z extends ZodValidator<Z>>(
+  value: ReadonlyDeep<Request | Response>,
   schema: Z,
-): Promise<Error | z.output<Z> | ZodError<Z>> {
+): Promise<Error | z.output<Z> | ZodError<Z>> => {
   const unparsed = await attemptAsync(async () => {
     return value.json();
   });
@@ -23,4 +24,4 @@ export async function parseFetchJson<Z extends ZodValidator<Z>>(
   }
 
   return parsed.data;
-}
+};
