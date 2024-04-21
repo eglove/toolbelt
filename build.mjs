@@ -1,6 +1,6 @@
 import { projectBuilder } from "@ethang/project-builder/project-builder.js";
 
-await projectBuilder("toolbelt", "maipnpmn", {
+await projectBuilder("toolbelt", "main", {
   isLibrary: true,
   postVersionBumpScripts: ["DEDUPE", "LINT", "TEST"],
   preVersionBumpScripts: ["UPDATE"],
