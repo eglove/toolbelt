@@ -31,6 +31,7 @@ export const createUrlPath = <T extends string>(
     }
   }
 
+  // @ts-expect-error force param type
   for (const [key, value] of Object.entries<string>(parameters)) {
     url = path.replace(`:${key}`, value);
   }
