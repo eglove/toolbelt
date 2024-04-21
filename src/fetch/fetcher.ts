@@ -145,7 +145,6 @@ class Fetcher {
 
     return attempt(async () => {
       return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME, DB_VERSION, {
-        // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
         upgrade(database_) {
           const store = database_.createObjectStore(Fetcher._DB_NAME, {
             keyPath: Fetcher._DB_KEY,
