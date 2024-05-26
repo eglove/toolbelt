@@ -19,15 +19,15 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^15.0.16",
+    "@ethang/eslint-config": "^16.0.1",
     "@ethang/project-builder": "^1.1.35",
-    "@tanstack/query-core": "^5.36.1",
+    "@tanstack/query-core": "^5.38.0",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20.12.12",
     "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.6.0",
     "eslint": "^9.3.0",
-    "type-fest": "^4.18.2",
+    "type-fest": "^4.18.3",
     "typescript-eslint": "^7.10.0",
     "vitest": "^1.6.0",
     "vitest-fetch-mock": "^0.2.2"
