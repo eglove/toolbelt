@@ -53,7 +53,7 @@ export const createUrl = <Url extends string>(
   const url = attempt(() => {
     return new URL(
       mutableUrlString,
-      config?.urlBase as string | URL | undefined,
+      config?.urlBase as URL | string | undefined,
     );
   });
 

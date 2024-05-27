@@ -9,14 +9,14 @@ const categorizeResults = <K extends PropertyKey, T>(
   for (const [index, key] of promiseKeys.entries()) {
     const result = results[index];
 
-    if (result.status === "fulfilled") {
+    if ("fulfilled" === result.status) {
       settledPromises = {
         ...settledPromises,
         [key]: result.value,
       };
     }
 
-    if (result.status === "rejected") {
+    if ("rejected" === result.status) {
       settledPromises[key] = result.reason as Error;
     }
   }

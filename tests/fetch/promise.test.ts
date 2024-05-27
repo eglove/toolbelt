@@ -5,7 +5,7 @@ import { promiseAllSettled } from "../../src/fetch/promise.ts";
 
 const promiseFunction = async (value: number) => {
   return new Promise<string>((resolve, reject) => {
-    if (value === 0) {
+    if (0 === value) {
       setTimeout(() => {
         reject(new Error("wrong number"));
       }, 3);

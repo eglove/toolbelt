@@ -7,7 +7,7 @@ export const getRequestKeys = (request: ReadonlyDeep<Request>) => {
   const keys = [request.method, url.origin];
   const varyHeader = request.headers.get("Vary");
 
-  if (!isEmpty(url.pathname) && url.pathname !== "/") {
+  if (!isEmpty(url.pathname) && "/" !== url.pathname) {
     keys.push(url.pathname);
   }
 

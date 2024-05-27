@@ -60,6 +60,7 @@ describe("getLocale", () => {
 
   it("should get value from navigator.language", () => {
     // @ts-expect-error allow for test
+    // eslint-disable-next-line n/no-unsupported-features/node-builtins
     globalThis.navigator = { language: "en" };
 
     expect(getLocale(["navigator"])).toBe("en");

@@ -1,12 +1,12 @@
 export const isBigIntOrNumber = (value: unknown): boolean => {
   if (
-    (typeof value === "number" || typeof value === "bigint") &&
+    ("number" === typeof value || "bigint" === typeof value) &&
     !Number.isNaN(value)
   ) {
     return true;
   }
 
-  if (typeof value === "string") {
+  if ("string" === typeof value) {
     return /^-?\d*\.?\d+$/u.test(value);
   }
 

@@ -13,7 +13,7 @@ export const getLocale = (
   valueName?: Readonly<string>,
 ) => {
   for (const sourceType of sourceTypes) {
-    if (sourceType === "accept-language" && !isNil(source)) {
+    if ("accept-language" === sourceType && !isNil(source)) {
       const value = getAcceptLanguage(source);
 
       if (isError(value)) {
@@ -31,7 +31,7 @@ export const getLocale = (
       }
     }
 
-    if (sourceType === "cookie" && !isNil(valueName) && !isNil(source)) {
+    if ("cookie" === sourceType && !isNil(valueName) && !isNil(source)) {
       const value = getCookieValue(valueName, source);
 
       if (!isError(value)) {
@@ -39,13 +39,13 @@ export const getLocale = (
       }
     }
 
-    if (sourceType === "navigator" && typeof navigator !== "undefined") {
+    if ("navigator" === sourceType && "undefined" !== typeof navigator) {
       return navigator.language;
     }
 
     if (
-      sourceType === "localStorage" &&
-      typeof localStorage !== "undefined" &&
+      "localStorage" === sourceType &&
+      "undefined" !== typeof localStorage &&
       !isNil(valueName)
     ) {
       const value = localStorage.getItem(valueName);

@@ -58,7 +58,6 @@ describe("handle conversions", () => {
   it.each([[120, "minute", 7200, "second"] as const])(
     "should make correct conversions",
 
-    // eslint-disable-next-line max-params
     (originalValue, originalUnit, expectedValue, expectedUnit) => {
       const value = betterNumber(originalValue);
       const conversion = value.convert(originalUnit, expectedUnit);

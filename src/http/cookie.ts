@@ -8,7 +8,7 @@ export const getCookieValue = <T extends string>(
   cookieSource: Readonly<Headers | string>,
 ): Error | string => {
   const cookies =
-    typeof cookieSource === "string"
+    "string" === typeof cookieSource
       ? cookieSource
       : cookieSource.get("Cookie");
 
@@ -44,6 +44,7 @@ type SetCookieValueProperties<T extends string> = ReadonlyDeep<{
   response: Response;
 }>;
 
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export const setCookieValue = <T extends string>({
   config,
   response,
@@ -58,7 +59,7 @@ export const setCookieValue = <T extends string>({
 
       if (isString(value) || isNumber(value)) {
         cookieString += `; ${key}=${String(value)}`;
-      } else if (value === true) {
+      } else if (true === value) {
         cookieString += `; ${key}`;
       } else if (value instanceof Date) {
         cookieString += `; Expires=${value.toUTCString()}`;

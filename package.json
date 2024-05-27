@@ -5,6 +5,9 @@
   "author": "Ethan Glover",
   "license": "ISC",
   "type": "module",
+  "engines": {
+    "node": "> 21"
+  },
   "scripts": {
     "lint": "eslint . --fix --ignore-pattern \"dist/*\" --ignore-pattern \"coverage/*\"",
     "test": "vitest run --coverage.enabled=true",
@@ -19,8 +22,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^16.0.1",
-    "@ethang/project-builder": "^1.1.35",
+    "@ethang/eslint-config": "^16.0.11",
+    "@ethang/project-builder": "^1.1.37",
     "@tanstack/query-core": "^5.38.0",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20.12.12",

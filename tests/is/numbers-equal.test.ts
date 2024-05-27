@@ -9,7 +9,7 @@ describe("isNumbersEqual", () => {
     [1.4, 1.4, 0.2, true],
   ])(
     "should return correct values",
-    // eslint-disable-next-line max-params
+
     (firstNumber, secondNumber, epsilon, expected) => {
       expect(isNumbersEqual(firstNumber, secondNumber, epsilon)).toBe(expected);
     },

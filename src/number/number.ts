@@ -23,16 +23,16 @@ class BetterNumber {
 
     if (!isBigIntOrNumber(number)) {
       this._number = undefined;
-    } else if (typeof number === "bigint" || typeof number === "number") {
+    } else if ("bigint" === typeof number || "number" === typeof number) {
       this._number = number;
-    } else if (typeof number === "string") {
+    } else if ("string" === typeof number) {
       this._number =
         Number(number) > Number.MAX_SAFE_INTEGER
           ? BigInt(number)
           : Number(number);
     }
 
-    if (isNil(locale) && typeof navigator !== "undefined") {
+    if (isNil(locale) && "undefined" !== typeof navigator) {
       this._locale = navigator.language;
     } else if (!isNil(locale)) {
       this._locale = locale;

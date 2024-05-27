@@ -48,6 +48,7 @@ describe("headers", () => {
         { country: undefined, language: "en", name: "en", quality: 0.9 },
       ],
     ],
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   ] as const)("should get accept language", (header, result) => {
     const value = getAcceptLanguage(header);
 

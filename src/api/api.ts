@@ -227,7 +227,7 @@ export class Api<T extends RequestConfigObject> {
     }
 
     if (!isNil(requestConfig.bodySchema) && !isNil(body)) {
-      if (typeof body === "string") {
+      if ("string" === typeof body) {
         return this.validateRequestBodyString(body, requestConfig.bodySchema);
       }
 

@@ -13,10 +13,10 @@ type FetcherOptions = ReadonlyDeep<{
   request: Request;
 }>;
 
-type RequestMeta = {
+interface RequestMeta {
   expires: Date;
   key: string;
-};
+}
 
 class Fetcher {
   private static readonly _DB_NAME = "requests";
@@ -52,8 +52,8 @@ class Fetcher {
     if (
       !isBrowser ||
       isNil(this._cacheInterval) ||
-      this._cacheInterval <= 0 ||
-      this._request.method !== "GET"
+      0 >= this._cacheInterval ||
+      "GET" !== this._request.method
     ) {
       return attempt(async () => {
         return fetch(this._request);
@@ -145,6 +145,7 @@ class Fetcher {
 
     return attempt(async () => {
       return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME, DB_VERSION, {
+        // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
         upgrade(database_) {
           const store = database_.createObjectStore(Fetcher._DB_NAME, {
             keyPath: Fetcher._DB_KEY,
