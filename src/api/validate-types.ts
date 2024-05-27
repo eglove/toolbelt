@@ -1,19 +1,19 @@
 import type { z } from "zod";
 
-interface ValidateSuccess<T extends z.ZodType> {
+type ValidateSuccess<T extends z.ZodType> = {
   data: z.output<T>;
   isSuccess: true;
-}
+};
 
-interface ValidateFailure<T extends z.ZodType> {
+type ValidateFailure<T extends z.ZodType> = {
   error: Error | z.ZodError<T>;
   isSuccess: false;
-}
+};
 
-interface ValidateNoSchema {
+type ValidateNoSchema = {
   data: undefined;
   isSuccess: true;
-}
+};
 
 export type Validate<T extends z.ZodType | undefined> = T extends undefined
   ? ValidateNoSchema

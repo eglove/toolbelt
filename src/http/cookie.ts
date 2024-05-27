@@ -44,7 +44,6 @@ type SetCookieValueProperties<T extends string> = ReadonlyDeep<{
   response: Response;
 }>;
 
-// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export const setCookieValue = <T extends string>({
   config,
   response,

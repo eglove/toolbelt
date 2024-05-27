@@ -30,7 +30,7 @@ export type QueryOptions = ReadonlyDeep<
   }
 >;
 
-export interface RequestDetails {
+export type RequestDetails = {
   fetch: (
     options?: QueryOptions,
   ) => Promise<Error | Response | ZodError | undefined>;
@@ -46,7 +46,7 @@ export interface RequestDetails {
   ) => TanStackQueryOptions<z.output<T>> & { queryKey: QueryKey };
   request: (options?: ParameterRequestOptions) => Error | Request | ZodError;
   url: (options?: ParameterOptions) => Error | URL | ZodError;
-}
+};
 
 export type RequestConfig = ReadonlyDeep<{
   bodySchema?: ZodValidator<ZodAny>;
