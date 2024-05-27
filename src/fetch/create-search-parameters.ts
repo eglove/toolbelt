@@ -9,6 +9,7 @@ type SearchParametersRecord = ReadonlyDeep<
 export const createSearchParameters = <Z extends ZodSchema>(
   searchParameters: SearchParametersRecord,
   searchParametersSchema: ReadonlyDeep<ZodSchema>,
+  // eslint-disable-next-line sonar/cognitive-complexity
 ): URLSearchParams | ZodError<Z> => {
   const result = searchParametersSchema.safeParse(searchParameters);
 
@@ -28,7 +29,9 @@ export const createSearchParameters = <Z extends ZodSchema>(
             search.append(key, String(value));
           }
         }
-      } else if (!isNil(values)) {
+      } else if (isNil(values)) {
+        // do nothing
+      } else {
         search.append(key, String(searchParameters[key]));
       }
     }

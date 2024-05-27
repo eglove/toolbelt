@@ -62,6 +62,8 @@ export const setCookieValue = <T extends string>({
         cookieString += `; ${key}`;
       } else if (value instanceof Date) {
         cookieString += `; Expires=${value.toUTCString()}`;
+      } else {
+        // do nothing
       }
     }
   }

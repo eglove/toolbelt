@@ -1,3 +1,4 @@
+/* eslint-disable sonar/no-duplicate-string */
 import type { FactorDef } from "@phensley/unit-converter";
 import {
   ACCELERATION,

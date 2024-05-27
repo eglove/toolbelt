@@ -30,11 +30,15 @@ class BetterNumber {
         Number(number) > Number.MAX_SAFE_INTEGER
           ? BigInt(number)
           : Number(number);
+    } else {
+      // do nothing
     }
 
     if (isNil(locale) && "undefined" !== typeof navigator) {
       this._locale = navigator.language;
-    } else if (!isNil(locale)) {
+    } else if (isNil(locale)) {
+      // do nothing
+    } else {
       this._locale = locale;
     }
   }

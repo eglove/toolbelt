@@ -1,3 +1,4 @@
+/* eslint-disable sonar/no-duplicate-string */
 import { describe, expect, it } from "vitest";
 
 import { convertNumber } from "../../src/number/convert.ts";

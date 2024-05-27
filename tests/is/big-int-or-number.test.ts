@@ -4,6 +4,7 @@ import { isBigIntOrNumber } from "../../src/is/big-int-or-number.ts";
 
 describe("number", () => {
   it.each([
+    // eslint-disable-next-line sonar/no-identical-expressions
     [0 / 0, false],
     ["not a number", false],
     [undefined, false],

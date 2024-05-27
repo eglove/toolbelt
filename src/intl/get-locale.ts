@@ -11,6 +11,7 @@ export const getLocale = (
   sourceTypes: Readonly<LocaleSource[]>,
   source?: Readonly<Headers | string>,
   valueName?: Readonly<string>,
+  // eslint-disable-next-line sonar/cognitive-complexity
 ) => {
   for (const sourceType of sourceTypes) {
     if ("accept-language" === sourceType && !isNil(source)) {

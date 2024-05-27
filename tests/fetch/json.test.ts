@@ -4,9 +4,11 @@ import { z, ZodError } from "zod";
 
 import { parseFetchJson } from "../../src/fetch/json.ts";
 
+const testUrl = "http://example.com";
+
 describe("fetch json", () => {
   it("should parse request body correctly", async () => {
-    const request = new Request("http://example.com", {
+    const request = new Request(testUrl, {
       body: JSON.stringify({ json: "stuff" }),
       method: "POST",
     });
@@ -37,7 +39,7 @@ describe("fetch json", () => {
 
 describe("error cases", () => {
   it("should return ZodError when validation is incorrect", async () => {
-    const request = new Request("http://example.com", {
+    const request = new Request(testUrl, {
       body: JSON.stringify({ fail: 0 }),
       method: "POST",
     });
@@ -57,7 +59,7 @@ describe("error cases", () => {
   });
 
   it("should return ZodError when validation is incorrect with array", async () => {
-    const request = new Request("http://example.com", {
+    const request = new Request(testUrl, {
       body: JSON.stringify({ fail: 0 }),
       method: "POST",
     });
@@ -77,7 +79,7 @@ describe("error cases", () => {
   });
 
   it("should return error with invalid JSON", async () => {
-    const request = new Request("http://example.com", {
+    const request = new Request(testUrl, {
       body: "",
       method: "POST",
     });

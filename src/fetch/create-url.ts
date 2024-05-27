@@ -25,6 +25,7 @@ export type UrlConfig<Url extends string> = ReadonlyDeep<{
 export const createUrl = <Url extends string>(
   urlString: Url,
   config?: UrlConfig<Url>,
+  // eslint-disable-next-line sonar/cognitive-complexity
 ): Error | URL | ZodError => {
   if (
     !isNil(config) &&

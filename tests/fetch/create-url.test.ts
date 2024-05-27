@@ -4,6 +4,8 @@ import { z, ZodError } from "zod";
 
 import { createUrl } from "../../src/fetch/create-url.ts";
 
+const typicode = "https://jsonplaceholder.typicode.com";
+
 describe("url builder", () => {
   it("build the url", () => {
     const url = createUrl("todos/:id", {
@@ -11,7 +13,7 @@ describe("url builder", () => {
       pathVariablesSchema: z.object({ id: z.string() }),
       searchParams: { filter: "done", orderBy: "due" },
       searchParamsSchema: z.object({ filter: z.string(), orderBy: z.string() }),
-      urlBase: "https://jsonplaceholder.typicode.com",
+      urlBase: typicode,
     });
 
     expect(isError(url)).toBe(false);
@@ -37,7 +39,7 @@ describe("url builder", () => {
       searchParamsSchema: z.object({
         filter: z.string().or(z.array(z.string())),
       }),
-      urlBase: "https://jsonplaceholder.typicode.com",
+      urlBase: typicode,
     });
 
     expect(isError(url)).toBe(false);
@@ -59,7 +61,7 @@ describe("url builder", () => {
       pathVariablesSchema: z.object({ id: z.number() }),
       searchParams: { filter: "done", orderBy: "due" },
       searchParamsSchema: z.object({ filter: z.string(), orderBy: z.string() }),
-      urlBase: "https://jsonplaceholder.typicode.com",
+      urlBase: typicode,
     });
 
     expect(isError(badUrl)).toBe(true);
