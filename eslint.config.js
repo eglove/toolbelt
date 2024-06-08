@@ -21,6 +21,6 @@ export default tseslint.config(...config, {
     "prefer-named-capture-group": "off",
     "require-unicode-regexp": "off",
     "sort-vars": "off",
-    "tanstackQuery/exhaustive-deps": "off",
+    "@tanstack/query/exhaustive-deps": "off",
   },
 });
