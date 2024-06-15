@@ -5,9 +5,6 @@
   "author": "Ethan Glover",
   "license": "ISC",
   "type": "module",
-  "engines": {
-    "node": "> 21"
-  },
   "scripts": {
     "lint": "eslint . --fix --ignore-pattern \"dist/*\" --ignore-pattern \"coverage/*\"",
     "test": "vitest run --coverage.enabled=true",
