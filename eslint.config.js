@@ -22,5 +22,8 @@ export default tseslint.config(...config, {
     "require-unicode-regexp": "off",
     "sort-vars": "off",
     "@tanstack/query/exhaustive-deps": "off",
+    "n/no-unsupported-features/node-builtins": "off",
+    "n/no-unsupported-features/es-builtins": "off",
+    "n/no-unsupported-features/es-syntax": "off",
   },
 });
