@@ -1,7 +1,8 @@
+import type { ReadonlyDeep } from "type-fest";
+
 import isNil from "lodash/isNil.js";
 import isNumber from "lodash/isNumber.js";
 import isString from "lodash/isString.js";
-import type { ReadonlyDeep } from "type-fest";
 
 export const getCookieValue = <T extends string>(
   cookieName: T,
@@ -46,9 +47,9 @@ type SetCookieValueProperties<T extends string> = ReadonlyDeep<{
 
 export const setCookieValue = <T extends string>({
   config,
-  response,
-  cookieValue,
   cookieName,
+  cookieValue,
+  response,
 }: SetCookieValueProperties<T>) => {
   let cookieString = `${cookieName}=${cookieValue}`;
 

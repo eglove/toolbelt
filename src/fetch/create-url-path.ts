@@ -1,7 +1,8 @@
-import isEmpty from "lodash/isEmpty.js";
-import isNil from "lodash/isNil.js";
 import type { ReadonlyDeep } from "type-fest";
 import type { ZodError, ZodSchema } from "zod";
+
+import isEmpty from "lodash/isEmpty.js";
+import isNil from "lodash/isNil.js";
 
 export type ParseUrlParameters<Url> =
   Url extends `${infer Path}(${infer OptionalPath})`
@@ -16,7 +17,7 @@ export const createUrlPath = <T extends string>(
   path: T,
   parameters: ReadonlyDeep<ParseUrlParameters<T>>,
   parametersSchema?: ReadonlyDeep<ZodSchema>,
-): Error | ZodError<typeof parametersSchema> | string => {
+): Error | string | ZodError<typeof parametersSchema> => {
   let url = String(path);
 
   if (!isEmpty(parameters) && isNil(parametersSchema)) {

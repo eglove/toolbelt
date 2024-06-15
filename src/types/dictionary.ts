@@ -1,6 +1,6 @@
 export type NumericDictionary<T> = Record<number, T>;
 
-export type Many<T> = T | readonly T[];
+export type Many<T> = readonly T[] | T;
 
 export type PropertyName = number | string | symbol;
 

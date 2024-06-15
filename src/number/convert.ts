@@ -7,8 +7,7 @@ import {
 } from "@phensley/unit-converter";
 import isNil from "lodash/isNil.js";
 
-import type { FromUnit, ToUnit } from "./conversion-types.ts";
-import { unitsMap } from "./conversion-types.ts";
+import { type FromUnit, type ToUnit, unitsMap } from "./conversion-types.ts";
 
 export const convertNumber = <From extends FromUnit, To extends ToUnit<From>>(
   value: number,

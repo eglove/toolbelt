@@ -1,8 +1,9 @@
 import isNil from "lodash/isNil.js";
 
+import type { FromUnit, ToUnit } from "./conversion-types.js";
+
 import { isBigIntOrNumber } from "../is/big-int-or-number.ts";
 import { isNumber } from "../is/number.ts";
-import type { FromUnit, ToUnit } from "./conversion-types.js";
 import { convertNumber } from "./convert.ts";
 
 type FormatOptions = Readonly<
@@ -10,9 +11,9 @@ type FormatOptions = Readonly<
 >;
 
 class BetterNumber {
+  private readonly _formatOptions?: FormatOptions;
   private readonly _locale?: Intl.LocalesArgument;
   private readonly _number?: bigint | number;
-  private readonly _formatOptions?: FormatOptions;
 
   public constructor(
     number: unknown,
@@ -43,14 +44,6 @@ class BetterNumber {
     }
   }
 
-  public get locale(): Intl.LocalesArgument {
-    return this._locale;
-  }
-
-  public get number(): bigint | number | undefined {
-    return this._number;
-  }
-
   public convert<From extends FromUnit, To extends ToUnit<From>>(
     from: From,
     to: To,
@@ -69,6 +62,14 @@ class BetterNumber {
       this._locale,
       options ?? this._formatOptions,
     );
+  }
+
+  public get locale(): Intl.LocalesArgument {
+    return this._locale;
+  }
+
+  public get number(): bigint | number | undefined {
+    return this._number;
   }
 }
 

@@ -18,22 +18,22 @@ export type ParameterOptions = ReadonlyDeep<{
 }>;
 
 export type ParameterRequestOptions = ReadonlyDeep<
-  ParameterOptions & {
+  {
     cacheInterval?: number;
     requestInit?: RequestInit;
-  }
+  } & ParameterOptions
 >;
 
 export type QueryOptions = ReadonlyDeep<
-  ParameterRequestOptions & {
+  {
     queryOptions?: Partial<TanStackQueryOptions>;
-  }
+  } & ParameterRequestOptions
 >;
 
 export type RequestDetails = {
   fetch: (
     options?: QueryOptions,
-  ) => Promise<Error | Response | ZodError | undefined>;
+  ) => Promise<Error | Response | undefined | ZodError>;
   fetchJson: <T extends ZodValidator<T>>(
     options?: ParameterRequestOptions,
   ) => Promise<Error | z.output<T> | ZodError>;
@@ -43,7 +43,7 @@ export type RequestDetails = {
   keys: (options?: ParameterRequestOptions) => Error | string[] | ZodError;
   queryOptions: <T extends ZodValidator<T>>(
     options?: QueryOptions,
-  ) => TanStackQueryOptions<z.output<T>> & { queryKey: QueryKey };
+  ) => { queryKey: QueryKey } & TanStackQueryOptions<z.output<T>>;
   request: (options?: ParameterRequestOptions) => Error | Request | ZodError;
   url: (options?: ParameterOptions) => Error | URL | ZodError;
 };

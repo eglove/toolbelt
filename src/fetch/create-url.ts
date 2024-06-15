@@ -1,17 +1,17 @@
-import attempt from "lodash/attempt.js";
-import isError from "lodash/isError.js";
-import isNil from "lodash/isNil.js";
 import type { ReadonlyDeep } from "type-fest";
 import type { ZodError, ZodSchema } from "zod";
 
+import attempt from "lodash/attempt.js";
+import isError from "lodash/isError.js";
+import isNil from "lodash/isNil.js";
+
 import { createSearchParameters } from "./create-search-parameters.ts";
-import type { ParseUrlParameters } from "./create-url-path.ts";
-import { createUrlPath } from "./create-url-path.ts";
+import { createUrlPath, type ParseUrlParameters } from "./create-url-path.ts";
 
 export type PathVariablesRecord = Record<string, number | string>;
 export type SearchParametersRecord = Record<
   string,
-  number[] | string[] | number | string | undefined
+  number | number[] | string | string[] | undefined
 >;
 
 export type UrlConfig<Url extends string> = ReadonlyDeep<{
@@ -19,7 +19,7 @@ export type UrlConfig<Url extends string> = ReadonlyDeep<{
   pathVariablesSchema?: ZodSchema;
   searchParams?: SearchParametersRecord;
   searchParamsSchema?: ZodSchema;
-  urlBase?: URL | string;
+  urlBase?: string | URL;
 }>;
 
 export const createUrl = <Url extends string>(
@@ -54,7 +54,7 @@ export const createUrl = <Url extends string>(
   const url = attempt(() => {
     return new URL(
       mutableUrlString,
-      config?.urlBase as URL | string | undefined,
+      config?.urlBase as string | undefined | URL,
     );
   });
 

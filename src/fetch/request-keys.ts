@@ -1,5 +1,6 @@
-import isEmpty from "lodash/isEmpty.js";
 import type { ReadonlyDeep } from "type-fest";
+
+import isEmpty from "lodash/isEmpty.js";
 
 export const requestKeys = (request: ReadonlyDeep<Request>): string[] => {
   const url = new URL(request.url);

@@ -1,6 +1,7 @@
+import type { z } from "zod";
+
 import attempt from "lodash/attempt.js";
 import isError from "lodash/isError.js";
-import type { z } from "zod";
 
 import type { ZodValidator } from "../types/zod-validator.ts";
 

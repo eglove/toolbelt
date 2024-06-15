@@ -35,7 +35,7 @@ describe("getLocale", () => {
   it("should get value from localStorage", () => {
     // @ts-expect-error set for test
     globalThis.localStorage = {
-      getItem(): string | null {
+      getItem(): null | string {
         return "value";
       },
     };
@@ -48,7 +48,7 @@ describe("getLocale", () => {
   it("should return undefined if pulling from localStorage and no name provided", () => {
     // @ts-expect-error set for test
     globalThis.localStorage = {
-      getItem(): string | null {
+      getItem(): null | string {
         return "value";
       },
     };

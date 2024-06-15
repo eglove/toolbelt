@@ -1,9 +1,10 @@
-import isNil from "lodash/isNil.js";
 import type { ReadonlyDeep } from "type-fest";
 import type { ZodError, ZodSchema } from "zod";
 
+import isNil from "lodash/isNil.js";
+
 type SearchParametersRecord = ReadonlyDeep<
-  Record<string, number[] | string[] | number | string | undefined>
+  Record<string, number | number[] | string | string[] | undefined>
 >;
 
 export const createSearchParameters = <Z extends ZodSchema>(

@@ -1,8 +1,9 @@
+import type { ReadonlyDeep } from "type-fest";
+
 import { openDB } from "idb";
 import attempt from "lodash/attempt.js";
 import isError from "lodash/isError.js";
 import isNil from "lodash/isNil.js";
-import type { ReadonlyDeep } from "type-fest";
 
 import { isBrowser } from "../is/browser.ts";
 import { requestKeys } from "./request-keys.ts";
@@ -19,25 +20,43 @@ type RequestMeta = {
 };
 
 class Fetcher {
-  private static readonly _DB_NAME = "requests";
-  private static readonly _DB_KEY = "key";
-
   private _cacheInterval: number;
   private readonly _cacheKey: string;
+
+  private static readonly _DB_KEY = "key";
+  private static readonly _DB_NAME = "requests";
   private readonly _request: Request;
 
-  public constructor({ cacheKey, cacheInterval, request }: FetcherOptions) {
+  private readonly getRequestDatabase = async () => {
+    const DB_VERSION = 1;
+
+    return attempt(async () => {
+      return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME, DB_VERSION, {
+        upgrade(database_) {
+          const store = database_.createObjectStore(Fetcher._DB_NAME, {
+            keyPath: Fetcher._DB_KEY,
+          });
+          store.createIndex(Fetcher._DB_KEY, Fetcher._DB_KEY);
+        },
+      });
+    });
+  };
+
+  public constructor({ cacheInterval, cacheKey, request }: FetcherOptions) {
     this._cacheKey = cacheKey ?? "cache";
     this._cacheInterval = cacheInterval ?? 0;
     this._request = request;
   }
 
-  public get request(): Request {
-    return this._request;
-  }
+  public async cacheBust() {
+    const database = await this.getRequestDatabase();
 
-  public get cacheKey(): string {
-    return this._cacheKey;
+    if (isError(database)) {
+      return database;
+    }
+
+    const requestKey = this.getRequestKeys();
+    await database.delete(Fetcher._DB_NAME, requestKey.join(","));
   }
 
   public get cacheInterval(): number {
@@ -46,6 +65,10 @@ class Fetcher {
 
   public set cacheInterval(interval: number) {
     this._cacheInterval = interval;
+  }
+
+  public get cacheKey(): string {
+    return this._cacheKey;
   }
 
   public async fetch(): Promise<Error | Response | undefined> {
@@ -109,7 +132,7 @@ class Fetcher {
     return requestKeys(this.request);
   }
 
-  public async isExpired(): Promise<Error | boolean> {
+  public async isExpired(): Promise<boolean | Error> {
     const database = await this.getRequestDatabase();
 
     if (isError(database)) {
@@ -129,31 +152,9 @@ class Fetcher {
     return new Date() >= cachedMeta.expires;
   }
 
-  public async cacheBust() {
-    const database = await this.getRequestDatabase();
-
-    if (isError(database)) {
-      return database;
-    }
-
-    const requestKey = this.getRequestKeys();
-    await database.delete(Fetcher._DB_NAME, requestKey.join(","));
+  public get request(): Request {
+    return this._request;
   }
-
-  private readonly getRequestDatabase = async () => {
-    const DB_VERSION = 1;
-
-    return attempt(async () => {
-      return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME, DB_VERSION, {
-        upgrade(database_) {
-          const store = database_.createObjectStore(Fetcher._DB_NAME, {
-            keyPath: Fetcher._DB_KEY,
-          });
-          store.createIndex(Fetcher._DB_KEY, Fetcher._DB_KEY);
-        },
-      });
-    });
-  };
 }
 
 export const createFetcher = (options: FetcherOptions): Fetcher => {
