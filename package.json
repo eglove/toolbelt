@@ -19,7 +19,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^17.0.9",
+    "@ethang/eslint-config": "^17.0.10",
     "@ethang/project-builder": "^1.1.40",
     "@tanstack/query-core": "^5.45.0",
     "@types/lodash": "^4.17.5",
