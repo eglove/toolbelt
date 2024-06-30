@@ -56,6 +56,7 @@ export type RequestConfig = ReadonlyDeep<{
   pathSchema?: ZodValidator<ZodAny>;
   responseSchema?: ZodValidator<ZodAny>;
   searchParamsSchema?: ZodValidator<ZodAny>;
+  skipBodyValidation?: boolean;
 }>;
 
 export type RequestConfigObject = ReadonlyDeep<Record<string, RequestConfig>>;

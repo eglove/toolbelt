@@ -231,6 +231,10 @@ export class Api<T extends RequestConfigObject> {
     requestConfig: RequestConfig,
     options?: ParameterRequestOptions,
   ): Error | undefined | ZodError {
+    if (true === requestConfig.skipBodyValidation) {
+      return;
+    }
+
     const body = get(options, "requestInit.body");
 
     if (isNil(requestConfig.bodySchema) && !isNil(body)) {
