@@ -36,6 +36,7 @@
     "vitest-fetch-mock": "^0.2.2"
   },
   "peerDependencies": {
+    "@anatine/zod-openapi": "^2.2.6",
     "@phensley/cldr": "^1.8.1",
     "@phensley/unit-converter": "^1.8.1",
     "@total-typescript/ts-reset": "^0.5.1",
