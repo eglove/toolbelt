@@ -25,7 +25,6 @@ describe("schema builder", () => {
     });
 
     const schema = schemaBuilder("MySchema", mySchema);
-    console.log(schema.graphql);
 
     expect(schema.zod).toStrictEqual(mySchema);
     expect(schema.openApi).toBeDefined();
