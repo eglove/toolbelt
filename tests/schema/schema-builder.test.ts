@@ -11,6 +11,7 @@ describe("schema builder", () => {
           number: z.number().int(),
         })
         .optional(),
+      float: z.number().optional(),
       hello: z.string(),
       name: z.boolean().optional(),
       other: z.array(z.string()).optional(),
@@ -24,7 +25,7 @@ describe("schema builder", () => {
     });
 
     const schema = schemaBuilder("MySchema", mySchema);
-    // console.log(schema.graphql);
+    console.log(schema.graphql);
 
     expect(schema.zod).toStrictEqual(mySchema);
     expect(schema.openApi).toBeDefined();
