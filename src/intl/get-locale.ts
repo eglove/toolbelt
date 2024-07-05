@@ -8,7 +8,7 @@ import { getAcceptLanguage } from "../http/headers.ts";
 type LocaleSource = "accept-language" | "cookie" | "localStorage" | "navigator";
 
 export const getLocale = (
-  sourceTypes: Readonly<LocaleSource[]>,
+  sourceTypes: readonly LocaleSource[],
   source?: Readonly<Headers | string>,
   valueName?: Readonly<string>,
   // eslint-disable-next-line sonar/cognitive-complexity
