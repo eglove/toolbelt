@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@anatine/zod-openapi':
+        specifier: ^2.2.6
+        version: 2.2.6(openapi3-ts@4.3.3)(zod@3.23.8)
       '@phensley/cldr':
         specifier: ^1.8.1
         version: 1.8.1
@@ -51,6 +54,9 @@ importers:
       eslint:
         specifier: ^9.6.0
         version: 9.6.0
+      openapi3-ts:
+        specifier: ^4.3.3
+        version: 4.3.3
       type-fest:
         specifier: ^4.21.0
         version: 4.21.0
@@ -72,6 +78,12 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@anatine/zod-openapi@2.2.6':
+    resolution: {integrity: sha512-Z5sr2Nq2xifEpPbPdUcvyl776LY652oR3VHMV++WFSmRrRL8RDP2XTkbuGn+vgfVNOD7UrndYwCWnxaiw7IZog==}
+    peerDependencies:
+      openapi3-ts: ^4.1.2
+      zod: ^3.20.0
 
   '@astrojs/compiler@2.8.1':
     resolution: {integrity: sha512-NGfPAgU/9rvDEwsXu82RI1AxiivaxtEYBK9saW1f+2fTHUUqCJQ27HYtb2akG2QxCmFikgZ9zk26BEWgiHho1Q==}
@@ -1937,6 +1949,9 @@ packages:
     resolution: {integrity: sha512-1FlR+gjXK7X+AsAHso35MnyN5KqGwJRi/31ft6x0M194ht7S+rWAvd7PHss9xSKMzE0asv1pyIHaJYq+BbacAQ==}
     engines: {node: '>=12'}
 
+  openapi3-ts@4.3.3:
+    resolution: {integrity: sha512-LKkzBGJcZ6wdvkKGMoSvpK+0cbN5Xc3XuYkJskO+vjEQWJgs1kgtyUk0pjf8KwPuysv323Er62F5P17XQl96Qg==}
+
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
@@ -2411,6 +2426,10 @@ packages:
     peerDependencies:
       typescript: '>=4.2.0'
 
+  ts-deepmerge@6.2.1:
+    resolution: {integrity: sha512-8CYSLazCyj0DJDpPIxOFzJG46r93uh6EynYjuey+bxcLltBeqZL7DMfaE5ZPzZNFlav7wx+2TDa/mBl8gkTYzw==}
+    engines: {node: '>=14.13.1'}
+
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
@@ -2664,6 +2683,12 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
+
+  '@anatine/zod-openapi@2.2.6(openapi3-ts@4.3.3)(zod@3.23.8)':
+    dependencies:
+      openapi3-ts: 4.3.3
+      ts-deepmerge: 6.2.1
+      zod: 3.23.8
 
   '@astrojs/compiler@2.8.1': {}
 
@@ -4685,6 +4710,10 @@ snapshots:
     dependencies:
       mimic-fn: 4.0.0
 
+  openapi3-ts@4.3.3:
+    dependencies:
+      yaml: 2.4.5
+
   optionator@0.9.4:
     dependencies:
       deep-is: 0.1.4
@@ -5189,6 +5218,8 @@ snapshots:
   ts-api-utils@1.3.0(typescript@5.5.3):
     dependencies:
       typescript: 5.5.3
+
+  ts-deepmerge@6.2.1: {}
 
   ts-interface-checker@0.1.13: {}
 
