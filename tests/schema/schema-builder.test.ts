@@ -59,4 +59,29 @@ describe("schema builder", () => {
 
     expect(graphql).toBeDefined();
   });
+
+  it("should work with nested arrays", () => {
+    const schema = z.object({
+      igdbAgeRating: z.array(
+        z.object({
+          category: z.number().optional(),
+          checksum: z.string().optional(),
+          content_descriptions: z.array(z.number()).optional(),
+          id: z.number().optional(),
+          rating: z.number().optional(),
+          rating_cover_url: z.string().optional(),
+          synopsis: z.string().optional(),
+        }),
+      ),
+    });
+
+    const inputSchema = z.object({
+      authorization: z.string(),
+      body: z.string(),
+      clientId: z.string().optional(),
+    });
+
+    const { graphql } = buildSchema("Query", schema, inputSchema);
+    expect(graphql).toBeDefined();
+  });
 });

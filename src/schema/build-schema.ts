@@ -6,13 +6,14 @@ import forEach from "lodash/forEach.js";
 import get from "lodash/get.js";
 import isNil from "lodash/isNil.js";
 import keys from "lodash/keys.js";
+import set from "lodash/set.js";
 import upperFirst from "lodash/upperFirst.js";
 
 export function buildSchema(
   typeName: string,
   schema: OpenApiZodAny,
   parameterSchema?: OpenApiZodAny,
-  typeLabel = "type",
+  _typeLabel = "type",
 ) {
   const openApi: SchemaObject = generateSchema(schema);
 
@@ -28,6 +29,10 @@ export function buildSchema(
       undefined,
       "input",
     ).graphql;
+  }
+
+  if ("array" === openApi.type?.[0]) {
+    set(openApi, ["properties"], get(openApi, ["items", "properties"]));
   }
 
   forEach(openApi.properties, (property, key) => {
@@ -75,7 +80,7 @@ export function buildSchema(
     properties += `${value} `;
   });
 
-  let graphql = `${typeLabel} ${typeName} {
+  let graphql = `${_typeLabel} ${typeName} {
   ${properties}
 }`;
 
