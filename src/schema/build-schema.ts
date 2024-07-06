@@ -5,12 +5,30 @@ import { generateSchema } from "@anatine/zod-openapi";
 import forEach from "lodash/forEach.js";
 import get from "lodash/get.js";
 import isNil from "lodash/isNil.js";
+import keys from "lodash/keys.js";
+import upperFirst from "lodash/upperFirst.js";
 
-export function schemaBuilder(typeName: string, schema: OpenApiZodAny) {
+export function buildSchema(
+  typeName: string,
+  schema: OpenApiZodAny,
+  parameterSchema?: OpenApiZodAny,
+  typeLabel = "type",
+) {
   const openApi: SchemaObject = generateSchema(schema);
 
   let properties = "";
   const nestedTypes: string[] = [];
+  let inputType: string | undefined;
+  const [functionName] = keys(openApi.properties);
+  const inputLabel = `${upperFirst(functionName)}Input`;
+  if (!isNil(parameterSchema)) {
+    inputType = buildSchema(
+      inputLabel,
+      parameterSchema,
+      undefined,
+      "input",
+    ).graphql;
+  }
 
   forEach(openApi.properties, (property, key) => {
     let type = get(property, ["type", 0]) as string;
@@ -20,16 +38,15 @@ export function schemaBuilder(typeName: string, schema: OpenApiZodAny) {
     const isNonEmptyArray = isArray && !isNil(minItems) && 0 < minItems;
     let value = "";
 
-    switch (type) {
-      case "array": {
-        type = get(property, ["items", "type", 0]) as string;
-        break;
-      }
+    if (isArray) {
+      type = get(property, ["items", "type", 0]) as string;
+    }
 
+    switch (type) {
       case "object": {
-        const name = `${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+        const name = upperFirst(key);
         const nestedSchema = get(schema, ["shape", key]) as OpenApiZodAny;
-        const nestedGql = schemaBuilder(name, nestedSchema);
+        const nestedGql = buildSchema(name, nestedSchema);
         nestedTypes.push(nestedGql.graphql);
         type = name;
         break;
@@ -46,7 +63,10 @@ export function schemaBuilder(typeName: string, schema: OpenApiZodAny) {
       }
     }
 
-    value += `${key}: ${isArray ? "[" : ""}${type.charAt(0).toUpperCase()}${type.slice(1)}${isNonEmptyArray ? "!" : ""}${isArray ? "]" : ""}`;
+    const parameters = isNil(inputType)
+      ? ""
+      : `(parameters: ${inputLabel}${true === parameterSchema?.isOptional() ? "" : "!"})`;
+    value += `${key}${parameters}: ${isArray ? "[" : ""}${upperFirst(type)}${isNonEmptyArray ? "!" : ""}${isArray ? "]" : ""}`;
 
     if (true === openApi.required?.includes(key)) {
       value += "!";
@@ -55,9 +75,13 @@ export function schemaBuilder(typeName: string, schema: OpenApiZodAny) {
     properties += `${value} `;
   });
 
-  let graphql = `type ${typeName} {
+  let graphql = `${typeLabel} ${typeName} {
   ${properties}
 }`;
+
+  if (!isNil(inputType)) {
+    graphql += inputType;
+  }
 
   for (const type of nestedTypes) {
     graphql += type;

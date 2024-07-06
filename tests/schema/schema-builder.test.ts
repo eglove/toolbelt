@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
-import { schemaBuilder } from "../../src/schema/schema-builder.js";
+import { buildSchema } from "../../src/schema/build-schema.js";
 
 describe("schema builder", () => {
   it("should work with basic object", () => {
@@ -24,7 +24,7 @@ describe("schema builder", () => {
       requiredArray: z.array(z.string()).min(1),
     });
 
-    const schema = schemaBuilder("MySchema", mySchema);
+    const schema = buildSchema("MySchema", mySchema);
 
     expect(schema.zod).toStrictEqual(mySchema);
     expect(schema.openApi).toBeDefined();
@@ -35,5 +35,28 @@ describe("schema builder", () => {
     ]);
     expect(schema.graphql).toContain("hello: String!");
     expect(schema.graphql).toContain("name: Boolean");
+  });
+
+  it("should work with nesting types for merging", () => {
+    const schema = z.object({
+      igdbAgeRating: z.object({
+        category: z.number(),
+        checksum: z.string(),
+        content_descriptions: z.array(z.number().int()).optional(),
+        id: z.number().int(),
+        rating: z.number(),
+        rating_cover_url: z.string().optional(),
+        synopsis: z.string().optional(),
+      }),
+    });
+
+    const inputSchema = z.object({
+      sortBy: z.string(),
+      where: z.string(),
+    });
+
+    const { graphql } = buildSchema("Query", schema, inputSchema);
+
+    expect(graphql).toBeDefined();
   });
 });
