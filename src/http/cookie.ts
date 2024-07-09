@@ -4,6 +4,7 @@ import isNil from "lodash/isNil.js";
 import isNumber from "lodash/isNumber.js";
 import isString from "lodash/isString.js";
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export const getCookieValue = <T extends string>(
   cookieName: T,
   cookieSource: Readonly<Headers | string>,
