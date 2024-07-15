@@ -1,5 +1,3 @@
-import type { ReadonlyDeep } from "type-fest";
-
 import { openDB } from "idb";
 import attempt from "lodash/attempt.js";
 import isError from "lodash/isError.js";
@@ -8,11 +6,11 @@ import isNil from "lodash/isNil.js";
 import { isBrowser } from "../is/browser.ts";
 import { requestKeys } from "./request-keys.ts";
 
-type FetcherOptions = ReadonlyDeep<{
+type FetcherOptions = {
   cacheInterval?: number;
   cacheKey?: string;
   request: Request;
-}>;
+};
 
 type RequestMeta = {
   expires: Date;

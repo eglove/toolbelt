@@ -1,5 +1,3 @@
-import type { ReadonlyDeep } from "type-fest";
-
 import isNil from "lodash/isNil.js";
 import isNumber from "lodash/isNumber.js";
 import isString from "lodash/isString.js";
@@ -7,7 +5,7 @@ import isString from "lodash/isString.js";
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export const getCookieValue = <T extends string>(
   cookieName: T,
-  cookieSource: Readonly<Headers | string>,
+  cookieSource: Headers | string,
 ): Error | string => {
   const cookies =
     "string" === typeof cookieSource
@@ -30,7 +28,7 @@ export const getCookieValue = <T extends string>(
   return new Error("failed to get cookie");
 };
 
-type SetCookieValueProperties<T extends string> = ReadonlyDeep<{
+type SetCookieValueProperties<T extends string> = {
   config?: {
     Domain?: string;
     Expires?: Date;
@@ -44,7 +42,7 @@ type SetCookieValueProperties<T extends string> = ReadonlyDeep<{
   cookieName: T;
   cookieValue: string;
   response: Response;
-}>;
+};
 
 export const setCookieValue = <T extends string>({
   config,

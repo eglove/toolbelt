@@ -3,7 +3,7 @@ import type {
   QueryKey,
   QueryOptions as TanStackQueryOptions,
 } from "@tanstack/query-core";
-import type { Merge, ReadonlyDeep } from "type-fest";
+import type { Merge } from "type-fest";
 import type { z, ZodError } from "zod";
 
 import forEach from "lodash/forEach.js";
@@ -33,17 +33,17 @@ import { parseJson } from "../json/json.ts";
 export class Api<T extends RequestConfigObject> {
   private readonly _baseUrl: string;
   private readonly _defaultCacheInterval?: number;
-  private readonly _defaultRequestInit?: ReadonlyDeep<RequestInit>;
-  private readonly _queryClient?: ReadonlyDeep<QueryClient>;
+  private readonly _defaultRequestInit?: RequestInit;
+  private readonly _queryClient?: QueryClient;
   // @ts-expect-error initialized in constructor
   private readonly _request: { [K in keyof T]: RequestDetails } = {};
   private readonly _requestConfig?: RequestConfigObject;
 
   private readonly validateRequestBodyString = <V extends ZodValidator<V>>(
     body: string,
-    bodySchema: ReadonlyDeep<ZodValidator<V>>,
+    bodySchema: ZodValidator<V>,
   ): Error | undefined | ZodError => {
-    const parsedString = parseJson(body, bodySchema as ZodValidator<V>);
+    const parsedString = parseJson(body, bodySchema);
 
     return isError(parsedString) ? parsedString : undefined;
   };
@@ -124,7 +124,7 @@ export class Api<T extends RequestConfigObject> {
       options?.requestInit,
     );
 
-    return new Request(url, requestInit as RequestInit);
+    return new Request(url, requestInit);
   }
 
   private async fetch(

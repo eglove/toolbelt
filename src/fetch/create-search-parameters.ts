@@ -1,15 +1,15 @@
-import type { ReadonlyDeep } from "type-fest";
 import type { ZodError, ZodSchema } from "zod";
 
 import isNil from "lodash/isNil.js";
 
-type SearchParametersRecord = ReadonlyDeep<
-  Record<string, number | number[] | string | string[] | undefined>
+type SearchParametersRecord = Record<
+  string,
+  number | number[] | string | string[] | undefined
 >;
 
 export const createSearchParameters = <Z extends ZodSchema>(
   searchParameters: SearchParametersRecord,
-  searchParametersSchema: ReadonlyDeep<ZodSchema>,
+  searchParametersSchema: ZodSchema,
   // eslint-disable-next-line sonar/cognitive-complexity
 ): URLSearchParams | ZodError<Z> => {
   const result = searchParametersSchema.safeParse(searchParameters);

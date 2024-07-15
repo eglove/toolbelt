@@ -1,4 +1,3 @@
-import type { ReadonlyDeep } from "type-fest";
 import type { ZodError, ZodSchema } from "zod";
 
 import attempt from "lodash/attempt.js";
@@ -14,13 +13,13 @@ export type SearchParametersRecord = Record<
   number | number[] | string | string[] | undefined
 >;
 
-export type UrlConfig<Url extends string> = ReadonlyDeep<{
+export type UrlConfig<Url extends string> = {
   pathVariables?: ParseUrlParameters<Url>;
   pathVariablesSchema?: ZodSchema;
   searchParams?: SearchParametersRecord;
   searchParamsSchema?: ZodSchema;
   urlBase?: string | URL;
-}>;
+};
 
 export const createUrl = <Url extends string>(
   urlString: Url,
@@ -52,10 +51,7 @@ export const createUrl = <Url extends string>(
   }
 
   const url = attempt(() => {
-    return new URL(
-      mutableUrlString,
-      config?.urlBase as string | undefined | URL,
-    );
+    return new URL(mutableUrlString, config?.urlBase);
   });
 
   if (isError(url)) {

@@ -1,8 +1,6 @@
-import type { ReadonlyDeep } from "type-fest";
-
 const categorizeResults = <K extends PropertyKey, T>(
   promiseKeys: readonly K[],
-  results: ReadonlyDeep<PromiseSettledResult<Awaited<T>>[]>,
+  results: PromiseSettledResult<Awaited<T>>[],
 ) => {
   let settledPromises = {} as Record<K, Awaited<T> | Error>;
 

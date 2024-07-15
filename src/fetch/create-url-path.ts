@@ -1,4 +1,3 @@
-import type { ReadonlyDeep } from "type-fest";
 import type { ZodError, ZodSchema } from "zod";
 
 import isEmpty from "lodash/isEmpty.js";
@@ -15,8 +14,8 @@ export type ParseUrlParameters<Url> =
 
 export const createUrlPath = <T extends string>(
   path: T,
-  parameters: ReadonlyDeep<ParseUrlParameters<T>>,
-  parametersSchema?: ReadonlyDeep<ZodSchema>,
+  parameters: ParseUrlParameters<T>,
+  parametersSchema?: ZodSchema,
 ): Error | string | ZodError<typeof parametersSchema> => {
   let url = String(path);
 
@@ -32,7 +31,6 @@ export const createUrlPath = <T extends string>(
     }
   }
 
-  // @ts-expect-error force param type
   for (const [key, value] of Object.entries<string>(parameters)) {
     url = path.replace(`:${key}`, value);
   }

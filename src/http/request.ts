@@ -1,9 +1,7 @@
-import type { ReadonlyDeep } from "type-fest";
-
 import isEmpty from "lodash/isEmpty.js";
 import isNil from "lodash/isNil.js";
 
-export const getRequestKeys = (request: ReadonlyDeep<Request>) => {
+export const getRequestKeys = (request: Request) => {
   const url = new URL(request.url);
   const keys = [request.method, url.origin];
   const varyHeader = request.headers.get("Vary");
