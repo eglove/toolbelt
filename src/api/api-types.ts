@@ -51,6 +51,7 @@ export type RequestConfig = {
   graphqlType?: "mutation" | "query";
   path: string;
   pathSchema?: ZodValidator<ZodAny>;
+  precache?: boolean;
   responseSchema?: ZodValidator<ZodAny>;
   searchParamsSchema?: ZodValidator<ZodAny>;
   skipBodyValidation?: boolean;
