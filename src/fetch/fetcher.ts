@@ -9,7 +9,6 @@ import { requestKeys } from "./request-keys.ts";
 type FetcherOptions = {
   cacheInterval?: number;
   cacheKey?: string;
-  precache?: boolean;
   request: Request;
 };
 
@@ -41,20 +40,10 @@ class Fetcher {
     });
   };
 
-  public constructor({
-    cacheInterval,
-    cacheKey,
-    precache,
-    request,
-  }: FetcherOptions) {
+  public constructor({ cacheInterval, cacheKey, request }: FetcherOptions) {
     this._cacheKey = cacheKey ?? "cache";
     this._cacheInterval = cacheInterval ?? 0;
     this._request = request;
-
-    if (true === precache) {
-      // eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable,no-console
-      this.fetch().catch(console.error);
-    }
   }
 
   public async cacheBust() {

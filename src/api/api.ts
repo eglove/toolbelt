@@ -142,7 +142,6 @@ export class Api<T extends RequestConfigObject> {
         this._defaultCacheInterval ??
         item.cacheInterval ??
         options?.cacheInterval,
-      precache: item.precache,
       request: fetchRequest,
     });
 
