@@ -1,4 +1,4 @@
-export function workify<T>(callback: () => T) {
+export function workify<T>(callback: () => T, signal?: AbortSignal) {
   const code = callback.toString();
   const blob = new Blob(
     [`onmessage = function(e) { postMessage((${code})(e.data)) }`],
@@ -6,6 +6,10 @@ export function workify<T>(callback: () => T) {
   );
   const url = URL.createObjectURL(blob);
   const worker = new Worker(url);
+
+  signal?.addEventListener("abort", () => {
+    worker.terminate();
+  });
 
   return async () => {
     return new Promise<T>((resolve, reject) => {
