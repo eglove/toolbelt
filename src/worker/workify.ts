@@ -18,6 +18,8 @@ export function workify<T>(callback: () => T, signal?: AbortSignal) {
       });
 
       worker.addEventListener("error", reject);
+      // eslint-disable-next-line unicorn/require-post-message-target-origin
+      worker.postMessage("");
     });
   };
 }
