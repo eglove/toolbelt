@@ -11,7 +11,7 @@ export function workify<T>(callback: () => T, signal?: AbortSignal) {
     worker.terminate();
   });
 
-  return async () => {
+  return async (data = "") => {
     return new Promise<T>((resolve, reject) => {
       worker.addEventListener("message", (event) => {
         resolve(event.data as T);
@@ -19,7 +19,7 @@ export function workify<T>(callback: () => T, signal?: AbortSignal) {
 
       worker.addEventListener("error", reject);
       // eslint-disable-next-line unicorn/require-post-message-target-origin
-      worker.postMessage("");
+      worker.postMessage(data);
     });
   };
 }
