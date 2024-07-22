@@ -63,10 +63,6 @@ export class Api<T extends RequestConfigObject> {
     this.generateRequests();
   }
 
-  public get baseUrl() {
-    return this._baseUrl;
-  }
-
   private createKeys(
     item: RequestConfig,
     options?: ParameterRequestOptions,
@@ -223,10 +219,6 @@ export class Api<T extends RequestConfigObject> {
     await this._queryClient?.invalidateQueries(queryOptions);
   }
 
-  public get requests() {
-    return this._request;
-  }
-
   private validateRequestBody(
     requestConfig: RequestConfig,
     options?: ParameterRequestOptions,
@@ -254,5 +246,13 @@ export class Api<T extends RequestConfigObject> {
     }
 
     return undefined;
+  }
+
+  public get baseUrl() {
+    return this._baseUrl;
+  }
+
+  public get requests() {
+    return this._request;
   }
 }

@@ -57,18 +57,6 @@ class Fetcher {
     await database.delete(Fetcher._DB_NAME, requestKey.join(","));
   }
 
-  public get cacheInterval(): number {
-    return this._cacheInterval;
-  }
-
-  public set cacheInterval(interval: number) {
-    this._cacheInterval = interval;
-  }
-
-  public get cacheKey(): string {
-    return this._cacheKey;
-  }
-
   public async fetch(): Promise<Error | Response | undefined> {
     if (
       !isBrowser ||
@@ -148,6 +136,18 @@ class Fetcher {
     }
 
     return new Date() >= cachedMeta.expires;
+  }
+
+  public get cacheInterval(): number {
+    return this._cacheInterval;
+  }
+
+  public set cacheInterval(interval: number) {
+    this._cacheInterval = interval;
+  }
+
+  public get cacheKey(): string {
+    return this._cacheKey;
   }
 
   public get request(): Request {
