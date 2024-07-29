@@ -19,8 +19,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^17.5.1",
-    "@ethang/project-builder": "^1.1.49",
+    "@ethang/eslint-config": "^17.5.2",
+    "@ethang/project-builder": "^1.1.50",
     "@tanstack/query-core": "^5.51.15",
     "@types/lodash": "^4.17.7",
     "@types/node": "^22.0.0",
@@ -29,7 +29,7 @@
     "eslint": "^9.8.0",
     "type-fest": "^4.23.0",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^7.17.0",
+    "typescript-eslint": "^7.18.0",
     "vitest": "^2.0.4",
     "vitest-fetch-mock": "^0.3.0"
   },
