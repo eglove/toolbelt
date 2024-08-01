@@ -21,7 +21,7 @@
   "devDependencies": {
     "@ethang/eslint-config": "^17.6.0",
     "@ethang/project-builder": "^1.1.51",
-    "@tanstack/query-core": "^5.51.16",
+    "@tanstack/query-core": "^5.51.17",
     "@types/lodash": "^4.17.7",
     "@types/node": "^22.0.2",
     "@vitest/coverage-v8": "^2.0.5",
