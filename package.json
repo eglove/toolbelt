@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint . --fix --ignore-pattern \"dist/*\" --ignore-pattern \"coverage/*\"",
     "test": "vitest run --coverage.enabled=true",
-    "test:ui": "vitest --ui --coverage.enabled=true --open=false"
+    "test:ui": "vitest --ui --coverage.enabled=true --open=false",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@phensley/cldr": "^1.8.1",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@ethang/eslint-config": "^17.6.1",
     "@ethang/project-builder": "^1.1.52",
+    "@faker-js/faker": "^8.4.1",
     "@tanstack/query-core": "^5.51.21",
     "@types/lodash": "^4.17.7",
     "@types/node": "^22.1.0",
