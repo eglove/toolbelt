@@ -28,8 +28,8 @@ importers:
         version: 3.23.8
     devDependencies:
       '@ethang/eslint-config':
-        specifier: ^18.3.0
-        version: 18.3.0(7oz3snlrloqhwgwxhyztswn3xu)
+        specifier: ^18.3.1
+        version: 18.3.1(7oz3snlrloqhwgwxhyztswn3xu)
       '@ethang/project-builder':
         specifier: ^1.2.1
         version: 1.2.1(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@10.1.7)(lodash@4.17.21)(simple-git@3.25.0)(tsup@8.2.4(jiti@1.21.6)(postcss@8.4.40)(typescript@5.5.4)(yaml@2.5.0))(typescript@5.5.4)
@@ -459,8 +459,8 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ethang/eslint-config@18.3.0':
-    resolution: {integrity: sha512-voz68ycMSEVz7O3+DbP+p6k5kgJn/9hOLgGnU1wm1hbW4vrgaM/9ipnlDzuqh1vX/sZp/OxXAlJ9FANwmX9CWw==}
+  '@ethang/eslint-config@18.3.1':
+    resolution: {integrity: sha512-jRxoogWWx+N0Fj2naTQyzZBIkjgucgoe+2gaiBVZDOF+XpX/Lq/eUXYe0LWoMziVo+LJuXuzwOOU60TD/G6r0Q==}
     engines: {node: '>=20'}
     peerDependencies:
       '@eslint-react/eslint-plugin': ^1.8.2
@@ -3370,7 +3370,7 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@ethang/eslint-config@18.3.0(7oz3snlrloqhwgwxhyztswn3xu)':
+  '@ethang/eslint-config@18.3.1(7oz3snlrloqhwgwxhyztswn3xu)':
     dependencies:
       '@eslint-react/eslint-plugin': 1.8.2(eslint@9.8.0)(typescript@5.5.4)
       '@eslint/js': 9.8.0
