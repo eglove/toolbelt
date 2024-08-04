@@ -1,19 +1,16 @@
-import isEmpty from "lodash/isEmpty.js";
+import compact from "lodash/compact.js";
+import map from "lodash/map.js";
 
 export const requestKeys = (request: Request): string[] => {
   const url = new URL(request.url);
 
-  return [
+  return compact([
     request.method,
     url.origin,
     url.pathname,
-    [...url.searchParams.entries()]
-      .map((item: Readonly<[string, string]>) => {
-        return `${item[0]}=${item[1]}`;
-      })
-      .join(""),
+    map([...url.searchParams.entries()], (item: Readonly<[string, string]>) => {
+      return `${item[0]}=${item[1]}`;
+    }).join(""),
     request.headers.get("Vary"),
-  ].filter((item) => {
-    return !isEmpty(item);
-  }) as string[];
+  ]);
 };

@@ -1,3 +1,8 @@
+import entries from "lodash/entries.js";
+import every from "lodash/every.js";
+import filter from "lodash/filter.js";
+import find from "lodash/find.js";
+
 type CrudderEvent = "created" | "deleted" | "updated";
 
 export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
@@ -69,8 +74,8 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
   }
 
   public findFirst(query: Partial<T>) {
-    return [...this.data.values()].find((item) => {
-      return Object.entries(query).every(([key, value]) => {
+    return find([...this.data.values()], (item) => {
+      return every(entries(query), ([key, value]) => {
         return item[key as keyof T] === value;
       });
     });
@@ -99,9 +104,9 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
   public unsubscribe(event: CrudderEvent, listener: (item: T) => void) {
     this.listeners.set(
       event,
-      this.listeners.get(event)?.filter((l) => {
+      filter(this.listeners.get(event), (l) => {
         return l !== listener;
-      }) ?? [],
+      }),
     );
   }
 

@@ -10,6 +10,7 @@ import forEach from "lodash/forEach.js";
 import get from "lodash/get.js";
 import isError from "lodash/isError.js";
 import isNil from "lodash/isNil.js";
+import isString from "lodash/isString.js";
 import merge from "lodash/merge.js";
 
 import type { ZodValidator } from "../types/zod-validator.js";
@@ -234,7 +235,7 @@ export class Api<T extends RequestConfigObject> {
     }
 
     if (!isNil(requestConfig.bodySchema) && !isNil(body)) {
-      if ("string" === typeof body) {
+      if (isString(body)) {
         return this.validateRequestBodyString(body, requestConfig.bodySchema);
       }
 

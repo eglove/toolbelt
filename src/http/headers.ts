@@ -1,5 +1,11 @@
+import compact from "lodash/compact.js";
+import isEmpty from "lodash/isEmpty.js";
 import isNil from "lodash/isNil.js";
 import isString from "lodash/isString.js";
+import map from "lodash/map.js";
+import orderBy from "lodash/orderBy.js";
+import split from "lodash/split.js";
+import trim from "lodash/trim.js";
 
 import { isBigIntOrNumber } from "../is/big-int-or-number.ts";
 
@@ -14,36 +20,34 @@ export const getAcceptLanguage = (
   acceptLanguage: Readonly<Headers | string>,
 ): AcceptLanguageResults | Error => {
   const languages = isString(acceptLanguage)
-    ? acceptLanguage.split(",")
-    : acceptLanguage.get("accept-language")?.split(",");
+    ? split(acceptLanguage, ",")
+    : split(acceptLanguage.get("accept-language"), ",");
 
-  if (isNil(languages)) {
+  if (isEmpty(compact(languages))) {
     return new Error("accept-language not found");
   }
 
-  return languages
-    .map((lang) => {
-      const [name, query] = lang.split(";");
-      const [language, country] = name.split("-") as [
-        string | undefined,
-        string | undefined,
-      ];
-      let quality = 1;
-      if (!isNil(query)) {
-        const [, value] = query.split("=");
-        if (isBigIntOrNumber(value)) {
-          quality = Number(value);
-        }
+  const result = map(languages, (lang) => {
+    const [name, query] = split(lang, ";");
+    const [language, country] = split(name, "-") as [
+      string | undefined,
+      string | undefined,
+    ];
+    let quality = 1;
+    if (!isNil(query)) {
+      const [, value] = split(query, "=");
+      if (isBigIntOrNumber(value)) {
+        quality = Number(value);
       }
+    }
 
-      return {
-        country,
-        language,
-        name: name.trim(),
-        quality,
-      } as const;
-    })
-    .sort((first, second) => {
-      return second.quality - first.quality;
-    });
+    return {
+      country,
+      language,
+      name: trim(name),
+      quality,
+    } as const;
+  });
+
+  return orderBy(result, ["quality"], ["desc"]);
 };

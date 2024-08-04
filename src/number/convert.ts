@@ -6,6 +6,7 @@ import {
   VOLUME_UK,
 } from "@phensley/unit-converter";
 import isNil from "lodash/isNil.js";
+import replace from "lodash/replace.js";
 
 import { type FromUnit, type ToUnit, unitsMap } from "./conversion-types.ts";
 
@@ -25,18 +26,18 @@ export const convertNumber = <From extends FromUnit, To extends ToUnit<From>>(
 
       switch (factorDefinitions) {
         case DIGITAL_DECIMAL: {
-          mutableTo = to.replace("Decimal", "") as To;
-          mutableFrom = from.replace("Decimal", "") as From;
+          mutableTo = replace(to, "Decimal", "") as To;
+          mutableFrom = replace(from, "Decimal", "") as From;
           break;
         }
         case VOLUME: {
-          mutableTo = to.replace("-US", "") as To;
-          mutableFrom = from.replace("-US", "") as From;
+          mutableTo = replace(to, "-US", "") as To;
+          mutableFrom = replace(from, "-US", "") as From;
           break;
         }
         case VOLUME_UK: {
-          mutableTo = to.replace("-UK", "") as To;
-          mutableFrom = from.replace("-UK", "") as From;
+          mutableTo = replace(to, "-UK", "") as To;
+          mutableFrom = replace(from, "-UK", "") as From;
           break;
         }
         // No default

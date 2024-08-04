@@ -1,3 +1,6 @@
+import keys from "lodash/keys.js";
+import values from "lodash/values.js";
+
 const categorizeResults = <K extends PropertyKey, T>(
   promiseKeys: readonly K[],
   results: PromiseSettledResult<Awaited<T>>[],
@@ -28,8 +31,8 @@ export const promiseAllSettled = async <
 >(
   promises: T,
 ) => {
-  const promiseKeys = Object.keys(promises) as K[];
-  const promiseValues = Object.values(promises);
+  const promiseKeys = keys(promises) as K[];
+  const promiseValues = values(promises);
   const results = await Promise.allSettled(promiseValues);
 
   return categorizeResults(promiseKeys, results) as {

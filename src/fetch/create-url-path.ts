@@ -2,6 +2,7 @@ import type { ZodError, ZodSchema } from "zod";
 
 import isEmpty from "lodash/isEmpty.js";
 import isNil from "lodash/isNil.js";
+import replace from "lodash/replace.js";
 
 export type ParseUrlParameters<Url> =
   Url extends `${infer Path}(${infer OptionalPath})`
@@ -32,7 +33,7 @@ export const createUrlPath = <T extends string>(
   }
 
   for (const [key, value] of Object.entries<string>(parameters)) {
-    url = path.replace(`:${key}`, value);
+    url = replace(path, `:${key}`, value);
   }
 
   return url.replaceAll(/(\(|\)|\/?:[^/]+)/g, "");

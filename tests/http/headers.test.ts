@@ -63,7 +63,7 @@ describe("headers", () => {
     expect(isError(result)).toBe(true);
     expect(result).toBeInstanceOf(Error);
 
-    if (result instanceof Error) {
+    if (isError(result)) {
       expect(result.message).toBe("accept-language not found");
     }
   });

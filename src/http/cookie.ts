@@ -1,27 +1,30 @@
+import isDate from "lodash/isDate.js";
 import isNil from "lodash/isNil.js";
 import isNumber from "lodash/isNumber.js";
 import isString from "lodash/isString.js";
+import keys from "lodash/keys.js";
+import split from "lodash/split.js";
+import trim from "lodash/trim.js";
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export const getCookieValue = <T extends string>(
   cookieName: T,
   cookieSource: Headers | string,
 ): Error | string => {
-  const cookies =
-    "string" === typeof cookieSource
-      ? cookieSource
-      : cookieSource.get("Cookie");
+  const cookies = isString(cookieSource)
+    ? cookieSource
+    : cookieSource.get("Cookie");
 
   if (isNil(cookies)) {
     return new Error("cookies not found");
   }
 
-  const cookieArray = cookies.split(";");
+  const cookieArray = split(cookies, ";");
   for (const cookie of cookieArray) {
-    const [name, value] = cookie.split("=");
+    const [name, value] = split(cookie, "=");
 
-    if (name.trim() === cookieName.trim()) {
-      return value.trim();
+    if (trim(name) === trim(cookieName)) {
+      return trim(value);
     }
   }
 
@@ -53,14 +56,14 @@ export const setCookieValue = <T extends string>({
   let cookieString = `${cookieName}=${cookieValue}`;
 
   if (!isNil(config)) {
-    for (const key of Object.keys(config)) {
+    for (const key of keys(config)) {
       const value = config[key as keyof typeof config];
 
       if (isString(value) || isNumber(value)) {
         cookieString += `; ${key}=${String(value)}`;
       } else if (true === value) {
         cookieString += `; ${key}`;
-      } else if (value instanceof Date) {
+      } else if (isDate(value)) {
         cookieString += `; Expires=${value.toUTCString()}`;
       } else {
         // do nothing

@@ -1,6 +1,8 @@
 import type { ZodError, ZodSchema } from "zod";
 
+import isArray from "lodash/isArray.js";
 import isNil from "lodash/isNil.js";
+import keys from "lodash/keys.js";
 
 type SearchParametersRecord = Record<
   string,
@@ -20,11 +22,11 @@ export const createSearchParameters = <Z extends ZodSchema>(
 
   const search = new URLSearchParams();
 
-  for (const key of Object.keys(searchParameters)) {
+  for (const key of keys(searchParameters)) {
     if (Object.hasOwn(searchParameters, key)) {
       const values = searchParameters[key];
 
-      if (Array.isArray(values)) {
+      if (isArray(values)) {
         for (const value of values) {
           if (!isNil(value)) {
             search.append(key, String(value));

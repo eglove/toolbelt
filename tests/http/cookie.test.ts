@@ -1,4 +1,5 @@
 import isError from "lodash/isError.js";
+// eslint-disable-next-line barrel/avoid-importing-barrel-files
 import { describe, expect, it } from "vitest";
 
 import { getCookieValue, setCookieValue } from "../../src/http/cookie.ts";

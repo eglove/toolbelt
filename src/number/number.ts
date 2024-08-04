@@ -1,4 +1,5 @@
 import isNil from "lodash/isNil.js";
+import isString from "lodash/isString.js";
 
 import type { FromUnit, ToUnit } from "./conversion-types.js";
 
@@ -24,9 +25,10 @@ class BetterNumber {
 
     if (!isBigIntOrNumber(number)) {
       this._number = undefined;
-    } else if ("bigint" === typeof number || "number" === typeof number) {
+      // eslint-disable-next-line lodash/prefer-lodash-typecheck
+    } else if ("number" === typeof number || "bigint" === typeof number) {
       this._number = number;
-    } else if ("string" === typeof number) {
+    } else if (isString(number)) {
       this._number =
         Number(number) > Number.MAX_SAFE_INTEGER
           ? BigInt(number)
