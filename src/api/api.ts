@@ -181,8 +181,8 @@ export class Api<T extends RequestConfigObject> {
       return new Error("no responseSchema provided");
     }
 
-    // @ts-expect-error force this
     return parseFetchJson<JSON>(response,
+    // @ts-expect-error force this
       item.responseSchema);
   }
 
