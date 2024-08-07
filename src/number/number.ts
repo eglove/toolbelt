@@ -13,10 +13,12 @@ type FormatOptions = Readonly<
 
 class BetterNumber {
   private readonly _formatOptions?: FormatOptions;
+
   private readonly _locale?: Intl.LocalesArgument;
+
   private readonly _number?: bigint | number;
 
-  public constructor(
+  public constructor (
     number: unknown,
     locale?: string,
     formatOptions?: FormatOptions,
@@ -52,11 +54,13 @@ class BetterNumber {
     to: To,
   ) {
     if (!isNil(this._number) && isNumber(this._number)) {
-      return convertNumber(this._number, from, to);
+      return convertNumber(this._number,
+        from,
+        to);
     }
   }
 
-  public format(options?: FormatOptions): string | undefined {
+  public format (options?: FormatOptions): string | undefined {
     if (isNil(this._number)) {
       return undefined;
     }
@@ -67,11 +71,11 @@ class BetterNumber {
     );
   }
 
-  public get locale(): Intl.LocalesArgument {
+  public get locale (): Intl.LocalesArgument {
     return this._locale;
   }
 
-  public get number(): bigint | number | undefined {
+  public get number (): bigint | number | undefined {
     return this._number;
   }
 }
@@ -81,5 +85,7 @@ export const betterNumber = (
   locale?: string,
   formatOptions?: FormatOptions,
 ): BetterNumber => {
-  return new BetterNumber(number, locale, formatOptions);
+  return new BetterNumber(number,
+    locale,
+    formatOptions);
 };

@@ -20,24 +20,39 @@ export const convertNumber = <From extends FromUnit, To extends ToUnit<From>>(
   let mutableTo = to;
   let mutableFrom = from;
 
-  for (const [unit, factorDefinitions] of unitsMap) {
+  for (const [
+    unit,
+    factorDefinitions,
+  ] of unitsMap) {
     if (unit.has(from)) {
       factorDefinition = factorDefinitions;
 
       switch (factorDefinitions) {
         case DIGITAL_DECIMAL: {
-          mutableTo = replace(to, "Decimal", "") as To;
-          mutableFrom = replace(from, "Decimal", "") as From;
+          mutableTo = replace(to,
+            "Decimal",
+            "") as To;
+          mutableFrom = replace(from,
+            "Decimal",
+            "") as From;
           break;
         }
         case VOLUME: {
-          mutableTo = replace(to, "-US", "") as To;
-          mutableFrom = replace(from, "-US", "") as From;
+          mutableTo = replace(to,
+            "-US",
+            "") as To;
+          mutableFrom = replace(from,
+            "-US",
+            "") as From;
           break;
         }
         case VOLUME_UK: {
-          mutableTo = replace(to, "-UK", "") as To;
-          mutableFrom = replace(from, "-UK", "") as From;
+          mutableTo = replace(to,
+            "-UK",
+            "") as To;
+          mutableFrom = replace(from,
+            "-UK",
+            "") as From;
           break;
         }
         // No default
@@ -48,11 +63,13 @@ export const convertNumber = <From extends FromUnit, To extends ToUnit<From>>(
   }
 
   const factors = new UnitFactors(factorDefinition);
-  const factor = factors.get(mutableFrom, mutableTo);
+  const factor = factors.get(mutableFrom,
+    mutableTo);
 
   if (isNil(factor)) {
     return new Error("conversion not possible");
   }
 
-  return Number(factor.factors[0].multiply(value).toDecimal().toString());
+  return Number(factor.factors[0].multiply(value).toDecimal().
+    toString());
 };

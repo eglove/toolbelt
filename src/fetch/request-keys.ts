@@ -8,9 +8,10 @@ export const requestKeys = (request: Request): string[] => {
     request.method,
     url.origin,
     url.pathname,
-    map([...url.searchParams.entries()], (item: Readonly<[string, string]>) => {
-      return `${item[0]}=${item[1]}`;
-    }).join(""),
+    map([...url.searchParams.entries()],
+      (item: Readonly<[string, string]>) => {
+        return `${item[0]}=${item[1]}`;
+      }).join(""),
     request.headers.get("Vary"),
   ]);
 };

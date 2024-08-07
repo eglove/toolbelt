@@ -23,19 +23,22 @@ export const createSearchParameters = <Z extends ZodSchema>(
   const search = new URLSearchParams();
 
   for (const key of keys(searchParameters)) {
-    if (Object.hasOwn(searchParameters, key)) {
+    if (Object.hasOwn(searchParameters,
+      key)) {
       const values = searchParameters[key];
 
       if (isArray(values)) {
         for (const value of values) {
           if (!isNil(value)) {
-            search.append(key, String(value));
+            search.append(key,
+              String(value));
           }
         }
       } else if (isNil(values)) {
         // do nothing
       } else {
-        search.append(key, String(searchParameters[key]));
+        search.append(key,
+          String(searchParameters[key]));
       }
     }
   }

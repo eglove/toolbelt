@@ -8,6 +8,8 @@ export const attemptAsync = async <T extends () => unknown>(
 
     return (await callback()) as Awaited<ReturnType<T>>;
   } catch (error: unknown) {
-    return isError(error) ? error : new Error(`${callback.name} failed`);
+    return isError(error)
+      ? error
+      : new Error(`${callback.name} failed`);
   }
 };

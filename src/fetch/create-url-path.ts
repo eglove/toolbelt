@@ -32,9 +32,15 @@ export const createUrlPath = <T extends string>(
     }
   }
 
-  for (const [key, value] of Object.entries<string>(parameters)) {
-    url = replace(path, `:${key}`, value);
+  for (const [
+    key,
+    value,
+  ] of Object.entries<string>(parameters)) {
+    url = replace(path,
+      `:${key}`,
+      value);
   }
 
-  return url.replaceAll(/(\(|\)|\/?:[^/]+)/g, "");
+  return url.replaceAll(/(\(|\)|\/?:[^/]+)/g,
+    "");
 };

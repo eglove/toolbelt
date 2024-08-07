@@ -21,8 +21,16 @@ export const getLocale = (
         return;
       }
 
-      let language = get(value, [0, "language"]);
-      const country = get(value, [0, "country"]);
+      let language = get(value,
+        [
+          0,
+          "language",
+        ]);
+      const country = get(value,
+        [
+          0,
+          "country",
+        ]);
       if (!isNil(language)) {
         if (!isNil(country)) {
           language += `-${country}`;
@@ -33,7 +41,8 @@ export const getLocale = (
     }
 
     if ("cookie" === sourceType && !isNil(valueName) && !isNil(source)) {
-      const value = getCookieValue(valueName, source);
+      const value = getCookieValue(valueName,
+        source);
 
       if (!isError(value)) {
         return value;

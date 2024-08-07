@@ -97,7 +97,10 @@ export const durationUnits = new Set([
   "nanosecond",
 ] as const);
 
-export const electricUnits = new Set(["ampere", "milliampere"] as const);
+export const electricUnits = new Set([
+  "ampere",
+  "milliampere",
+] as const);
 
 export const energyUnits = new Set([
   "kilojoule",
@@ -115,7 +118,10 @@ export const frequencyUnits = new Set([
   "hertz",
 ] as const);
 
-export const forceUnits = new Set(["pound-force", "newton"] as const);
+export const forceUnits = new Set([
+  "pound-force",
+  "newton",
+] as const);
 
 export const graphicsPerUnits = new Set([
   "dot-per-inch",
@@ -123,7 +129,10 @@ export const graphicsPerUnits = new Set([
   "dot-per-centimeter",
 ] as const);
 
-export const graphicsPixelUnits = new Set(["megapixel", "pixel"] as const);
+export const graphicsPixelUnits = new Set([
+  "megapixel",
+  "pixel",
+] as const);
 
 export const lengthUnits = new Set([
   "kilometer",
@@ -236,44 +245,107 @@ export const volumeUkUnits = new Set([
 ] as const);
 
 export const unitsMap = new Map<Set<string>, FactorDef[]>([
-  [accelerationUnits, ACCELERATION],
-  [angleUnits, ANGLE],
-  [areaUnits, AREA],
-  [consumptionUnits, CONSUMPTION],
-  [digitalDecimalUnits, DIGITAL_DECIMAL],
-  [digitalUnits, DIGITAL],
-  [durationUnits, DURATION],
-  [electricUnits, ELECTRIC],
-  [energyUnits, ENERGY],
-  [forceUnits, FORCE],
-  [frequencyUnits, FREQUENCY],
-  [graphicsPerUnits, GRAPHICS_PER],
-  [graphicsPixelUnits, GRAPHICS_PIXEL],
-  [lengthUnits, LENGTH],
-  [massUnits, MASS],
-  [powerUnits, POWER],
-  [pressureUnits, PRESSURE],
-  [speedUnits, SPEED],
-  [torqueUnits, TORQUE],
-  [volumeBaseUnits, VOLUME],
-  [volumeUkUnits, VOLUME_UK],
+  [
+    accelerationUnits,
+    ACCELERATION,
+  ],
+  [
+    angleUnits,
+    ANGLE,
+  ],
+  [
+    areaUnits,
+    AREA,
+  ],
+  [
+    consumptionUnits,
+    CONSUMPTION,
+  ],
+  [
+    digitalDecimalUnits,
+    DIGITAL_DECIMAL,
+  ],
+  [
+    digitalUnits,
+    DIGITAL,
+  ],
+  [
+    durationUnits,
+    DURATION,
+  ],
+  [
+    electricUnits,
+    ELECTRIC,
+  ],
+  [
+    energyUnits,
+    ENERGY,
+  ],
+  [
+    forceUnits,
+    FORCE,
+  ],
+  [
+    frequencyUnits,
+    FREQUENCY,
+  ],
+  [
+    graphicsPerUnits,
+    GRAPHICS_PER,
+  ],
+  [
+    graphicsPixelUnits,
+    GRAPHICS_PIXEL,
+  ],
+  [
+    lengthUnits,
+    LENGTH,
+  ],
+  [
+    massUnits,
+    MASS,
+  ],
+  [
+    powerUnits,
+    POWER,
+  ],
+  [
+    pressureUnits,
+    PRESSURE,
+  ],
+  [
+    speedUnits,
+    SPEED,
+  ],
+  [
+    torqueUnits,
+    TORQUE,
+  ],
+  [
+    volumeBaseUnits,
+    VOLUME,
+  ],
+  [
+    volumeUkUnits,
+    VOLUME_UK,
+  ],
 ]);
 
 type UnitMap = {
-  acre: ["square-foot"];
+  "acre": ["square-foot"];
   "acre-foot": ["cubic-foot"];
-  ampere: ["milliampere"];
+  "ampere": ["milliampere"];
   "arc-minute": ["degree"];
   "arc-second": ["arc-minute"];
   "astronomical-unit": ["meter"];
   "bushel-UK": ["gallon-imperial"];
   "bushel-US": ["cubic-inch"];
-  byte: ["bit"];
-  byteDecimal: ["bitDecimal"];
-  calorie: ["joule"];
-  carat: ["milligram"];
-  centiliter: ["liter"];
-  century: ["second"];
+  "byte": ["bit"];
+  "byteDecimal": ["bitDecimal"];
+  "calorie": ["joule"];
+  "carat": ["milligram"];
+  "centiliter": ["liter"];
+  "century": ["second"];
   "cubic-centimeter": ["cubic-inch"];
   "cubic-foot": ["cubic-meter", "liter"];
   "cubic-inch": ["cubic-foot"];
@@ -284,106 +356,106 @@ type UnitMap = {
   "cup-metric": ["liter"];
   "cup-UK": ["milliliter"];
   "cup-US": ["fluid-ounce"];
-  day: ["hour"];
-  deciliter: ["liter"];
-  decimeter: ["centimeter"];
+  "day": ["hour"];
+  "deciliter": ["liter"];
+  "decimeter": ["centimeter"];
   "dot-per-centimeter": ["dot-per-inch"];
   "dot-per-inch": ["pixel-per-inch"];
-  fathom: ["foot"];
+  "fathom": ["foot"];
   "fluid-ounce_US": ["gallon"];
   "fluid-ounce-UK": ["gallon-imperial"];
-  foodcalorie: ["joule"];
-  foot: ["inch"];
-  furlong: ["yard"];
+  "foodcalorie": ["joule"];
+  "foot": ["inch"];
+  "furlong": ["yard"];
   "gallon-imperial_US": ["liter"];
   "gallon-imperial-UK": ["liter"];
   "gallon-UK": ["liter"];
   "gallon-US": ["liter", "cubic-inch"];
-  gigabit: ["megabit"];
-  gigabitDecimal: ["megabitDecimal"];
-  gigabyte: ["megabyte"];
-  gigabyteDecimal: ["megabyteDecimal"];
-  gigahertz: ["megahertz"];
-  gigawatt: ["megawatt"];
-  gram: ["kilogram"];
-  hectare: ["square-meter"];
-  hectoliter: ["liter"];
-  hectopascal: ["millibar", "pound-force-per-square-inch"];
-  horsepower: ["watt"];
-  hour: ["minute"];
-  inch: ["centimeter"];
+  "gigabit": ["megabit"];
+  "gigabitDecimal": ["megabitDecimal"];
+  "gigabyte": ["megabyte"];
+  "gigabyteDecimal": ["megabyteDecimal"];
+  "gigahertz": ["megahertz"];
+  "gigawatt": ["megawatt"];
+  "gram": ["kilogram"];
+  "hectare": ["square-meter"];
+  "hectoliter": ["liter"];
+  "hectopascal": ["millibar", "pound-force-per-square-inch"];
+  "horsepower": ["watt"];
+  "hour": ["minute"];
+  "inch": ["centimeter"];
   "inch-ofhg": ["hectopascal"];
-  kilobit: ["bit"];
-  kilobitDecimal: ["bitDecimal"];
-  kilobyte: ["byte"];
-  kilobyteDecimal: ["byteDecimal"];
-  kilocalorie: ["calorie"];
-  kilohertz: ["hertz"];
-  kilojoule: ["joule"];
-  kilometer: ["centimeter"];
+  "kilobit": ["bit"];
+  "kilobitDecimal": ["bitDecimal"];
+  "kilobyte": ["byte"];
+  "kilobyteDecimal": ["byteDecimal"];
+  "kilocalorie": ["calorie"];
+  "kilohertz": ["hertz"];
+  "kilojoule": ["joule"];
+  "kilometer": ["centimeter"];
   "kilometer-per-hour": ["meter-per-second"];
-  kilowatt: ["watt"];
+  "kilowatt": ["watt"];
   "kilowatt-hour": ["joule"];
-  knot: ["meter-per-second"];
+  "knot": ["meter-per-second"];
   "light-year": ["meter"];
-  liter: ["cubic-centimeter"];
+  "liter": ["cubic-centimeter"];
   "liter-per-100-kilometer": ["liter-per-kilometer"];
-  megabit: ["kilobit"];
-  megabitDecimal: ["kilobitDecimal"];
-  megabyte: ["kilobyte"];
-  megabyteDecimal: ["kilobyteDecimal"];
-  megahertz: ["kilohertz"];
-  megaliter: ["liter"];
-  megapixel: ["pixel"];
-  megawatt: ["kilowatt"];
-  meter: ["centimeter"];
-  microgram: ["milligram"];
-  micrometer: ["centimeter"];
-  microsecond: ["nanosecond"];
-  mile: ["foot"];
+  "megabit": ["kilobit"];
+  "megabitDecimal": ["kilobitDecimal"];
+  "megabyte": ["kilobyte"];
+  "megabyteDecimal": ["kilobyteDecimal"];
+  "megahertz": ["kilohertz"];
+  "megaliter": ["liter"];
+  "megapixel": ["pixel"];
+  "megawatt": ["kilowatt"];
+  "meter": ["centimeter"];
+  "microgram": ["milligram"];
+  "micrometer": ["centimeter"];
+  "microsecond": ["nanosecond"];
+  "mile": ["foot"];
   "mile-per-hour": ["meter-per-second"];
   "mile-scandinavian": ["meter"];
-  milligram: ["gram"];
-  milliliter: ["liter"];
-  millimeter: ["centimeter"];
+  "milligram": ["gram"];
+  "milliliter": ["liter"];
+  "millimeter": ["centimeter"];
   "millimeter-ofhg": ["hectopascal"];
-  millisecond: ["microsecond"];
-  minute: ["second"];
-  month: ["day"];
-  nanometer: ["centimeter"];
+  "millisecond": ["microsecond"];
+  "minute": ["second"];
+  "month": ["day"];
+  "nanometer": ["centimeter"];
   "nautical-mile": ["meter"];
-  ounce: ["pound"];
+  "ounce": ["pound"];
   "ounce-troy": ["pound"];
-  parsec: ["astronomical-unit"];
-  picometer: ["centimeter"];
+  "parsec": ["astronomical-unit"];
+  "picometer": ["centimeter"];
   "pint-metric": ["milliliter"];
   "pint-UK": ["gallon-imperial"];
   "pint-US": ["gallon"];
-  point: ["inch"];
-  pound: ["kilogram"];
+  "point": ["inch"];
+  "pound": ["kilogram"];
   "pound-force": ["newton"];
   "pound-force-foot": ["newton-meter"];
   "quart-UK": ["gallon-imperial"];
   "quart-US": ["gallon"];
-  radian: ["revolution"];
-  revolution: ["degree"];
-  second: ["millisecond"];
+  "radian": ["revolution"];
+  "revolution": ["degree"];
+  "second": ["millisecond"];
   "square-centimeter": ["square-meter", "square-inch"];
   "square-foot": ["square-inch"];
   "square-kilometer": ["square-meter"];
   "square-mile": ["square-meter", "square-yard", "square-foot"];
   "square-yard": ["square-foot"];
-  stone: ["pound"];
-  tablespoon: ["fluid-ounce"];
-  teaspoon: ["fluid-ounce"];
-  terabit: ["gigabit"];
-  terabitDecimal: ["gigabitDecimal"];
-  terabyteDecimal: ["gigabyteDecimal"];
-  ton: ["pound"];
-  tonne: ["kilogram"];
-  week: ["day"];
-  yard: ["inch"];
-  year: ["month", "second"];
+  "stone": ["pound"];
+  "tablespoon": ["fluid-ounce"];
+  "teaspoon": ["fluid-ounce"];
+  "terabit": ["gigabit"];
+  "terabitDecimal": ["gigabitDecimal"];
+  "terabyteDecimal": ["gigabyteDecimal"];
+  "ton": ["pound"];
+  "tonne": ["kilogram"];
+  "week": ["day"];
+  "yard": ["inch"];
+  "year": ["month", "second"];
 };
 
 export type FromUnit = keyof UnitMap;

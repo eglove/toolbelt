@@ -33,23 +33,31 @@ import { parseJson } from "../json/json.ts";
 
 export class Api<T extends RequestConfigObject> {
   private readonly _baseUrl: string;
+
   private readonly _defaultCacheInterval?: number;
+
   private readonly _defaultRequestInit?: RequestInit;
+
   private readonly _queryClient?: QueryClient;
+
   // @ts-expect-error initialized in constructor
   private readonly _request: { [K in keyof T]: RequestDetails } = {};
+
   private readonly _requestConfig?: RequestConfigObject;
 
   private readonly validateRequestBodyString = <V extends ZodValidator<V>>(
     body: string,
     bodySchema: ZodValidator<V>,
   ): Error | undefined | ZodError => {
-    const parsedString = parseJson(body, bodySchema);
+    const parsedString = parseJson(body,
+      bodySchema);
 
-    return isError(parsedString) ? parsedString : undefined;
+    return isError(parsedString)
+      ? parsedString
+      : undefined;
   };
 
-  public constructor({
+  public constructor ({
     baseUrl,
     defaultCacheInterval,
     defaultRequestInit,
@@ -64,11 +72,12 @@ export class Api<T extends RequestConfigObject> {
     this.generateRequests();
   }
 
-  private createKeys(
+  private createKeys (
     item: RequestConfig,
     options?: ParameterRequestOptions,
   ): Error | string[] | ZodError {
-    const request = this.createRequest(item, options);
+    const request = this.createRequest(item,
+      options);
 
     if (isError(request)) {
       return request;
@@ -81,34 +90,40 @@ export class Api<T extends RequestConfigObject> {
     item: RequestConfig,
     options?: QueryOptions,
   ) {
-    const keys = this.createKeys(item, options);
+    const keys = this.createKeys(item,
+      options);
 
     return {
-      queryFn: async () => {
-        return this.fetchJson<V>(item, options);
+      "queryFn": async () => {
+        return this.fetchJson<V>(item,
+          options);
       },
-      queryKey: isError(keys) ? [] : keys,
+      "queryKey": isError(keys)
+        ? []
+        : keys,
       ...options?.queryOptions,
-    } as { queryKey: QueryKey } & TanStackQueryOptions<z.output<V>>;
+    } as { "queryKey": QueryKey } & TanStackQueryOptions<z.output<V>>;
   }
 
-  private createRequest(
+  private createRequest (
     requestConfig: RequestConfig,
     options?: QueryOptions,
   ): Error | Request | ZodError {
-    const result = this.validateRequestBody(requestConfig, options);
+    const result = this.validateRequestBody(requestConfig,
+      options);
 
     if (isError(result)) {
       return result;
     }
 
-    const url = createUrl(requestConfig.path, {
-      pathVariables: options?.pathVariables,
-      pathVariablesSchema: requestConfig.pathSchema,
-      searchParams: options?.searchParams,
-      searchParamsSchema: requestConfig.searchParamsSchema,
-      urlBase: this._baseUrl,
-    });
+    const url = createUrl(requestConfig.path,
+      {
+        "pathVariables": options?.pathVariables,
+        "pathVariablesSchema": requestConfig.pathSchema,
+        "searchParams": options?.searchParams,
+        "searchParamsSchema": requestConfig.searchParamsSchema,
+        "urlBase": this._baseUrl,
+      });
 
     if (isError(url)) {
       return url;
@@ -121,25 +136,27 @@ export class Api<T extends RequestConfigObject> {
       options?.requestInit,
     );
 
-    return new Request(url, requestInit);
+    return new Request(url,
+      requestInit);
   }
 
-  private async fetch(
+  private async fetch (
     item: RequestConfig,
     options?: QueryOptions,
   ): Promise<Error | Response | undefined | ZodError> {
-    const fetchRequest = this.createRequest(item, options);
+    const fetchRequest = this.createRequest(item,
+      options);
 
     if (isError(fetchRequest)) {
       return fetchRequest;
     }
 
     const fetcher = createFetcher({
-      cacheInterval:
+      "cacheInterval":
         this._defaultCacheInterval ??
         item.cacheInterval ??
         options?.cacheInterval,
-      request: fetchRequest,
+      "request": fetchRequest,
     });
 
     return fetcher.fetch();
@@ -149,7 +166,8 @@ export class Api<T extends RequestConfigObject> {
     item: RequestConfig,
     options?: QueryOptions,
   ): Promise<Error | z.output<JSON> | ZodError> {
-    const response = await this.fetch(item, options);
+    const response = await this.fetch(item,
+      options);
 
     if (isError(response)) {
       return response;
@@ -164,53 +182,64 @@ export class Api<T extends RequestConfigObject> {
     }
 
     // @ts-expect-error force this
-    return parseFetchJson<JSON>(response, item.responseSchema);
+    return parseFetchJson<JSON>(response,
+      item.responseSchema);
   }
 
-  private generateRequests() {
-    forEach(this._requestConfig, (item, key) => {
-      this._request[key as keyof T] = {
-        fetch: async (options?: QueryOptions) => {
-          return this.fetch(item, options);
-        },
-        fetchJson: async <JSON extends ZodValidator<JSON>>(
-          options?: ParameterRequestOptions,
-        ) => {
-          return this.fetchJson<JSON>(item, options);
-        },
-        invalidateRequest: async (
-          options?: Merge<ParameterRequestOptions, QueryOptions>,
-        ) => {
-          return this.invalidateRequest(item, options);
-        },
-        keys: (options?: ParameterRequestOptions) => {
-          return this.createKeys(item, options);
-        },
-        queryOptions: <V extends ZodValidator<V>>(options?: QueryOptions) => {
-          return this.createQueryOptions<V>(item, options);
-        },
-        request: (options?: ParameterRequestOptions) => {
-          return this.createRequest(item, options);
-        },
-        url: (options?: ParameterOptions) => {
-          const request = this.createRequest(item, options);
+  private generateRequests () {
+    forEach(this._requestConfig,
+      (item, key) => {
+        this._request[key as keyof T] = {
+          "fetch": async (options?: QueryOptions) => {
+            return this.fetch(item,
+              options);
+          },
+          "fetchJson": async <JSON extends ZodValidator<JSON>>(
+            options?: ParameterRequestOptions,
+          ) => {
+            return this.fetchJson<JSON>(item,
+              options);
+          },
+          "invalidateRequest": async (
+            options?: Merge<ParameterRequestOptions, QueryOptions>,
+          ) => {
+            return this.invalidateRequest(item,
+              options);
+          },
+          "keys": (options?: ParameterRequestOptions) => {
+            return this.createKeys(item,
+              options);
+          },
+          "queryOptions": <V extends ZodValidator<V>>(options?: QueryOptions) => {
+            return this.createQueryOptions<V>(item,
+              options);
+          },
+          "request": (options?: ParameterRequestOptions) => {
+            return this.createRequest(item,
+              options);
+          },
+          "url": (options?: ParameterOptions) => {
+            const request = this.createRequest(item,
+              options);
 
-          if (isError(request)) {
-            return request;
-          }
+            if (isError(request)) {
+              return request;
+            }
 
-          return new URL(request.url);
-        },
-      };
-    });
+            return new URL(request.url);
+          },
+        };
+      });
   }
 
-  private async invalidateRequest(
+  private async invalidateRequest (
     requestConfig: RequestConfig,
     options?: QueryOptions,
   ) {
-    const request = this.createRequest(requestConfig, options);
-    const queryOptions = this.createQueryOptions(requestConfig, options);
+    const request = this.createRequest(requestConfig,
+      options);
+    const queryOptions = this.createQueryOptions(requestConfig,
+      options);
 
     if (isError(request) || isError(queryOptions)) {
       return;
@@ -220,7 +249,7 @@ export class Api<T extends RequestConfigObject> {
     await this._queryClient?.invalidateQueries(queryOptions);
   }
 
-  private validateRequestBody(
+  private validateRequestBody (
     requestConfig: RequestConfig,
     options?: ParameterRequestOptions,
   ): Error | undefined | ZodError {
@@ -228,7 +257,8 @@ export class Api<T extends RequestConfigObject> {
       return;
     }
 
-    const body = get(options, "requestInit.body");
+    const body = get(options,
+      "requestInit.body");
 
     if (isNil(requestConfig.bodySchema) && !isNil(body)) {
       return new Error("no bodySchema provided");
@@ -236,7 +266,8 @@ export class Api<T extends RequestConfigObject> {
 
     if (!isNil(requestConfig.bodySchema) && !isNil(body)) {
       if (isString(body)) {
-        return this.validateRequestBodyString(body, requestConfig.bodySchema);
+        return this.validateRequestBodyString(body,
+          requestConfig.bodySchema);
       }
 
       const parsed = requestConfig.bodySchema.safeParse(body);
@@ -249,11 +280,11 @@ export class Api<T extends RequestConfigObject> {
     return undefined;
   }
 
-  public get baseUrl() {
+  public get baseUrl () {
     return this._baseUrl;
   }
 
-  public get requests() {
+  public get requests () {
     return this._request;
   }
 }

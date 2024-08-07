@@ -19,9 +19,14 @@ export const getCookieValue = <T extends string>(
     return new Error("cookies not found");
   }
 
-  const cookieArray = split(cookies, ";");
+  const cookieArray = split(cookies,
+    ";");
   for (const cookie of cookieArray) {
-    const [name, value] = split(cookie, "=");
+    const [
+      name,
+      value,
+    ] = split(cookie,
+      "=");
 
     if (trim(name) === trim(cookieName)) {
       return trim(value);
@@ -32,19 +37,19 @@ export const getCookieValue = <T extends string>(
 };
 
 type SetCookieValueProperties<T extends string> = {
-  config?: {
-    Domain?: string;
-    Expires?: Date;
-    HttpOnly?: boolean;
+  "config"?: {
+    "Domain"?: string;
+    "Expires"?: Date;
+    "HttpOnly"?: boolean;
     "Max-Age"?: number;
-    Partitioned?: boolean;
-    Path?: string;
-    SameSite?: "Lax" | "None" | "Secure" | "Strict";
-    Secure?: boolean;
+    "Partitioned"?: boolean;
+    "Path"?: string;
+    "SameSite"?: "Lax" | "None" | "Secure" | "Strict";
+    "Secure"?: boolean;
   };
-  cookieName: T;
-  cookieValue: string;
-  response: Response;
+  "cookieName": T;
+  "cookieValue": string;
+  "response": Response;
 };
 
 export const setCookieValue = <T extends string>({
@@ -71,5 +76,6 @@ export const setCookieValue = <T extends string>({
     }
   }
 
-  response.headers.append("Set-Cookie", cookieString);
+  response.headers.append("Set-Cookie",
+    cookieString);
 };

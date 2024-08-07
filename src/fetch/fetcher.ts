@@ -7,46 +7,53 @@ import { isBrowser } from "../is/browser.ts";
 import { requestKeys } from "./request-keys.ts";
 
 type FetcherOptions = {
-  cacheInterval?: number;
-  cacheKey?: string;
-  request: Request;
+  "cacheInterval"?: number;
+  "cacheKey"?: string;
+  "request": Request;
 };
 
 type RequestMeta = {
-  expires: Date;
-  key: string;
+  "expires": Date;
+  "key": string;
 };
 
 class Fetcher {
   private _cacheInterval: number;
+
   private readonly _cacheKey: string;
 
   private static readonly _DB_KEY = "key";
+
   private static readonly _DB_NAME = "requests";
+
   private readonly _request: Request;
 
   private readonly getRequestDatabase = async () => {
     const DB_VERSION = 1;
 
     return attempt(async () => {
-      return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME, DB_VERSION, {
-        upgrade(database_) {
-          const store = database_.createObjectStore(Fetcher._DB_NAME, {
-            keyPath: Fetcher._DB_KEY,
-          });
-          store.createIndex(Fetcher._DB_KEY, Fetcher._DB_KEY);
-        },
-      });
+      return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME,
+        DB_VERSION,
+        {
+          upgrade (database_) {
+            const store = database_.createObjectStore(Fetcher._DB_NAME,
+              {
+                "keyPath": Fetcher._DB_KEY,
+              });
+            store.createIndex(Fetcher._DB_KEY,
+              Fetcher._DB_KEY);
+          },
+        });
     });
   };
 
-  public constructor({ cacheInterval, cacheKey, request }: FetcherOptions) {
+  public constructor ({ cacheInterval, cacheKey, request }: FetcherOptions) {
     this._cacheKey = cacheKey ?? "cache";
     this._cacheInterval = cacheInterval ?? 0;
     this._request = request;
   }
 
-  public async cacheBust() {
+  public async cacheBust () {
     const database = await this.getRequestDatabase();
 
     if (isError(database)) {
@@ -54,10 +61,11 @@ class Fetcher {
     }
 
     const requestKey = this.getRequestKeys();
-    await database.delete(Fetcher._DB_NAME, requestKey.join(","));
+    await database.delete(Fetcher._DB_NAME,
+      requestKey.join(","));
   }
 
-  public async fetch(): Promise<Error | Response | undefined> {
+  public async fetch (): Promise<Error | Response | undefined> {
     if (
       !isBrowser ||
       isNil(this._cacheInterval) ||
@@ -98,10 +106,12 @@ class Fetcher {
     const results = await attempt(async () => {
       return Promise.all([
         cache.add(this._request),
-        database
-          .transaction(Fetcher._DB_NAME, "readwrite")
-          .objectStore(Fetcher._DB_NAME)
-          .put({ expires, key: requestKey.join(",") } satisfies RequestMeta),
+        database.
+          transaction(Fetcher._DB_NAME,
+            "readwrite").
+          objectStore(Fetcher._DB_NAME).
+          put({ expires,
+            "key": requestKey.join(",") } satisfies RequestMeta),
       ]);
     });
 
@@ -114,11 +124,11 @@ class Fetcher {
     });
   }
 
-  public getRequestKeys(): string[] {
+  public getRequestKeys (): string[] {
     return requestKeys(this.request);
   }
 
-  public async isExpired(): Promise<boolean | Error> {
+  public async isExpired (): Promise<boolean | Error> {
     const database = await this.getRequestDatabase();
 
     if (isError(database)) {
@@ -138,19 +148,19 @@ class Fetcher {
     return new Date() >= cachedMeta.expires;
   }
 
-  public get cacheInterval(): number {
+  public get cacheInterval (): number {
     return this._cacheInterval;
   }
 
-  public set cacheInterval(interval: number) {
+  public set cacheInterval (interval: number) {
     this._cacheInterval = interval;
   }
 
-  public get cacheKey(): string {
+  public get cacheKey (): string {
     return this._cacheKey;
   }
 
-  public get request(): Request {
+  public get request (): Request {
     return this._request;
   }
 }

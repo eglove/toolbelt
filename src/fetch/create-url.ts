@@ -14,11 +14,11 @@ export type SearchParametersRecord = Record<
 >;
 
 export type UrlConfig<Url extends string> = {
-  pathVariables?: ParseUrlParameters<Url>;
-  pathVariablesSchema?: ZodSchema;
-  searchParams?: SearchParametersRecord;
-  searchParamsSchema?: ZodSchema;
-  urlBase?: string | URL;
+  "pathVariables"?: ParseUrlParameters<Url>;
+  "pathVariablesSchema"?: ZodSchema;
+  "searchParams"?: SearchParametersRecord;
+  "searchParamsSchema"?: ZodSchema;
+  "urlBase"?: string | URL;
 };
 
 export const createUrl = <Url extends string>(
@@ -51,7 +51,8 @@ export const createUrl = <Url extends string>(
   }
 
   const url = attempt(() => {
-    return new URL(mutableUrlString, config?.urlBase);
+    return new URL(mutableUrlString,
+      config?.urlBase);
   });
 
   if (isError(url)) {
@@ -81,8 +82,12 @@ export const createUrl = <Url extends string>(
     }
 
     if (!isNil(parameters)) {
-      for (const [key, value] of parameters.entries()) {
-        url.searchParams.append(key, value);
+      for (const [
+        key,
+        value,
+      ] of parameters.entries()) {
+        url.searchParams.append(key,
+          value);
       }
     }
   }

@@ -13,55 +13,55 @@ import type {
 import type { ZodValidator } from "../types/zod-validator.js";
 
 export type ParameterOptions = {
-  pathVariables?: PathVariablesRecord;
-  searchParams?: SearchParametersRecord;
+  "pathVariables"?: PathVariablesRecord;
+  "searchParams"?: SearchParametersRecord;
 };
 
 export type ParameterRequestOptions = {
-  cacheInterval?: number;
-  requestInit?: RequestInit;
+  "cacheInterval"?: number;
+  "requestInit"?: RequestInit;
 } & ParameterOptions;
 
 export type QueryOptions = {
-  queryOptions?: Partial<TanStackQueryOptions>;
+  "queryOptions"?: Partial<TanStackQueryOptions>;
 } & ParameterRequestOptions;
 
 export type RequestDetails = {
-  fetch: (
+  "fetch": (
     options?: QueryOptions,
   ) => Promise<Error | Response | undefined | ZodError>;
-  fetchJson: <T extends ZodValidator<T>>(
+  "fetchJson": <T extends ZodValidator<T>>(
     options?: ParameterRequestOptions,
   ) => Promise<Error | z.output<T> | ZodError>;
-  invalidateRequest: (
+  "invalidateRequest": (
     options?: Merge<ParameterRequestOptions, QueryOptions>,
   ) => Promise<void>;
-  keys: (options?: ParameterRequestOptions) => Error | string[] | ZodError;
-  queryOptions: <T extends ZodValidator<T>>(
+  "keys": (options?: ParameterRequestOptions) => Error | string[] | ZodError;
+  "queryOptions": <T extends ZodValidator<T>>(
     options?: QueryOptions,
-  ) => { queryKey: QueryKey } & TanStackQueryOptions<z.output<T>>;
-  request: (options?: ParameterRequestOptions) => Error | Request | ZodError;
-  url: (options?: ParameterOptions) => Error | URL | ZodError;
+  ) => { "queryKey": QueryKey } & TanStackQueryOptions<z.output<T>>;
+  "request": (options?: ParameterRequestOptions) => Error | Request | ZodError;
+  "url": (options?: ParameterOptions) => Error | URL | ZodError;
 };
 
 export type RequestConfig = {
-  bodySchema?: ZodValidator<ZodAny>;
-  cacheInterval?: number;
-  defaultRequestInit?: RequestInit;
-  graphqlType?: "mutation" | "query";
-  path: string;
-  pathSchema?: ZodValidator<ZodAny>;
-  responseSchema?: ZodValidator<ZodAny>;
-  searchParamsSchema?: ZodValidator<ZodAny>;
-  skipBodyValidation?: boolean;
+  "bodySchema"?: ZodValidator<ZodAny>;
+  "cacheInterval"?: number;
+  "defaultRequestInit"?: RequestInit;
+  "graphqlType"?: "mutation" | "query";
+  "path": string;
+  "pathSchema"?: ZodValidator<ZodAny>;
+  "responseSchema"?: ZodValidator<ZodAny>;
+  "searchParamsSchema"?: ZodValidator<ZodAny>;
+  "skipBodyValidation"?: boolean;
 };
 
 export type RequestConfigObject = Record<string, RequestConfig>;
 
 export type ApiConstructor<T extends RequestConfigObject> = {
-  baseUrl: string;
-  defaultCacheInterval?: number;
-  defaultRequestInit?: RequestInit;
-  queryClient?: QueryClient;
-  requests: T;
+  "baseUrl": string;
+  "defaultCacheInterval"?: number;
+  "defaultRequestInit"?: RequestInit;
+  "queryClient"?: QueryClient;
+  "requests": T;
 };

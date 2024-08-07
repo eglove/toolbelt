@@ -29,14 +29,14 @@ export type IndexedFieldWithPossiblyUndefined<T, Key> =
 export type GetFieldType<T, P> = P extends `${infer Left}.${infer Right}`
   ? Left extends keyof Exclude<T, undefined>
     ?
-        | Extract<T, undefined>
-        | FieldWithPossiblyUndefined<Exclude<T, undefined>[Left], Right>
+    | Extract<T, undefined>
+    | FieldWithPossiblyUndefined<Exclude<T, undefined>[Left], Right>
     : Left extends `${infer FieldKey}[${infer IndexKey}]`
       ? FieldKey extends keyof T
         ? FieldWithPossiblyUndefined<
-            IndexedFieldWithPossiblyUndefined<T[FieldKey], IndexKey>,
-            Right
-          >
+          IndexedFieldWithPossiblyUndefined<T[FieldKey], IndexKey>,
+          Right
+        >
         : undefined
       : undefined
   : P extends keyof T
