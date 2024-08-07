@@ -37,19 +37,19 @@ export const getCookieValue = <T extends string>(
 };
 
 type SetCookieValueProperties<T extends string> = {
-  "config"?: {
-    "Domain"?: string;
-    "Expires"?: Date;
-    "HttpOnly"?: boolean;
+  config?: {
+    Domain?: string;
+    Expires?: Date;
+    HttpOnly?: boolean;
     "Max-Age"?: number;
-    "Partitioned"?: boolean;
-    "Path"?: string;
-    "SameSite"?: "Lax" | "None" | "Secure" | "Strict";
-    "Secure"?: boolean;
+    Partitioned?: boolean;
+    Path?: string;
+    SameSite?: "Lax" | "None" | "Secure" | "Strict";
+    Secure?: boolean;
   };
-  "cookieName": T;
-  "cookieValue": string;
-  "response": Response;
+  cookieName: T;
+  cookieValue: string;
+  response: Response;
 };
 
 export const setCookieValue = <T extends string>({

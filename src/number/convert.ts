@@ -70,6 +70,6 @@ export const convertNumber = <From extends FromUnit, To extends ToUnit<From>>(
     return new Error("conversion not possible");
   }
 
-  return Number(factor.factors[0].multiply(value).toDecimal().
-    toString());
+  return Number(factor.factors[0].multiply(value).toDecimal()
+    .toString());
 };

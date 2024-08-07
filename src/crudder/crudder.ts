@@ -136,8 +136,10 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
   }
 
   // Calls update
-  public updateMany (items: { "data": Partial<Omit<T, K>>;
-    "key": T[K]; }[]) {
+  public updateMany (items: {
+    data: Partial<Omit<T, K>>;
+    key: T[K];
+  }[]) {
     const results = [];
     for (const item of items) {
       results.push(this.update(item.key,
@@ -155,7 +157,9 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
       return this.update(key,
         data);
     }
-    return this.create({ ...data,
-      [this.key]: key } as T);
+    return this.create({
+      ...data,
+      [this.key]: key,
+    } as T);
   }
 }

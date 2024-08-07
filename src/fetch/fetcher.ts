@@ -7,14 +7,14 @@ import { isBrowser } from "../is/browser.ts";
 import { requestKeys } from "./request-keys.ts";
 
 type FetcherOptions = {
-  "cacheInterval"?: number;
-  "cacheKey"?: string;
-  "request": Request;
+  cacheInterval?: number;
+  cacheKey?: string;
+  request: Request;
 };
 
 type RequestMeta = {
-  "expires": Date;
-  "key": string;
+  expires: Date;
+  key: string;
 };
 
 class Fetcher {
@@ -38,7 +38,7 @@ class Fetcher {
           upgrade (database_) {
             const store = database_.createObjectStore(Fetcher._DB_NAME,
               {
-                "keyPath": Fetcher._DB_KEY,
+                keyPath: Fetcher._DB_KEY,
               });
             store.createIndex(Fetcher._DB_KEY,
               Fetcher._DB_KEY);
@@ -106,12 +106,14 @@ class Fetcher {
     const results = await attempt(async () => {
       return Promise.all([
         cache.add(this._request),
-        database.
-          transaction(Fetcher._DB_NAME,
-            "readwrite").
-          objectStore(Fetcher._DB_NAME).
-          put({ expires,
-            "key": requestKey.join(",") } satisfies RequestMeta),
+        database
+          .transaction(Fetcher._DB_NAME,
+            "readwrite")
+          .objectStore(Fetcher._DB_NAME)
+          .put({
+            expires,
+            key: requestKey.join(","),
+          } satisfies RequestMeta),
       ]);
     });
 

@@ -94,15 +94,15 @@ export class Api<T extends RequestConfigObject> {
       options);
 
     return {
-      "queryFn": async () => {
+      queryFn: async () => {
         return this.fetchJson<V>(item,
           options);
       },
-      "queryKey": isError(keys)
+      queryKey: isError(keys)
         ? []
         : keys,
       ...options?.queryOptions,
-    } as { "queryKey": QueryKey } & TanStackQueryOptions<z.output<V>>;
+    } as { queryKey: QueryKey } & TanStackQueryOptions<z.output<V>>;
   }
 
   private createRequest (
@@ -118,11 +118,11 @@ export class Api<T extends RequestConfigObject> {
 
     const url = createUrl(requestConfig.path,
       {
-        "pathVariables": options?.pathVariables,
-        "pathVariablesSchema": requestConfig.pathSchema,
-        "searchParams": options?.searchParams,
-        "searchParamsSchema": requestConfig.searchParamsSchema,
-        "urlBase": this._baseUrl,
+        pathVariables: options?.pathVariables,
+        pathVariablesSchema: requestConfig.pathSchema,
+        searchParams: options?.searchParams,
+        searchParamsSchema: requestConfig.searchParamsSchema,
+        urlBase: this._baseUrl,
       });
 
     if (isError(url)) {
@@ -152,11 +152,11 @@ export class Api<T extends RequestConfigObject> {
     }
 
     const fetcher = createFetcher({
-      "cacheInterval":
+      cacheInterval:
         this._defaultCacheInterval ??
         item.cacheInterval ??
         options?.cacheInterval,
-      "request": fetchRequest,
+      request: fetchRequest,
     });
 
     return fetcher.fetch();
@@ -190,35 +190,35 @@ export class Api<T extends RequestConfigObject> {
     forEach(this._requestConfig,
       (item, key) => {
         this._request[key as keyof T] = {
-          "fetch": async (options?: QueryOptions) => {
+          fetch: async (options?: QueryOptions) => {
             return this.fetch(item,
               options);
           },
-          "fetchJson": async <JSON extends ZodValidator<JSON>>(
+          fetchJson: async <JSON extends ZodValidator<JSON>>(
             options?: ParameterRequestOptions,
           ) => {
             return this.fetchJson<JSON>(item,
               options);
           },
-          "invalidateRequest": async (
+          invalidateRequest: async (
             options?: Merge<ParameterRequestOptions, QueryOptions>,
           ) => {
             return this.invalidateRequest(item,
               options);
           },
-          "keys": (options?: ParameterRequestOptions) => {
+          keys: (options?: ParameterRequestOptions) => {
             return this.createKeys(item,
               options);
           },
-          "queryOptions": <V extends ZodValidator<V>>(options?: QueryOptions) => {
+          queryOptions: <V extends ZodValidator<V>>(options?: QueryOptions) => {
             return this.createQueryOptions<V>(item,
               options);
           },
-          "request": (options?: ParameterRequestOptions) => {
+          request: (options?: ParameterRequestOptions) => {
             return this.createRequest(item,
               options);
           },
-          "url": (options?: ParameterOptions) => {
+          url: (options?: ParameterOptions) => {
             const request = this.createRequest(item,
               options);
 

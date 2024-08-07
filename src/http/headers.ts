@@ -10,10 +10,10 @@ import trim from "lodash/trim.js";
 import { isBigIntOrNumber } from "../is/big-int-or-number.ts";
 
 type AcceptLanguageResults = {
-  "country": string | undefined;
-  "language": string | undefined;
-  "name": string;
-  "quality": number;
+  country: string | undefined;
+  language: string | undefined;
+  name: string;
+  quality: number;
 }[];
 
 export const getAcceptLanguage = (
@@ -56,7 +56,7 @@ export const getAcceptLanguage = (
       return {
         country,
         language,
-        "name": trim(name),
+        name: trim(name),
         quality,
       } as const;
     });

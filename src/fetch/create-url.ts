@@ -14,11 +14,11 @@ export type SearchParametersRecord = Record<
 >;
 
 export type UrlConfig<Url extends string> = {
-  "pathVariables"?: ParseUrlParameters<Url>;
-  "pathVariablesSchema"?: ZodSchema;
-  "searchParams"?: SearchParametersRecord;
-  "searchParamsSchema"?: ZodSchema;
-  "urlBase"?: string | URL;
+  pathVariables?: ParseUrlParameters<Url>;
+  pathVariablesSchema?: ZodSchema;
+  searchParams?: SearchParametersRecord;
+  searchParamsSchema?: ZodSchema;
+  urlBase?: string | URL;
 };
 
 export const createUrl = <Url extends string>(
