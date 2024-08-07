@@ -18,7 +18,7 @@ class BetterNumber {
 
   private readonly _number?: bigint | number;
 
-  public constructor (
+  public constructor(
     number: unknown,
     locale?: string,
     formatOptions?: FormatOptions,
@@ -60,7 +60,7 @@ class BetterNumber {
     }
   }
 
-  public format (options?: FormatOptions): string | undefined {
+  public format(options?: FormatOptions): string | undefined {
     if (isNil(this._number)) {
       return undefined;
     }
@@ -71,11 +71,11 @@ class BetterNumber {
     );
   }
 
-  public get locale (): Intl.LocalesArgument {
+  public get locale(): Intl.LocalesArgument {
     return this._locale;
   }
 
-  public get number (): bigint | number | undefined {
+  public get number(): bigint | number | undefined {
     return this._number;
   }
 }

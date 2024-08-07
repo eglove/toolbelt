@@ -10,15 +10,15 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
 
   private readonly listeners = new Map<CrudderEvent, ((item: T) => void)[]>();
 
-  public constructor (private readonly key: K) {}
+  public constructor(private readonly key: K) {}
 
-  private checkHas (key: T[K]) {
+  private checkHas(key: T[K]) {
     if (this.data.has(key)) {
       return new Error(`Item with ${String(key)} already exists.`);
     }
   }
 
-  private emit (event: CrudderEvent, item: T) {
+  private emit(event: CrudderEvent, item: T) {
     const listeners = this.listeners.get(event);
     if (listeners) {
       for (const listener of listeners) {
@@ -27,11 +27,11 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
     }
   }
 
-  public count () {
+  public count() {
     return this.data.size;
   }
 
-  public create (item: T) {
+  public create(item: T) {
     const check = this.checkHas(item[this.key]);
 
     if (check) {
@@ -46,7 +46,7 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
   }
 
   // Calls create
-  public createMany (items: T[]) {
+  public createMany(items: T[]) {
     const results = [];
     for (const item of items) {
       const result = this.create(item);
@@ -56,7 +56,7 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
     return results;
   }
 
-  public delete (key: T[K]) {
+  public delete(key: T[K]) {
     const datum = this.data.get(key);
     this.data.delete(key);
 
@@ -68,7 +68,7 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
   }
 
   // Calls delete
-  public deleteMany (keys: T[K][]) {
+  public deleteMany(keys: T[K][]) {
     const results = [];
     for (const key of keys) {
       results.push(this.delete(key));
@@ -77,7 +77,7 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
     return results;
   }
 
-  public findFirst (query: Partial<T>) {
+  public findFirst(query: Partial<T>) {
     return find([...this.data.values()],
       (item) => {
         return every(entries(query),
@@ -90,19 +90,19 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
       });
   }
 
-  public findMany () {
+  public findMany() {
     return [...this.data.values()];
   }
 
-  public findUnique (key: T[K]) {
+  public findUnique(key: T[K]) {
     return this.data.get(key);
   }
 
-  public listenerCount (type: CrudderEvent) {
+  public listenerCount(type: CrudderEvent) {
     return this.listeners.get(type)?.length;
   }
 
-  public subscribe (event: CrudderEvent, listener: (item: T) => void) {
+  public subscribe(event: CrudderEvent, listener: (item: T) => void) {
     if (!this.listeners.has(event)) {
       this.listeners.set(event,
         []);
@@ -111,7 +111,7 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
     this.listeners.get(event)?.push(listener);
   }
 
-  public unsubscribe (event: CrudderEvent, listener: (item: T) => void) {
+  public unsubscribe(event: CrudderEvent, listener: (item: T) => void) {
     this.listeners.set(
       event,
       filter(this.listeners.get(event),
@@ -121,7 +121,7 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
     );
   }
 
-  public update (key: T[K], data: Partial<Omit<T, K>>) {
+  public update(key: T[K], data: Partial<Omit<T, K>>) {
     const item = {
       ...this.findUnique(key),
       ...data,
@@ -136,7 +136,7 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
   }
 
   // Calls update
-  public updateMany (items: {
+  public updateMany(items: {
     data: Partial<Omit<T, K>>;
     key: T[K];
   }[]) {
@@ -150,7 +150,7 @@ export class Crudder<T extends { [key in K]: unknown }, K extends keyof T> {
   }
 
   // Calls update
-  public upsert (key: T[K], data: Omit<T, K>) {
+  public upsert(key: T[K], data: Omit<T, K>) {
     const found = this.findUnique(key);
 
     if (found) {

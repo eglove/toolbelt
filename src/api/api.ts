@@ -57,7 +57,7 @@ export class Api<T extends RequestConfigObject> {
       : undefined;
   };
 
-  public constructor ({
+  public constructor({
     baseUrl,
     defaultCacheInterval,
     defaultRequestInit,
@@ -72,7 +72,7 @@ export class Api<T extends RequestConfigObject> {
     this.generateRequests();
   }
 
-  private createKeys (
+  private createKeys(
     item: RequestConfig,
     options?: ParameterRequestOptions,
   ): Error | string[] | ZodError {
@@ -105,7 +105,7 @@ export class Api<T extends RequestConfigObject> {
     } as { queryKey: QueryKey } & TanStackQueryOptions<z.output<V>>;
   }
 
-  private createRequest (
+  private createRequest(
     requestConfig: RequestConfig,
     options?: QueryOptions,
   ): Error | Request | ZodError {
@@ -140,7 +140,7 @@ export class Api<T extends RequestConfigObject> {
       requestInit);
   }
 
-  private async fetch (
+  private async fetch(
     item: RequestConfig,
     options?: QueryOptions,
   ): Promise<Error | Response | undefined | ZodError> {
@@ -186,7 +186,7 @@ export class Api<T extends RequestConfigObject> {
       item.responseSchema);
   }
 
-  private generateRequests () {
+  private generateRequests() {
     forEach(this._requestConfig,
       (item, key) => {
         this._request[key as keyof T] = {
@@ -232,7 +232,7 @@ export class Api<T extends RequestConfigObject> {
       });
   }
 
-  private async invalidateRequest (
+  private async invalidateRequest(
     requestConfig: RequestConfig,
     options?: QueryOptions,
   ) {
@@ -249,7 +249,7 @@ export class Api<T extends RequestConfigObject> {
     await this._queryClient?.invalidateQueries(queryOptions);
   }
 
-  private validateRequestBody (
+  private validateRequestBody(
     requestConfig: RequestConfig,
     options?: ParameterRequestOptions,
   ): Error | undefined | ZodError {
@@ -280,11 +280,11 @@ export class Api<T extends RequestConfigObject> {
     return undefined;
   }
 
-  public get baseUrl () {
+  public get baseUrl() {
     return this._baseUrl;
   }
 
-  public get requests () {
+  public get requests() {
     return this._request;
   }
 }

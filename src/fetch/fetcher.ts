@@ -35,7 +35,7 @@ class Fetcher {
       return openDB<typeof Fetcher._DB_NAME>(Fetcher._DB_NAME,
         DB_VERSION,
         {
-          upgrade (database_) {
+          upgrade(database_) {
             const store = database_.createObjectStore(Fetcher._DB_NAME,
               {
                 keyPath: Fetcher._DB_KEY,
@@ -47,13 +47,13 @@ class Fetcher {
     });
   };
 
-  public constructor ({ cacheInterval, cacheKey, request }: FetcherOptions) {
+  public constructor({ cacheInterval, cacheKey, request }: FetcherOptions) {
     this._cacheKey = cacheKey ?? "cache";
     this._cacheInterval = cacheInterval ?? 0;
     this._request = request;
   }
 
-  public async cacheBust () {
+  public async cacheBust() {
     const database = await this.getRequestDatabase();
 
     if (isError(database)) {
@@ -65,7 +65,7 @@ class Fetcher {
       requestKey.join(","));
   }
 
-  public async fetch (): Promise<Error | Response | undefined> {
+  public async fetch(): Promise<Error | Response | undefined> {
     if (
       !isBrowser ||
       isNil(this._cacheInterval) ||
@@ -126,11 +126,11 @@ class Fetcher {
     });
   }
 
-  public getRequestKeys (): string[] {
+  public getRequestKeys(): string[] {
     return requestKeys(this.request);
   }
 
-  public async isExpired (): Promise<boolean | Error> {
+  public async isExpired(): Promise<boolean | Error> {
     const database = await this.getRequestDatabase();
 
     if (isError(database)) {
@@ -150,19 +150,19 @@ class Fetcher {
     return new Date() >= cachedMeta.expires;
   }
 
-  public get cacheInterval (): number {
+  public get cacheInterval(): number {
     return this._cacheInterval;
   }
 
-  public set cacheInterval (interval: number) {
+  public set cacheInterval(interval: number) {
     this._cacheInterval = interval;
   }
 
-  public get cacheKey (): string {
+  public get cacheKey(): string {
     return this._cacheKey;
   }
 
-  public get request (): Request {
+  public get request(): Request {
     return this._request;
   }
 }
