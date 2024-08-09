@@ -2,7 +2,7 @@ import { projectBuilder } from "@ethang/project-builder/project-builder.js";
 
 await projectBuilder("toolbelt", "main", {
   isLibrary: true,
-  scripts: ["DEDUPE", "LINT", "TEST", "UPDATE"],
+  scripts: ["UPDATE", "DEDUPE", "LINT", "TEST"],
   publishDirectory: "dist",
   tsConfigOverrides: {
     compilerOptions: {
