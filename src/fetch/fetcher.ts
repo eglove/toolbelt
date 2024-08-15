@@ -18,13 +18,13 @@ type RequestMeta = {
 };
 
 class Fetcher {
-  private _cacheInterval: number;
-
-  private readonly _cacheKey: string;
-
   private static readonly _DB_KEY = "key";
 
   private static readonly _DB_NAME = "requests";
+
+  private _cacheInterval: number;
+
+  private readonly _cacheKey: string;
 
   private readonly _request: Request;
 
