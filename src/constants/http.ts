@@ -62,3 +62,7 @@ export const HTTP_STATUS = {
   URI_TOO_LONG: 414,
   VARIANT_ALSO_NEGOTIATES: 506,
 } as const;
+
+export const jsonHeaders = {
+  "Content-Type": "application/json",
+};
