@@ -12,7 +12,7 @@ type SearchParametersRecord = Record<
 export const createSearchParameters = <Z extends ZodSchema>(
   searchParameters: SearchParametersRecord,
   searchParametersSchema: ZodSchema,
-  // eslint-disable-next-line sonar/cognitive-complexity
+
 ): URLSearchParams | ZodError<Z> => {
   const result = searchParametersSchema.safeParse(searchParameters);
 
@@ -22,18 +22,21 @@ export const createSearchParameters = <Z extends ZodSchema>(
 
   const search = new URLSearchParams();
 
+  const appendSearchParameters = (key: string, values: number[] | string[]) => {
+    for (const value of values) {
+      if (!isNil(value)) {
+        search.append(key, String(value));
+      }
+    }
+  };
+
   for (const key of keys(searchParameters)) {
     if (Object.hasOwn(searchParameters,
       key)) {
       const values = searchParameters[key];
 
       if (isArray(values)) {
-        for (const value of values) {
-          if (!isNil(value)) {
-            search.append(key,
-              String(value));
-          }
-        }
+        appendSearchParameters(key, values);
       } else if (isNil(values)) {
         // do nothing
       } else {

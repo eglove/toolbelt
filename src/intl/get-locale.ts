@@ -7,46 +7,19 @@ import { getAcceptLanguage } from "../http/headers.ts";
 
 type LocaleSource = "accept-language" | "cookie" | "localStorage" | "navigator";
 
+
 export const getLocale = (
   sourceTypes: readonly LocaleSource[],
   source?: Readonly<Headers | string>,
   valueName?: Readonly<string>,
-  // eslint-disable-next-line sonar/cognitive-complexity
 ) => {
   for (const sourceType of sourceTypes) {
     if ("accept-language" === sourceType && !isNil(source)) {
-      const value = getAcceptLanguage(source);
-
-      if (isError(value)) {
-        return;
-      }
-
-      let language = get(value,
-        [
-          0,
-          "language",
-        ]);
-      const country = get(value,
-        [
-          0,
-          "country",
-        ]);
-      if (!isNil(language)) {
-        if (!isNil(country)) {
-          language += `-${country}`;
-        }
-
-        return language;
-      }
+      return getFromAcceptLanguage(source);
     }
 
     if ("cookie" === sourceType && !isNil(valueName) && !isNil(source)) {
-      const value = getCookieValue(valueName,
-        source);
-
-      if (!isError(value)) {
-        return value;
-      }
+      return getFromCookie(valueName, source);
     }
 
     if ("navigator" === sourceType && "undefined" !== typeof navigator) {
@@ -58,11 +31,53 @@ export const getLocale = (
       "undefined" !== typeof localStorage &&
       !isNil(valueName)
     ) {
-      const value = localStorage.getItem(valueName);
-
-      if (!isNil(value)) {
-        return value;
-      }
+      return getFromLocalStorage(valueName);
     }
+  }
+};
+
+const getFromAcceptLanguage = (
+  source: Readonly<Headers | string>,
+) => {
+  const value = getAcceptLanguage(source);
+
+  if (isError(value)) {
+    return;
+  }
+
+  let language = get(value,
+    [
+      0,
+      "language",
+    ]);
+  const country = get(value,
+    [
+      0,
+      "country",
+    ]);
+  if (!isNil(language)) {
+    if (!isNil(country)) {
+      language += `-${country}`;
+    }
+
+    return language;
+  }
+};
+
+const getFromCookie = (
+  valueName: string, source: Readonly<Headers | string>,
+) => {
+  const value = getCookieValue(valueName, source);
+
+  if (!isError(value)) {
+    return value;
+  }
+};
+
+const getFromLocalStorage = (valueName: string) => {
+  const value = localStorage.getItem(valueName);
+
+  if (!isNil(value)) {
+    return value;
   }
 };

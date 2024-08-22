@@ -162,10 +162,10 @@ export class Api<T extends RequestConfigObject> {
     return fetcher.fetch();
   }
 
-  private async fetchJson<JSON extends ZodValidator<JSON>>(
+  private async fetchJson<Data extends ZodValidator<Data>>(
     item: RequestConfig,
     options?: QueryOptions,
-  ): Promise<Error | z.output<JSON> | ZodError> {
+  ): Promise<Error | z.output<Data> | ZodError> {
     const response = await this.fetch(item,
       options);
 
@@ -181,7 +181,7 @@ export class Api<T extends RequestConfigObject> {
       return new Error("no responseSchema provided");
     }
 
-    return parseFetchJson<JSON>(response,
+    return parseFetchJson<Data>(response,
     // @ts-expect-error force this
       item.responseSchema);
   }
@@ -194,10 +194,10 @@ export class Api<T extends RequestConfigObject> {
             return this.fetch(item,
               options);
           },
-          fetchJson: async <JSON extends ZodValidator<JSON>>(
+          fetchJson: async <Data extends ZodValidator<Data>>(
             options?: ParameterRequestOptions,
           ) => {
-            return this.fetchJson<JSON>(item,
+            return this.fetchJson<Data>(item,
               options);
           },
           invalidateRequest: async (
