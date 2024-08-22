@@ -1,3 +1,3 @@
-export const isBrowser =
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  "undefined" !== typeof window && window.document !== undefined;
+import isNil from "lodash/isNil.js";
+
+export const isBrowser = "undefined" !== typeof window && !isNil(window.document);

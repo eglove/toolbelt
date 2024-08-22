@@ -67,6 +67,7 @@ class BetterNumber {
 
     return Number(this._number).toLocaleString(
       this._locale,
+      // eslint-disable-next-line sonar/argument-type
       options ?? this._formatOptions,
     );
   }
