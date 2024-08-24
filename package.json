@@ -1,6 +1,6 @@
 {
   "name": "@ethang/toolbelt",
-  "version": "3.8.2",
+  "version": "3.8.3",
   "main": "index.js",
   "author": "Ethan Glover",
   "license": "ISC",
@@ -24,7 +24,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^19.0.9",
+    "@ethang/eslint-config": "^19.0.10",
     "@ethang/project-builder": "^2.3.10",
     "@faker-js/faker": "^8.4.1",
     "@tanstack/query-core": "^5.52.0",
