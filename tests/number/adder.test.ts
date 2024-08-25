@@ -5,38 +5,30 @@ import { describe, expect, it } from "vitest";
 import { adder } from "../../src/number/adder.js";
 
 describe("add", () => {
-  it("should add small numbers", () => {
-    const strings = ["2", "2"];
-    expect(adder(strings)).toEqual("4");
-  });
-
-  it("should add large integers", () => {
-    expect(adder(["123", "777", "0"])).toEqual("900");
-  });
-
-  it("should add numbers with decimals", () => {
-    expect(adder(["123.456", "777.543", "0.001"])).toEqual("901");
-  });
-
-  it("should add numbers with integers and decimals", () => {
-    expect(adder(["123", "999999", "0.3324324"])).toEqual("1000122.3324324");
-  });
-
-  it("should add negative numbers", () => {
-    expect(adder(["123", "-60"])).toEqual("63");
-  });
-
-  it("should add ridiculous sized numbers", () => {
-    expect(adder(["9999999999999999999", "9999999999999999999"])).toBe("19999999999999999998");
-  });
-
-  it("should do decimals right", () => {
-    expect(adder(["0.3", "0.6"])).toBe("0.9");
-  });
-
-  it("should add BigInts", () => {
-    const result = adder([BigInt(5).toString(), BigInt("9999999999999999999").toString()]);
-    expect(result).toBe("10000000000000000004");
+  it.each([
+    [["2", "2"], "4"],
+    [["123", "777"], "900"],
+    [["123.456", "777.543", "0.001"], "901"],
+    [["123", "999999", "0.3324324"], "1000122.3324324"],
+    [["2", "-2"], "0"],
+    [["123", "-777", "0"], "-654"],
+    [["-123", "777", "0"], "654"],
+    [["9999999999999999999", "9999999999999999999"], "19999999999999999998"],
+    [["0.3", "0.6"], "0.9"],
+    [["0.3", "0.6"], "0.9"],
+    [["5"], "5"],
+    [[], "0"],
+    [["123456789012345678901234567890", "987654321098765432109876543210"], "1111111110111111111011111111100"],
+    [["1000", "-999", "-1"], "0"],
+    [["0.000000001", "0.000000002"], "0.000000003"],
+    [["0", "0", "0", "0"], "0"],
+    [["-0.1", "-0.2"], "-0.3"],
+    [["123", "45.67"], "168.67"],
+    [["0.0001", "0.0002", "0.0003"], "0.0006"],
+    [["9999999999", "0.000000001"], "9999999999.000000001"],
+    [[BigInt(5).toString(), BigInt("9999999999999999999").toString()], "10000000000000000004"],
+  ])("should add %s to get %s", (numbers, result) => {
+    expect(adder(numbers)).toEqual(result);
   });
 
   it("should not crash", () => {

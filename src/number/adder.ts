@@ -48,6 +48,16 @@ const getPadded = (arrays: string[][]) => {
   for (const array of arrays) {
     array[0] = padStart(array[0], integerMax, "0");
     array[1] = padEnd(array[1], decimalMax, "0");
+
+    if (includes(array[0], "-")) {
+      array[0] = array[0].replaceAll("-", "");
+      array[0] = `-${array[0]}`;
+    }
+
+    if (includes(array[1], "-")) {
+      array[1] = array[1].replaceAll("-", "");
+      array[1] = `-${array[1]}`;
+    }
   }
 
   const padded = map(arrays, (array) => {
@@ -146,9 +156,16 @@ export const adder = (numbers: string[]): string => {
     // If sum contains a negative, this will use powers to convert
     // [1, -4, 3] -> 63
     if ("." !== element && 0 > Number(element)) {
-      const convertedIntegers = arrayToNumber(integers);
-      const convertedDecmals = arrayToNumber(decimals);
-      return getTrimmedNumbers([String(convertedIntegers), ".", String(convertedDecmals)]);
+      let convertedIntegers = arrayToNumber(integers);
+      let convertedDecimals = arrayToNumber(decimals);
+
+      if (0 > convertedIntegers || 0 > convertedDecimals) {
+        convertedIntegers = Math.abs(convertedIntegers);
+        convertedDecimals = Math.abs(convertedDecimals);
+        return `-${getTrimmedNumbers([String(convertedIntegers), ".", String(convertedDecimals)])}`;
+      }
+
+      return getTrimmedNumbers([String(convertedIntegers), ".", String(convertedDecimals)]);
     }
   }
 
