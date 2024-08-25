@@ -75,7 +75,7 @@ const arrayToNumber = (array: string[]) => {
  * Fundamentally converts numbers into arrays and adds single digits at a time.
  * adder(['123', '777'])
  *
- * [['1', '2', '3'], ['7', '7', '7'], ['0', '0', '0']]
+ * [['1', '2', '3'], ['7', '7', '7']]
  * ['8', '9', '10'] -> ['800', '90', '10']
  *
  * [['8', '0', '0'], ['0', '9', '0'], ['0', '1', '0']]
