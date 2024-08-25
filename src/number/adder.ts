@@ -111,12 +111,12 @@ export const adder = (numbers: string[]): string => {
     }
   }
 
-  for (const element of sumArray) {
-    const indexOfPeriod = indexOf(sumArray, ".");
-    const biggerNumbers = [];
-    const integers = slice(sumArray, 0, indexOfPeriod);
-    const decimals = slice(sumArray, indexOfPeriod + 1);
+  const indexOfPeriod = indexOf(sumArray, ".");
+  const biggerNumbers = [];
+  const integers = slice(sumArray, 0, indexOfPeriod);
+  const decimals = slice(sumArray, indexOfPeriod + 1);
 
+  for (const element of sumArray) {
     // If sum contains a digit bigger than 9, it's not valid, we'll add bigger numbers
     // [2, 10, 6, ., 3, 5] -> adder([200, 100, 6, 0.3, 0.05])
     if ("." !== element && 9 < Number(element)) {
