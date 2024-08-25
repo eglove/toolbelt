@@ -71,11 +71,28 @@ const arrayToNumber = (array: string[]) => {
   return result;
 };
 
+/*
+ * Fundamentally converts numbers into arrays and adds single digits at a time.
+ * adder(['123', '777'])
+ *
+ * [['1', '2', '3'], ['7', '7', '7'], ['0', '0', '0']]
+ * ['8', '9', '10'] -> ['800', '90', '10']
+ *
+ * [['8', '0', '0'], ['0', '9', '0'], ['0', '1', '0']]
+ * ['8', '10', '0'] -> ['800', '100', '0']
+ *
+ * [['8', '0', '0'], ['1', '0', '0'], ['0', '0', '0']]
+ * ['9', '0', '0']
+ *
+ * -> 900
+ */
 // eslint-disable-next-line sonar/cognitive-complexity
 export const adder = (numbers: string[]): string => {
+  // Pad 0's to keep array sizes the same. [10, 8.2] -> [10.0, 08.2]
   const [sumArray, ...paddedArrays] = getPaddedNumbers(numbers);
 
   for (const paddedArray of paddedArrays) {
+    // If a number is negative, make each digit negative
     if ("-" === paddedArray[0]) {
       paddedArray[0] = "0";
       for (const [index, element] of paddedArray.entries()) {
@@ -86,6 +103,7 @@ export const adder = (numbers: string[]): string => {
       }
     }
 
+    // This is where we start adding!
     for (const [index, element] of paddedArray.entries()) {
       if ("." !== element && "-" !== element) {
         sumArray[index] = String(Number(sumArray[index]) + Number(element));
@@ -99,6 +117,8 @@ export const adder = (numbers: string[]): string => {
     const integers = slice(sumArray, 0, indexOfPeriod);
     const decimals = slice(sumArray, indexOfPeriod + 1);
 
+    // If sum contains a digit bigger than 9, it's not valid, we'll add bigger numbers
+    // [2, 10, 6, ., 3, 5] -> adder([200, 100, 6, 0.3, 0.05])
     if ("." !== element && 9 < Number(element)) {
       let integerZeros = "";
       for (let index = integers.length - 1; 0 <= index; index -= 1) {
@@ -123,6 +143,8 @@ export const adder = (numbers: string[]): string => {
       return adder(biggerNumbers);
     }
 
+    // If sum contains a negative, this will use powers to convert
+    // [1, -4, 3] -> 63
     if ("." !== element && 0 > Number(element)) {
       const convertedIntegers = arrayToNumber(integers);
       const convertedDecmals = arrayToNumber(decimals);
@@ -130,5 +152,6 @@ export const adder = (numbers: string[]): string => {
     }
   }
 
+  // Trim extra 0's and return!
   return getTrimmedNumbers(sumArray);
 };

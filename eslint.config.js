@@ -11,6 +11,7 @@ export default tseslint.config(...config, {
   },
   rules: {
     "@typescript-eslint/max-params": "off",
+    "barrel/avoid-importing-barrel-files": "off",
     complexity: "off",
     "max-depth": "off",
     "max-lines": "off",
