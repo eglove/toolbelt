@@ -1,20 +1,20 @@
 {
   "name": "@ethang/toolbelt",
-  "version": "3.9.1",
-  "main": "index.js",
-  "author": "Ethan Glover",
+  "version": "3.9.2",
   "license": "ISC",
+  "author": "Ethan Glover",
   "type": "module",
-  "browserslist": [
-    "defaults and fully supports es6-module",
-    "maintained node versions"
-  ],
+  "main": "index.js",
   "scripts": {
     "lint": "eslint src --fix",
     "test": "vitest run --coverage.enabled=true",
     "test:ui": "vitest --ui --coverage.enabled=true --open=false",
     "test:watch": "vitest"
   },
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ],
   "dependencies": {
     "@phensley/cldr": "^1.8.1",
     "@phensley/unit-converter": "^1.8.1",
