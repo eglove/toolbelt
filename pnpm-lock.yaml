@@ -28,11 +28,11 @@ importers:
         version: 3.23.8
     devDependencies:
       '@ethang/eslint-config':
-        specifier: ^19.2.1
-        version: 19.2.1(bo6jcjsc7fbs4ixmzttobyx3ne)
+        specifier: ^19.2.3
+        version: 19.2.3(bo6jcjsc7fbs4ixmzttobyx3ne)
       '@ethang/project-builder':
-        specifier: ^2.5.0
-        version: 2.5.0(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@10.1.8)(lodash@4.17.21)(simple-git@3.25.0)(tsup@8.2.4(jiti@1.21.6)(postcss@8.4.41)(typescript@5.5.4)(yaml@2.5.0))(typescript@5.5.4)
+        specifier: ^2.5.1
+        version: 2.5.1(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@10.1.8)(lodash@4.17.21)(simple-git@3.25.0)(tsup@8.2.4(jiti@1.21.6)(postcss@8.4.41)(typescript@5.5.4)(yaml@2.5.0))(typescript@5.5.4)
       '@faker-js/faker':
         specifier: ^8.4.1
         version: 8.4.1
@@ -1077,8 +1077,8 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ethang/eslint-config@19.2.1':
-    resolution: {integrity: sha512-a2hTkNQ1oA2dV6cyjTKJhB3x2qDAMBCs1En8vvC41dkxcqgNHGWoTCBg4Y54zgc04Ryo0FQSHTLeA21/4UoaLQ==}
+  '@ethang/eslint-config@19.2.3':
+    resolution: {integrity: sha512-zYh3HkhJ3JVPA/Ob30lPzlJUubleZA66/RelFAlnOxw1Vzu0bTa9DDwa3qdfc1HzghE18pHQpSh2mmbwG7sNTQ==}
     engines: {node: '>=20'}
     peerDependencies:
       '@eslint-react/eslint-plugin': ^1.12.2
@@ -1105,8 +1105,8 @@ packages:
       typescript: ^5.5.4
       typescript-eslint: ^8.3.0
 
-  '@ethang/project-builder@2.5.0':
-    resolution: {integrity: sha512-XonGDwnpRBLhlX61yPwc5IBmMi5NI31NceiT/++ejuRdAXbZ8+g01gdbxgVUyQxANJMskgswiEA+6zBh7656HQ==}
+  '@ethang/project-builder@2.5.1':
+    resolution: {integrity: sha512-Ur1xFIS9o16vhGsmbnQBSPLttctrdHMSSNoo5Pr9vYJc4BVShyPeAA6zhGuv6fGjYriC8b2jWajqiTYXqzOqQQ==}
     peerDependencies:
       chalk: ^5.3.0
       fs-extra: ^11.2.0
@@ -5290,7 +5290,7 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@ethang/eslint-config@19.2.1(bo6jcjsc7fbs4ixmzttobyx3ne)':
+  '@ethang/eslint-config@19.2.3(bo6jcjsc7fbs4ixmzttobyx3ne)':
     dependencies:
       '@eslint-react/eslint-plugin': 1.12.2(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
       '@eslint/js': 9.9.1
@@ -5316,7 +5316,7 @@ snapshots:
       typescript: 5.5.4
       typescript-eslint: 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
 
-  '@ethang/project-builder@2.5.0(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@10.1.8)(lodash@4.17.21)(simple-git@3.25.0)(tsup@8.2.4(jiti@1.21.6)(postcss@8.4.41)(typescript@5.5.4)(yaml@2.5.0))(typescript@5.5.4)':
+  '@ethang/project-builder@2.5.1(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@10.1.8)(lodash@4.17.21)(simple-git@3.25.0)(tsup@8.2.4(jiti@1.21.6)(postcss@8.4.41)(typescript@5.5.4)(yaml@2.5.0))(typescript@5.5.4)':
     dependencies:
       chalk: 5.3.0
       fs-extra: 11.2.0
