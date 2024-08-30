@@ -24,10 +24,10 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^19.2.4",
+    "@ethang/eslint-config": "^19.2.5",
     "@ethang/project-builder": "^2.5.1",
     "@faker-js/faker": "^8.4.1",
-    "@tanstack/query-core": "^5.52.2",
+    "@tanstack/query-core": "^5.53.1",
     "@types/lodash": "^4.17.7",
     "@types/node": "^22.5.1",
     "@vitest/coverage-v8": "^2.0.5",
