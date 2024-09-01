@@ -10,10 +10,7 @@ export const parseJson = <Z extends ZodValidator<Z>>(
   validator: Z,
   reviver?: (this: unknown, key: string, value: unknown) => unknown,
 ): Error | z.output<Z> | z.ZodError<Z> => {
-  const caught = attempt(() => {
-    return JSON.parse(text,
-      reviver);
-  });
+  const caught = attempt(JSON.parse, text, reviver);
 
   if (isError(caught)) {
     return caught;

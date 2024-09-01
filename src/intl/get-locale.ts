@@ -1,3 +1,4 @@
+import attempt from "lodash/attempt.js";
 import get from "lodash/get.js";
 import isError from "lodash/isError.js";
 import isNil from "lodash/isNil.js";
@@ -75,9 +76,9 @@ const getFromCookie = (
 };
 
 const getFromLocalStorage = (valueName: string) => {
-  const value = localStorage.getItem(valueName);
+  const value = attempt(localStorage.getItem.bind(localStorage), valueName);
 
-  if (!isNil(value)) {
+  if (!isNil(value) && !isError(value)) {
     return value;
   }
 };

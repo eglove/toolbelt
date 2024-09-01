@@ -28,8 +28,8 @@ importers:
         version: 3.23.8
     devDependencies:
       '@ethang/eslint-config':
-        specifier: ^19.2.7
-        version: 19.2.7(hrpgduh637msrpvbjmcbo2yaj4)
+        specifier: ^19.2.8
+        version: 19.2.8(kekupsimltiehtz5c2t2o54him)
       '@ethang/project-builder':
         specifier: ^2.5.8
         version: 2.5.8(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@10.1.8)(lodash@4.17.21)(simple-git@3.25.0)(tsup@8.2.4(jiti@1.21.6)(postcss@8.4.42)(typescript@5.5.4)(yaml@2.5.0))(typescript@5.5.4)
@@ -1077,14 +1077,15 @@ packages:
     resolution: {integrity: sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ethang/eslint-config@19.2.7':
-    resolution: {integrity: sha512-QEbG6IimgJpxuREzpopogBHehQXw4Yi8ANGMeKEbSpvpNcP3t+jgxcq27XPZEesIGFAKsUMkgwWU4J8NVwpgXg==}
+  '@ethang/eslint-config@19.2.8':
+    resolution: {integrity: sha512-UTzakGFFAhfM2tZCIYY+rJ/RrbdmvW1+ku4y89hhSyCha7eqKVPv18XUxhTBJ60p+x7+ELgosgzwaDVZMKSNDg==}
     engines: {node: '>=20'}
     peerDependencies:
       '@eslint-react/eslint-plugin': ^1.12.4
       '@eslint/js': ^9.9.1
       '@eslint/json': ^0.4.0
       '@eslint/markdown': ^6.0.0
+      '@ethang/eslint-plugin': ^0.0.6
       '@stylistic/eslint-plugin': ^2.7.2
       '@tanstack/eslint-plugin-query': ^5.53.0
       '@typescript-eslint/parser': ^8.3.0
@@ -1098,12 +1099,18 @@ packages:
       eslint-plugin-n: ^17.10.2
       eslint-plugin-perfectionist: ^3.3.0
       eslint-plugin-react-hooks: ^4.6.2
-      eslint-plugin-solid: ^0.14.2
+      eslint-plugin-solid: ^0.14.3
       eslint-plugin-sonarjs: 2.0.2
       eslint-plugin-tailwindcss: ^3.17.4
       eslint-plugin-unicorn: ^55.0.0
       typescript: ^5.5.4
       typescript-eslint: ^8.3.0
+
+  '@ethang/eslint-plugin@0.0.6':
+    resolution: {integrity: sha512-Ve8AXWQJhw2zpWJfkUmJ5ouXRDgdLGkSFTPzXaUZzNqVVIMw2LmneQn11yhEJRsud/Fl/nLvi/TnrtKphvGW/A==}
+    peerDependencies:
+      '@typescript-eslint/utils': ^8.3.0
+      lodash: ^4.17.21
 
   '@ethang/project-builder@2.5.8':
     resolution: {integrity: sha512-WiAw5JJUUXRSrNDzSTJ1mHAq55QajG+VFhO/yZtWFPRo3Ab8scEZid6gVsmz7ETwH0nT5NkMXkEVkKaZ4YC4jQ==}
@@ -5232,12 +5239,13 @@ snapshots:
 
   '@eslint/object-schema@2.1.4': {}
 
-  '@ethang/eslint-config@19.2.7(hrpgduh637msrpvbjmcbo2yaj4)':
+  '@ethang/eslint-config@19.2.8(kekupsimltiehtz5c2t2o54him)':
     dependencies:
       '@eslint-react/eslint-plugin': 1.12.4(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
       '@eslint/js': 9.9.1
       '@eslint/json': 0.4.0(eslint@9.9.1(jiti@1.21.6))
       '@eslint/markdown': 6.0.0(eslint@9.9.1(jiti@1.21.6))
+      '@ethang/eslint-plugin': 0.0.6(@typescript-eslint/utils@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(lodash@4.17.21)
       '@stylistic/eslint-plugin': 2.7.2(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
       '@tanstack/eslint-plugin-query': 5.53.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
       '@typescript-eslint/parser': 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
@@ -5257,6 +5265,11 @@ snapshots:
       eslint-plugin-unicorn: 55.0.0(eslint@9.9.1(jiti@1.21.6))
       typescript: 5.5.4
       typescript-eslint: 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+
+  '@ethang/eslint-plugin@0.0.6(@typescript-eslint/utils@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(lodash@4.17.21)':
+    dependencies:
+      '@typescript-eslint/utils': 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+      lodash: 4.17.21
 
   '@ethang/project-builder@2.5.8(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@10.1.8)(lodash@4.17.21)(simple-git@3.25.0)(tsup@8.2.4(jiti@1.21.6)(postcss@8.4.42)(typescript@5.5.4)(yaml@2.5.0))(typescript@5.5.4)':
     dependencies:

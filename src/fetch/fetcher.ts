@@ -3,6 +3,7 @@ import attempt from "lodash/attempt.js";
 import isError from "lodash/isError.js";
 import isNil from "lodash/isNil.js";
 
+import { attemptAsync } from "../functional/attempt-async.js";
 import { isBrowser } from "../is/browser.ts";
 import { requestKeys } from "./request-keys.ts";
 
@@ -72,9 +73,7 @@ class Fetcher {
       0 >= this._cacheInterval ||
       "GET" !== this._request.method
     ) {
-      return attempt(async () => {
-        return fetch(this._request);
-      });
+      return attemptAsync(fetch, this._request);
     }
 
     const cache = await caches.open(this._cacheKey);

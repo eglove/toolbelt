@@ -1,3 +1,5 @@
+import attempt from "lodash/attempt.js";
+import isError from "lodash/isError.js";
 import isString from "lodash/isString.js";
 
 export const jsonToFormData = (value: Record<string, unknown>, key = "json") => {
@@ -13,5 +15,11 @@ export const formDataToJson = (formData: FormData, key = "json") => {
     return;
   }
 
-  return JSON.parse(data);
+  const parsed = attempt(JSON.parse, data);
+
+  if (isError(parsed)) {
+    return;
+  }
+
+  return parsed;
 };
