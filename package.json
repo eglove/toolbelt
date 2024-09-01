@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@ethang/eslint-config": "^19.2.7",
-    "@ethang/project-builder": "^2.5.1",
+    "@ethang/project-builder": "^2.5.8",
     "@faker-js/faker": "^8.4.1",
     "@tanstack/query-core": "^5.53.1",
     "@types/lodash": "^4.17.7",
