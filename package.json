@@ -27,7 +27,7 @@
     "@ethang/eslint-config": "^19.2.10",
     "@ethang/project-builder": "^2.5.8",
     "@faker-js/faker": "^8.4.1",
-    "@tanstack/query-core": "^5.53.1",
+    "@tanstack/query-core": "^5.53.3",
     "@types/lodash": "^4.17.7",
     "@types/node": "^22.5.2",
     "@vitest/coverage-v8": "^2.0.5",
