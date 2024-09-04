@@ -16,33 +16,33 @@
     "maintained node versions"
   ],
   "dependencies": {
-    "@phensley/cldr": "^1.8.2",
-    "@phensley/unit-converter": "^1.8.2",
-    "@total-typescript/ts-reset": "^0.6.0",
+    "@phensley/cldr": "^1.8.3",
+    "@phensley/unit-converter": "^1.8.3",
+    "@total-typescript/ts-reset": "^0.6.1",
     "idb": "^8.0.0",
     "lodash": "^4.17.21",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^19.2.10",
+    "@ethang/eslint-config": "^19.2.11",
     "@ethang/project-builder": "^2.5.8",
     "@faker-js/faker": "^8.4.1",
-    "@tanstack/query-core": "^5.53.3",
+    "@tanstack/query-core": "^5.54.1",
     "@types/lodash": "^4.17.7",
-    "@types/node": "^22.5.2",
+    "@types/node": "^22.5.3",
     "@vitest/coverage-v8": "^2.0.5",
     "@vitest/ui": "^2.0.5",
     "eslint": "^9.9.1",
     "type-fest": "^4.26.0",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.3.0",
+    "typescript-eslint": "^8.4.0",
     "vitest": "^2.0.5",
     "vitest-fetch-mock": "^0.3.0"
   },
   "peerDependencies": {
-    "@phensley/cldr": "^1.8.2",
-    "@phensley/unit-converter": "^1.8.2",
-    "@total-typescript/ts-reset": "^0.6.0",
+    "@phensley/cldr": "^1.8.3",
+    "@phensley/unit-converter": "^1.8.3",
+    "@total-typescript/ts-reset": "^0.6.1",
     "idb": "^8.0.0",
     "lodash": "^4.17.21",
     "zod": "^3.23.8"
