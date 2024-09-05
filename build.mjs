@@ -13,7 +13,7 @@ await projectBuilder("toolbelt", "main", {
   tsupOptions: {
     bundle: true,
     entry: ["src"],
-    format: ["cjs", "esm"],
+    format: ["esm"],
     minify: true,
     outDir: "dist",
   },
