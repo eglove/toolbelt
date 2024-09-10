@@ -16,29 +16,25 @@ type NestedPath<T extends BaseRecord> = {
 export class SuperStore<
   TState extends BaseRecord,
   TUpdater extends AnyUpdater = (callback: TState) => TState,
-> {
+> extends Store<TState, TUpdater> {
   private readonly _initialState: TState;
-
-  public readonly store: Store<TState, TUpdater>;
-
 
   public constructor(
     initialState: TState, options?: StoreOptions<TState, TUpdater>,
   ) {
+    super(initialState, options);
     this._initialState = initialState;
-    this.store = new Store(initialState, options);
   }
-
 
   public getValue<Path extends NestedPath<TState>>(
   // @ts-expect-error allow deeply nested type
     path: Path, fallback?: Get<TState, Path>,
   ) {
-    return get(this.store.state, path, fallback) as Get<TState, Path>;
+    return get(this.state, path, fallback) as Get<TState, Path>;
   }
 
   public resetState() {
-    this.store.setState((() => {
+    this.setState((() => {
       return this._initialState;
     }) as TUpdater);
   }
@@ -47,11 +43,11 @@ export class SuperStore<
     path: Path,
     value: Get<TState, Path>,
   ) {
-    const produced = produce(this.store.state, (draft) => {
+    const produced = produce(this.state, (draft) => {
       set(draft, path, value);
     });
 
-    this.store.setState((() => {
+    this.setState((() => {
       return produced;
     }) as TUpdater);
   }
