@@ -1,5 +1,5 @@
 /* eslint-disable sonar/no-duplicate-string */
-
+/* eslint-disable cspell/spellchecker */
 import {
   ACCELERATION,
   ANGLE,
