@@ -13,7 +13,7 @@ export class Store<TState> {
 
   private readonly listeners = new Set<Listener>();
 
-  private state: TState;
+  public state: TState;
 
   public constructor(initialState: TState) {
     this.state = initialState;
@@ -58,14 +58,6 @@ export class Store<TState> {
         }
       }
     };
-  }
-
-  public getSnapshot() {
-    return this.state;
-  }
-
-  public getState<Selected>(selector: (state: TState) => Selected) {
-    return selector(this.state);
   }
 
   public notifySubscribers() {
