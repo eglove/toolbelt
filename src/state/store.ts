@@ -60,6 +60,10 @@ export class Store<TState> {
     };
   }
 
+  public getSnapshot() {
+    return this.state;
+  }
+
   public notifySubscribers() {
     for (const listener of this.listeners) {
       listener();
