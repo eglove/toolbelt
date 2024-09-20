@@ -64,7 +64,7 @@ export class Store<TState> {
     return this.state;
   }
 
-  public getState(selector: (state: TState) => TState) {
+  public getState<Selected>(selector: (state: TState) => Selected) {
     return selector(this.state);
   }
 
