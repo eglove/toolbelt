@@ -3,9 +3,9 @@ import isNil from "lodash/isNil.js";
 
 type Listener = () => void;
 type SetOptions = { notifySubscribers?: boolean };
-type BindReferenceOptions<E extends HTMLElement> = {
+type BindReferenceOptions<E, TState> = {
   accessor?: keyof E;
-  onUpdate?: (element: E) => void;
+  onUpdate?: (state: TState, element: E) => void;
 };
 
 export class Store<TState> {
@@ -20,18 +20,22 @@ export class Store<TState> {
     this.initialState = initialState;
   }
 
-  public bindRef<E extends HTMLElement>(
-    selector: (state: TState) => boolean | null | number | string | undefined,
-    bindReferenceOptions?: BindReferenceOptions<E>,
+  public bindRef<E>(
+    bounders: {
+      options?: BindReferenceOptions<E, TState>;
+      selector: (state: TState) => boolean | null | number | string | undefined;
+    }[],
   ) {
     return (element: E | null) => {
       if (!isNil(element)) {
         const updateElement = () => {
-          if (!isNil(bindReferenceOptions?.accessor)) {
-            element[bindReferenceOptions.accessor] =
+          for (const { options, selector } of bounders) {
+            if (!isNil(options?.accessor)) {
+              element[options.accessor] =
                 String(selector(this.state)) as E[keyof E];
+            }
+            options?.onUpdate?.(this.state, element);
           }
-          bindReferenceOptions?.onUpdate?.(element);
         };
 
         updateElement();
@@ -45,8 +49,9 @@ export class Store<TState> {
           }
         });
 
-        if (element.parentNode) {
-          observer.observe(element.parentNode, {
+        if ((element as HTMLElement).parentNode) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          observer.observe((element as HTMLElement).parentNode!, {
             childList: true,
             subtree: true,
           });
@@ -78,7 +83,7 @@ export class Store<TState> {
   }
 
   public setState(
-    updater: (updater: Draft<TState>) => void,
+    updater: (draft: Draft<TState>) => void,
     setOptions?: SetOptions,
   ) {
     this.state = produce(this.state, updater);
