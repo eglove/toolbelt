@@ -20,7 +20,6 @@ export class Store<TState> {
 
   private cleanup(id: string, updateElement: Listener): boolean {
     if (this.elementListeners.has(id) && "undefined" !== typeof window) {
-      // eslint-disable-next-line ethang/handle-native-error
       const foundElement = document.querySelector(`[data-listener-id="${id}"]`);
 
       if (isNil(foundElement)) {
