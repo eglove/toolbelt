@@ -26,5 +26,6 @@ export default tseslint.config(...config, {
     "n/no-unsupported-features/node-builtins": "off",
     "n/no-unsupported-features/es-builtins": "off",
     "n/no-unsupported-features/es-syntax": "off",
+    "@typescript-eslint/no-unnecessary-type-parameters": "off",
   },
 });
