@@ -1,9 +1,9 @@
 import { type Draft, produce } from "immer";
 import isNil from "lodash/isNil.js";
 
-type Listener = () => void;
-type SetOptions = { notifySubscribers?: boolean };
-type BindReferenceOptions<E, TState> = {
+export type Listener = () => void;
+export type SetOptions = { notifySubscribers?: boolean };
+export type BindReferenceOptions<E, TState> = {
   accessor?: keyof E;
   onUpdate?: (state: TState, element: E) => void;
 };
@@ -58,10 +58,6 @@ export class Store<TState> {
         }
       }
     };
-  }
-
-  public getSnapshot() {
-    return this.state;
   }
 
   public notifySubscribers() {
