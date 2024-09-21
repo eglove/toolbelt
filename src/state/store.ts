@@ -1,3 +1,4 @@
+import { el } from "@faker-js/faker";
 import { type Draft, produce } from "immer";
 import isNil from "lodash/isNil.js";
 import { v4 } from "uuid";
@@ -34,26 +35,19 @@ export class Store<TState> {
     return false;
   }
 
-  public bindQuerySelector<E>(
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
-    selector: Parameters<typeof document.querySelector>[0],
+  public bind<E>(
+    binder: () => E,
     onUpdate: (state: TState, element: E) => void,
   ) {
-    // eslint-disable-next-line ethang/handle-native-error
-    const element = document.querySelector(selector) as E;
-    this.bindRef(onUpdate)(element);
+    this.bindRef(onUpdate)(binder());
   }
 
-  public bindQuerySelectorAll<E>(
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
-    selectors: Parameters<typeof document.querySelectorAll>[0],
+  public bindAll<E>(
+    binders: () => Iterable<E>,
     onUpdate: (state: TState, element: E) => void,
   ) {
-    // eslint-disable-next-line ethang/handle-native-error
-    const elements = document.querySelectorAll(selectors);
-
-    for (const element of elements) {
-      this.bindRef(onUpdate)(element as E);
+    for (const binder of binders()) {
+      this.bindRef(onUpdate)(binder);
     }
   }
 

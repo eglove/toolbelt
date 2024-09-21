@@ -10,7 +10,6 @@ import replace from "lodash/replace.js";
 
 import { type FromUnit, type ToUnit, unitsMap } from "./conversion-types.ts";
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export const convertNumber = <From extends FromUnit, To extends ToUnit<From>>(
   value: number,
   from: From,

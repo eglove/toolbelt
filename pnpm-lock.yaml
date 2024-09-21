@@ -37,8 +37,8 @@ importers:
         version: 3.23.8
     devDependencies:
       '@ethang/eslint-config':
-        specifier: ^19.6.5
-        version: 19.6.5(m4diq24evs5w5dpuxm3tkyf4xm)
+        specifier: ^19.6.6
+        version: 19.6.6(5icdcncw7ebh5k37s3s2tw6voq)
       '@ethang/project-builder':
         specifier: ^2.6.1
         version: 2.6.1(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@11.0.2)(lodash@4.17.21)(simple-git@3.27.0)(sort-package-json@2.10.1)(tsup@8.3.0(jiti@1.21.6)(postcss@8.4.47)(typescript@5.6.2)(yaml@2.5.1))(typescript@5.6.2)
@@ -1301,8 +1301,8 @@ packages:
     resolution: {integrity: sha512-vH9PiIMMwvhCx31Af3HiGzsVNULDbyVkHXwlemn/B0TFj/00ho3y55efXrUZTfQipxoHC5u4xq6zblww1zm1Ig==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ethang/eslint-config@19.6.5':
-    resolution: {integrity: sha512-cKJJO8WrbgcoEntWownPne9M2Iu5HC6G0Odx800SfjqaBsGe0tGYfs/GWuH+3IZeyvHh8jiri5E1iqQvcTJDNQ==}
+  '@ethang/eslint-config@19.6.6':
+    resolution: {integrity: sha512-TS4xWT7N9tlGc9Z10oB3MN4Ft2vdTM/RigfQlgLkfLRASUMWn9t+Eu42OOHy+ssVO7ap6N/BQXYtlPLbG2foKw==}
     engines: {node: '>=20'}
     peerDependencies:
       '@cspell/eslint-plugin': ^8.14.4
@@ -1314,7 +1314,7 @@ packages:
       '@ethang/eslint-plugin': ^0.0.11
       '@stylistic/eslint-plugin': ^2.8.0
       '@tanstack/eslint-plugin-query': ^5.57.0
-      '@tanstack/eslint-plugin-router': ^1.58.0
+      '@tanstack/eslint-plugin-router': ^1.58.6
       '@typescript-eslint/parser': ^8.6.0
       eslint: ^9.11.0
       eslint-plugin-astro: ^1.2.4
@@ -1672,8 +1672,8 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  '@tanstack/eslint-plugin-router@1.58.0':
-    resolution: {integrity: sha512-m966LPd2SA9wOvq5VQhphA7u24kce3uVoRKx4ueNZWcDn90Jxl+wxsvcBdbxVYBXqgNQ32ych77TsxJi/FtXeg==}
+  '@tanstack/eslint-plugin-router@1.58.6':
+    resolution: {integrity: sha512-8nqu8vYqV4hA7Bq6fBi+YqwH7n6C9U/uMQCwyIEej1Qvzsblb/QHfSMYk8T6fWcnAgmgvPETWgar9/K+wd17ng==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
@@ -5801,7 +5801,7 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@ethang/eslint-config@19.6.5(m4diq24evs5w5dpuxm3tkyf4xm)':
+  '@ethang/eslint-config@19.6.6(5icdcncw7ebh5k37s3s2tw6voq)':
     dependencies:
       '@cspell/eslint-plugin': 8.14.4(eslint@9.11.0(jiti@1.21.6))
       '@eslint-react/eslint-plugin': 1.14.2(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)
@@ -5812,7 +5812,7 @@ snapshots:
       '@ethang/eslint-plugin': 0.0.11(@typescript-eslint/utils@8.6.0(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2))(lodash@4.17.21)
       '@stylistic/eslint-plugin': 2.8.0(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)
       '@tanstack/eslint-plugin-query': 5.57.0(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)
-      '@tanstack/eslint-plugin-router': 1.58.0(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)
+      '@tanstack/eslint-plugin-router': 1.58.6(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)
       '@typescript-eslint/parser': 8.6.0(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)
       eslint: 9.11.0(jiti@1.21.6)
       eslint-plugin-astro: 1.2.4(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)
@@ -6195,7 +6195,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tanstack/eslint-plugin-router@1.58.0(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)':
+  '@tanstack/eslint-plugin-router@1.58.6(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)':
     dependencies:
       '@typescript-eslint/utils': 8.6.0(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)
       eslint: 9.11.0(jiti@1.21.6)

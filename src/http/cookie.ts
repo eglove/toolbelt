@@ -6,7 +6,6 @@ import keys from "lodash/keys.js";
 import split from "lodash/split.js";
 import trim from "lodash/trim.js";
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export const getCookieValue = <T extends string>(
   cookieName: T,
   cookieSource: Headers | string,

@@ -48,7 +48,6 @@ class BetterNumber {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
   public convert<From extends FromUnit, To extends ToUnit<From>>(
     from: From,
     to: To,
