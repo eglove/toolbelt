@@ -19,7 +19,7 @@ export class Store<TState> {
     this.initialState = initialState;
   }
 
-  private cleanup(id: string, updateElement: Listener) {
+  private cleanup(id: string, updateElement: Listener): boolean {
     if (this.elementListeners.has(id) && "undefined" !== typeof window) {
       // eslint-disable-next-line ethang/handle-native-error
       const foundElement = document.querySelector(`[data-listener-id="${id}"]`);
@@ -27,8 +27,11 @@ export class Store<TState> {
       if (isNil(foundElement)) {
         this.elementListeners.delete(id);
         this.listeners.delete(updateElement);
+        return true;
       }
     }
+
+    return false;
   }
 
   public bindRef<E>(
@@ -39,8 +42,10 @@ export class Store<TState> {
 
       if (!isNil(element)) {
         const updateElement = () => {
-          onUpdate(this.state, element);
-          this.cleanup(id, updateElement);
+          const cleanedUp = this.cleanup(id, updateElement);
+          if (!cleanedUp) {
+            onUpdate(this.state, element);
+          }
         };
 
         updateElement();
