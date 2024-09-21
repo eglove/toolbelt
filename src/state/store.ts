@@ -3,19 +3,18 @@ import isNil from "lodash/isNil.js";
 import { v4 } from "uuid";
 
 export type Listener = () => void;
-export type SetOptions = { notifySubscribers?: boolean };
 
 export class Store<TState> {
+  private _state: TState;
+
   private readonly elementListeners = new Map<string, HTMLElement>();
 
   private readonly initialState: TState;
 
   private readonly listeners = new Set<Listener>();
 
-  public state: TState;
-
   public constructor(initialState: TState) {
-    this.state = initialState;
+    this._state = initialState;
     this.initialState = initialState;
   }
 
@@ -78,23 +77,12 @@ export class Store<TState> {
     }
   }
 
-  public resetState(setOptions?: SetOptions) {
+  public resetState() {
     this.state = this.initialState;
-
-    if (false === setOptions?.notifySubscribers) {
-      this.notifySubscribers();
-    }
   }
 
-  public setState(
-    updater: (draft: Draft<TState>) => void,
-    setOptions?: SetOptions,
-  ) {
+  public set(updater: (draft: Draft<TState>) => void) {
     this.state = produce(this.state, updater);
-
-    if (false !== setOptions?.notifySubscribers) {
-      this.notifySubscribers();
-    }
   }
 
   public subscribe(listener: Listener) {
@@ -103,5 +91,14 @@ export class Store<TState> {
     return () => {
       this.listeners.delete(listener);
     };
+  }
+
+  private set state(state: TState) {
+    this._state = state;
+    this.notifySubscribers();
+  }
+
+  public get state() {
+    return this._state;
   }
 }
