@@ -1,4 +1,3 @@
-import { el } from "@faker-js/faker";
 import { type Draft, produce } from "immer";
 import isNil from "lodash/isNil.js";
 import { v4 } from "uuid";
