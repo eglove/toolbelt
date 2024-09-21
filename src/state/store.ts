@@ -1,10 +1,13 @@
 import { type Draft, produce } from "immer";
 import isNil from "lodash/isNil.js";
+import { v4 } from "uuid";
 
 export type Listener = () => void;
 export type SetOptions = { notifySubscribers?: boolean };
 
 export class Store<TState> {
+  private readonly elementListeners = new Map<string, HTMLElement>();
+
   private readonly initialState: TState;
 
   private readonly listeners = new Set<Listener>();
@@ -16,33 +19,34 @@ export class Store<TState> {
     this.initialState = initialState;
   }
 
+  private cleanup(id: string, updateElement: Listener) {
+    if (this.elementListeners.has(id) && "undefined" !== typeof window) {
+      // eslint-disable-next-line ethang/handle-native-error
+      const foundElement = document.querySelector(`[data-listener-id="${id}"]`);
+
+      if (isNil(foundElement)) {
+        this.elementListeners.delete(id);
+        this.listeners.delete(updateElement);
+      }
+    }
+  }
+
   public bindRef<E>(
     onUpdate: (state: TState, element: E) => void,
   ) {
     return (element: E | null) => {
+      const id = v4();
+
       if (!isNil(element)) {
         const updateElement = () => {
           onUpdate(this.state, element);
+          this.cleanup(id, updateElement);
         };
 
         updateElement();
         this.listeners.add(updateElement);
-
-        const observer = new MutationObserver((mutations) => {
-          for (const mutation of mutations) {
-            if ("childList" === mutation.type && 0 === mutation.addedNodes.length && 0 < mutation.removedNodes.length) {
-              this.listeners.delete(updateElement);
-            }
-          }
-        });
-
-        if ((element as HTMLElement).parentNode) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          observer.observe((element as HTMLElement).parentNode!, {
-            childList: true,
-            subtree: true,
-          });
-        }
+        (element as HTMLElement).dataset.listenerId = id;
+        this.elementListeners.set(id, element as HTMLElement);
       }
     };
   }
