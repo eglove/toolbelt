@@ -3,10 +3,6 @@ import isNil from "lodash/isNil.js";
 
 export type Listener = () => void;
 export type SetOptions = { notifySubscribers?: boolean };
-export type BindReferenceOptions<E, TState> = {
-  accessor?: keyof E;
-  onUpdate?: (state: TState, element: E) => void;
-};
 
 export class Store<TState> {
   private readonly initialState: TState;
@@ -21,21 +17,12 @@ export class Store<TState> {
   }
 
   public bindRef<E>(
-    bounders: {
-      options?: BindReferenceOptions<E, TState>;
-      selector: (state: TState) => boolean | null | number | string | undefined;
-    }[],
+    onUpdate: (state: TState, element: E) => void,
   ) {
     return (element: E | null) => {
       if (!isNil(element)) {
         const updateElement = () => {
-          for (const { options, selector } of bounders) {
-            if (!isNil(options?.accessor)) {
-              element[options.accessor] =
-                String(selector(this.state)) as E[keyof E];
-            }
-            options?.onUpdate?.(this.state, element);
-          }
+          onUpdate(this.state, element);
         };
 
         updateElement();
