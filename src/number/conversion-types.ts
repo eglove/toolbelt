@@ -459,4 +459,4 @@ type UnitMap = {
 };
 
 export type FromUnit = keyof UnitMap;
-export type ToUnit<From extends FromUnit> = UnitMap[From][number];
+export type ToUnit<From extends FromUnit,> = UnitMap[From][number];

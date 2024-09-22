@@ -6,7 +6,7 @@ import keys from "lodash/keys.js";
 import split from "lodash/split.js";
 import trim from "lodash/trim.js";
 
-export const getCookieValue = <T extends string>(
+export const getCookieValue = <T extends string,>(
   cookieName: T,
   cookieSource: Headers | string,
 ): Error | string => {
@@ -35,7 +35,7 @@ export const getCookieValue = <T extends string>(
   return new Error("failed to get cookie");
 };
 
-type SetCookieValueProperties<T extends string> = {
+type SetCookieValueProperties<T extends string,> = {
   config?: {
     Domain?: string;
     Expires?: Date;
@@ -51,7 +51,7 @@ type SetCookieValueProperties<T extends string> = {
   response: Response;
 };
 
-export const setCookieValue = <T extends string>({
+export const setCookieValue = <T extends string,>({
   config,
   cookieName,
   cookieValue,

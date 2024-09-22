@@ -1,7 +1,7 @@
 import keys from "lodash/keys.js";
 import values from "lodash/values.js";
 
-const categorizeResults = <K extends PropertyKey, T>(
+const categorizeResults = <K extends PropertyKey, T,>(
   promiseKeys: readonly K[],
   results: PromiseSettledResult<Awaited<T>>[],
 ) => {

@@ -5,7 +5,7 @@ import isError from "lodash/isError.js";
 
 import type { ZodValidator } from "../types/zod-validator.ts";
 
-export const parseJson = <Z extends ZodValidator<Z>>(
+export const parseJson = <Z extends ZodValidator<Z>,>(
   text: string,
   validator: Z,
   reviver?: (this: unknown, key: string, value: unknown) => unknown,

@@ -9,7 +9,7 @@ type SearchParametersRecord = Record<
   number | number[] | string | string[] | undefined
 >;
 
-export const createSearchParameters = <Z extends ZodSchema>(
+export const createSearchParameters = <Z extends ZodSchema,>(
   searchParameters: SearchParametersRecord,
   searchParametersSchema: ZodSchema,
 

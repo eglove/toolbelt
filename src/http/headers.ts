@@ -42,7 +42,7 @@ export const getAcceptLanguage = (
       ] = split(name,
         "-") as [
       string | undefined,
-      string | undefined,
+      string | undefined
       ];
       let quality = 1;
       if (!isNil(query)) {

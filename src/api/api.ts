@@ -31,7 +31,7 @@ import { parseFetchJson } from "../fetch/json.ts";
 import { requestKeys } from "../fetch/request-keys.ts";
 import { parseJson } from "../json/json.ts";
 
-export class Api<T extends RequestConfigObject> {
+export class Api<T extends RequestConfigObject,> {
   private readonly _baseUrl: string;
 
   private readonly _defaultCacheInterval?: number;
@@ -45,7 +45,7 @@ export class Api<T extends RequestConfigObject> {
 
   private readonly _requestConfig?: RequestConfigObject;
 
-  private readonly validateRequestBodyString = <V extends ZodValidator<V>>(
+  private readonly validateRequestBodyString = <V extends ZodValidator<V>,>(
     body: string,
     bodySchema: ZodValidator<V>,
   ): Error | undefined | ZodError => {
@@ -86,7 +86,7 @@ export class Api<T extends RequestConfigObject> {
     return requestKeys(request);
   }
 
-  private createQueryOptions<V extends ZodValidator<V>>(
+  private createQueryOptions<V extends ZodValidator<V>,>(
     item: RequestConfig,
     options?: QueryOptions,
   ) {
@@ -162,7 +162,7 @@ export class Api<T extends RequestConfigObject> {
     return fetcher.fetch();
   }
 
-  private async fetchJson<Data extends ZodValidator<Data>>(
+  private async fetchJson<Data extends ZodValidator<Data>,>(
     item: RequestConfig,
     options?: QueryOptions,
   ): Promise<Error | z.output<Data> | ZodError> {
@@ -194,7 +194,7 @@ export class Api<T extends RequestConfigObject> {
             return this.fetch(item,
               options);
           },
-          fetchJson: async <Data extends ZodValidator<Data>>(
+          fetchJson: async <Data extends ZodValidator<Data>,>(
             options?: ParameterRequestOptions,
           ) => {
             return this.fetchJson<Data>(item,
@@ -210,10 +210,11 @@ export class Api<T extends RequestConfigObject> {
             return this.createKeys(item,
               options);
           },
-          queryOptions: <V extends ZodValidator<V>>(options?: QueryOptions) => {
-            return this.createQueryOptions<V>(item,
-              options);
-          },
+          queryOptions:
+              <V extends ZodValidator<V>,>(options?: QueryOptions) => {
+                return this.createQueryOptions<V>(item,
+                  options);
+              },
           request: (options?: ParameterRequestOptions) => {
             return this.createRequest(item,
               options);

@@ -13,7 +13,7 @@ export type SearchParametersRecord = Record<
   number | number[] | string | string[] | undefined
 >;
 
-export type UrlConfig<Url extends string> = {
+export type UrlConfig<Url extends string,> = {
   pathVariables?: ParseUrlParameters<Url>;
   pathVariablesSchema?: ZodSchema;
   searchParams?: SearchParametersRecord;
@@ -21,7 +21,7 @@ export type UrlConfig<Url extends string> = {
   urlBase?: string | URL;
 };
 
-export const createUrl = <Url extends string>(
+export const createUrl = <Url extends string,>(
   urlString: Url,
   config?: UrlConfig<Url>,
   // eslint-disable-next-line sonar/cognitive-complexity

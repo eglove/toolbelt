@@ -48,7 +48,7 @@ class BetterNumber {
     }
   }
 
-  public convert<From extends FromUnit, To extends ToUnit<From>>(
+  public convert<From extends FromUnit, To extends ToUnit<From>,>(
     from: From,
     to: To,
   ) {
