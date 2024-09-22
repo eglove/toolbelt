@@ -37,8 +37,8 @@ importers:
         version: 3.23.8
     devDependencies:
       '@ethang/eslint-config':
-        specifier: ^19.8.2
-        version: 19.8.2(p2spdnrt7n2yxz5ius2cvewne4)
+        specifier: ^19.8.3
+        version: 19.8.3(33evswijiwalm5yx6cbt3o5wsa)
       '@ethang/project-builder':
         specifier: ^2.6.1
         version: 2.6.1(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@11.0.2)(lodash@4.17.21)(simple-git@3.27.0)(sort-package-json@2.10.1)(tsup@8.3.0(jiti@1.21.6)(postcss@8.4.47)(typescript@5.6.2)(yaml@2.5.1))(typescript@5.6.2)
@@ -1301,8 +1301,8 @@ packages:
     resolution: {integrity: sha512-vH9PiIMMwvhCx31Af3HiGzsVNULDbyVkHXwlemn/B0TFj/00ho3y55efXrUZTfQipxoHC5u4xq6zblww1zm1Ig==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ethang/eslint-config@19.8.2':
-    resolution: {integrity: sha512-kp/edBJR2Q+A7IUn/sb5IYOZzrBzs1uXOIJNBOOIaLTXJ7Ret9ANKxuvnDv/64aeaknoHhYxnwav2DH6zBYBUA==}
+  '@ethang/eslint-config@19.8.3':
+    resolution: {integrity: sha512-f0xHCoUP1IRQ4kVVNKGgYBvQ4dSsj6sg0EdMf3/0j+KSBH4RFDs5N53h22HN5OaPLwSoJ5/hWMXvLtEFzyME7w==}
     engines: {node: '>=20'}
     peerDependencies:
       '@cspell/eslint-plugin': ^8.14.4
@@ -1321,7 +1321,6 @@ packages:
       eslint-plugin-barrel-files: ^2.1.0
       eslint-plugin-compat: ^6.0.1
       eslint-plugin-depend: ^0.11.0
-      eslint-plugin-exception-handling: ^1.4.3
       eslint-plugin-jsx-a11y: ^6.10.0
       eslint-plugin-lodash: ^8.0.0
       eslint-plugin-n: ^17.10.3
@@ -2536,10 +2535,6 @@ packages:
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       eslint: '>=8'
-
-  eslint-plugin-exception-handling@1.4.3:
-    resolution: {integrity: sha512-UmZtLcp1MNs6O968W28TrkFQQtTrYUmtICgv4YVOUxHUmiVWXP5AzwgARikCoAk03Eh7RVaLSu7iNslj+Tm0jw==}
-    engines: {node: '>=20'}
 
   eslint-plugin-import@2.30.0:
     resolution: {integrity: sha512-/mHNE9jINJfiD2EKkg1BKyPyUk4zdnT54YgbOgfjSakWT5oyX/qQLVNTkehyfpcMxZXMy1zyonZ2v7hZTX43Yw==}
@@ -5809,7 +5804,7 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@ethang/eslint-config@19.8.2(p2spdnrt7n2yxz5ius2cvewne4)':
+  '@ethang/eslint-config@19.8.3(33evswijiwalm5yx6cbt3o5wsa)':
     dependencies:
       '@cspell/eslint-plugin': 8.14.4(eslint@9.11.0(jiti@1.21.6))
       '@eslint-react/eslint-plugin': 1.14.2(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2)
@@ -5827,7 +5822,6 @@ snapshots:
       eslint-plugin-barrel-files: 2.1.0(eslint@9.11.0(jiti@1.21.6))
       eslint-plugin-compat: 6.0.1(eslint@9.11.0(jiti@1.21.6))
       eslint-plugin-depend: 0.11.0
-      eslint-plugin-exception-handling: 1.4.3(jiti@1.21.6)
       eslint-plugin-jsx-a11y: 6.10.0(eslint@9.11.0(jiti@1.21.6))
       eslint-plugin-lodash: 8.0.0(eslint@9.11.0(jiti@1.21.6))
       eslint-plugin-n: 17.10.3(eslint@9.11.0(jiti@1.21.6))
@@ -7312,13 +7306,6 @@ snapshots:
       '@eslint-community/regexpp': 4.11.1
       eslint: 9.11.0(jiti@1.21.6)
       eslint-compat-utils: 0.5.1(eslint@9.11.0(jiti@1.21.6))
-
-  eslint-plugin-exception-handling@1.4.3(jiti@1.21.6):
-    dependencies:
-      eslint: 9.11.0(jiti@1.21.6)
-    transitivePeerDependencies:
-      - jiti
-      - supports-color
 
   eslint-plugin-import@2.30.0(@typescript-eslint/parser@8.6.0(eslint@9.11.0(jiti@1.21.6))(typescript@5.6.2))(eslint@9.11.0(jiti@1.21.6)):
     dependencies:
