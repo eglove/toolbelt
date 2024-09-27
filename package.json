@@ -27,12 +27,12 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^19.8.6",
+    "@ethang/eslint-config": "^19.8.7",
     "@ethang/project-builder": "^2.6.1",
-    "@faker-js/faker": "^9.0.2",
+    "@faker-js/faker": "^9.0.3",
     "@tanstack/query-core": "^5.56.2",
     "@types/lodash": "^4.17.9",
-    "@types/node": "^22.7.2",
+    "@types/node": "^22.7.3",
     "@types/uuid": "^10.0.0",
     "@vitest/coverage-v8": "^2.1.1",
     "@vitest/ui": "^2.1.1",
