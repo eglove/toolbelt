@@ -3,7 +3,7 @@ import { projectBuilder } from "@ethang/project-builder/project-builder.js";
 await projectBuilder("toolbelt", "main", {
   isLibrary: true,
   publishDirectory: "dist",
-  scripts: ["bun x taze latest -I", "bun lint", "bun test"],
+  scripts: ["bun x taze latest -I", "bun lint", "bun run test"],
   tsConfigOverrides: {
     compilerOptions: {
       emitDeclarationOnly: true,
