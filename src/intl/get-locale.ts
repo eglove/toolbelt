@@ -8,7 +8,6 @@ import { getAcceptLanguage } from "../http/headers.ts";
 
 type LocaleSource = "accept-language" | "cookie" | "localStorage" | "navigator";
 
-
 export const getLocale = (
   sourceTypes: readonly LocaleSource[],
   source?: Readonly<Headers | string>,

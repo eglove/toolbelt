@@ -21,7 +21,6 @@ const getTrimmedNumbers = (numbers: string[]) => {
   return trimmed;
 };
 
-
 const getPaddedNumbers = (numbers: string[]) => {
   const withDecimals = map(numbers, (number) => {
     return includes(number, ".")
