@@ -10,7 +10,7 @@ export type ParseUrlParameters<Url,> =
     : Url extends `${infer Start}/${infer Rest}`
       ? ParseUrlParameters<Rest> & ParseUrlParameters<Start>
       : Url extends `:${infer Parameter}`
-        ? { [K in Parameter]: string }
+        ? Record<Parameter, string>
         : NonNullable<unknown>;
 
 export const createUrlPath = <T extends string,>(
