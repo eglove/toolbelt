@@ -1,3 +1,4 @@
+import constant from "lodash/constant.js";
 import { describe, expect, it } from "vitest";
 
 import { getLocale } from "../../src/intl/get-locale.ts";
@@ -35,9 +36,7 @@ describe("getLocale", () => {
   it("should get value from localStorage", () => {
     // @ts-expect-error set for test
     globalThis.localStorage = {
-      getItem(): null | string {
-        return "value";
-      },
+      getItem: constant("value"),
     };
 
     const locale = getLocale(["localStorage"], undefined, "key");
