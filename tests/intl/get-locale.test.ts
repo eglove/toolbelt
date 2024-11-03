@@ -47,9 +47,7 @@ describe("getLocale", () => {
   it("should return undefined if pulling from localStorage and no name provided", () => {
     // @ts-expect-error set for test
     globalThis.localStorage = {
-      getItem(): null | string {
-        return "value";
-      },
+      getItem: constant("value"),
     };
 
     const locale = getLocale(["localStorage"]);
@@ -59,7 +57,6 @@ describe("getLocale", () => {
 
   it("should get value from navigator.language", () => {
     // @ts-expect-error allow for test
-
     globalThis.navigator = { language: "en" };
 
     expect(getLocale(["navigator"])).toBe("en");
