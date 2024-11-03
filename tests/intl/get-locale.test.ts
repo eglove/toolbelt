@@ -1,5 +1,4 @@
 import constant from "lodash/constant.js";
-import set from "lodash/set.js";
 import { describe, expect, it } from "vitest";
 
 import { getLocale } from "../../src/intl/get-locale.ts";
@@ -57,7 +56,10 @@ describe("getLocale", () => {
   });
 
   it("should get value from navigator.language", () => {
-    set(globalThis, ["navigator", "language"], "en");
+    Object.defineProperty(globalThis.navigator, "language", {
+      configurable: true,
+      value: "en",
+    });
 
     expect(getLocale(["navigator"])).toBe("en");
   });
