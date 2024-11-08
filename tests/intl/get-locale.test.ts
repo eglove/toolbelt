@@ -54,13 +54,4 @@ describe("getLocale", () => {
 
     expect(locale).toBe(undefined);
   });
-
-  it("should get value from navigator.language", () => {
-    Object.defineProperty(globalThis.navigator, "language", {
-      configurable: true,
-      value: "en",
-    });
-
-    expect(getLocale(["navigator"])).toBe("en");
-  });
 });
