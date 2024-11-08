@@ -37,8 +37,8 @@ importers:
         version: 3.23.8
     devDependencies:
       '@ethang/eslint-config':
-        specifier: ^19.14.9
-        version: 19.14.9(5cldxjfljizeoxdltjiyxp2zeu)
+        specifier: ^19.14.10
+        version: 19.14.10(5cldxjfljizeoxdltjiyxp2zeu)
       '@ethang/project-builder':
         specifier: ^3.0.1
         version: 3.0.1(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@11.1.0)(lodash@4.17.21)(simple-git@3.27.0)(sort-package-json@2.10.1)(tsup@8.3.0(jiti@2.3.1)(postcss@8.4.47)(typescript@5.6.3)(yaml@2.6.0))(typescript@5.6.3)
@@ -1328,11 +1328,10 @@ packages:
     resolution: {integrity: sha512-CXtq5nR4Su+2I47WPOlWud98Y5Lv8Kyxp2ukhgFx/eW6Blm18VXJO5WuQylPugRo8nbluoi6GvvxBLqHcvqUUw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ethang/eslint-config@19.14.9':
-    resolution: {integrity: sha512-bwDIvMcoBi031lYx0u8S1R3mNfpZFU+YxPO0U8of3/GAKRn4cSqeqXFxmMnGrl/IHr7V1rWRyj8RpSH5ReUBKA==}
-    engines: {node: '>=22'}
+  '@ethang/eslint-config@19.14.10':
+    resolution: {integrity: sha512-uUFvnhUBiiwR+1f2Jlhd4IqGNEUY/mIbpovVHBMbacLcr0XcKEiQOrnfrBBDWom7IRZs2Eg9JKpzMiC+8oXcsg==}
     peerDependencies:
-      '@cspell/eslint-plugin': ^8.15.7
+      '@cspell/eslint-plugin': ^8.16.0
       '@eslint-react/eslint-plugin': ^1.15.2
       '@eslint/compat': ^1.2.2
       '@eslint/js': ^9.14.0
@@ -1340,7 +1339,7 @@ packages:
       '@eslint/markdown': ^6.2.1
       '@stylistic/eslint-plugin': ^2.10.1
       '@stylistic/eslint-plugin-ts': ^2.10.1
-      '@tanstack/eslint-plugin-query': ^5.59.20
+      '@tanstack/eslint-plugin-query': ^5.60.1
       '@tanstack/eslint-plugin-router': ^1.79.0
       '@typescript-eslint/parser': ^8.13.0
       eslint: ^9.14.0
@@ -1350,7 +1349,7 @@ packages:
       eslint-plugin-depend: ^0.12.0
       eslint-plugin-jsx-a11y: ^6.10.2
       eslint-plugin-lodash: ^8.0.0
-      eslint-plugin-n: ^17.13.0
+      eslint-plugin-n: ^17.13.1
       eslint-plugin-perfectionist: ^3.9.1
       eslint-plugin-react-compiler: 19.0.0-beta-8a03594-20241020
       eslint-plugin-react-hooks: ^5.0.0
@@ -1489,8 +1488,8 @@ packages:
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
 
-  '@mdn/browser-compat-data@5.6.13':
-    resolution: {integrity: sha512-eZOraBiugKZewtS10c7M78OKwL6CBhVzqSQvb5j+WGw/7MdPRfHrP7LuiEoLCeHXfmE414geJjnHPGQ0iAnCyg==}
+  '@mdn/browser-compat-data@5.6.14':
+    resolution: {integrity: sha512-/uzZqshFCDJ+1SRon0TCTzuCs6UN4DzhDQFz15B4xGdg4broKwRODz03WINFMR5yhZwjmVBveUx/iBrjoGH4lA==}
 
   '@napi-rs/wasm-runtime@0.2.5':
     resolution: {integrity: sha512-kwUxR7J9WLutBbulqg1dfOrMTwhMdXLdcGUhcbCcGwnPLt3gz19uHVdwH1syKVDbE022ZS2vZxOWflFLS0YTjw==}
@@ -5871,7 +5870,7 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@ethang/eslint-config@19.14.9(5cldxjfljizeoxdltjiyxp2zeu)':
+  '@ethang/eslint-config@19.14.10(5cldxjfljizeoxdltjiyxp2zeu)':
     dependencies:
       '@cspell/eslint-plugin': 8.14.4(eslint@9.14.0(jiti@2.3.1))
       '@eslint-react/eslint-plugin': 1.14.3(eslint@9.14.0(jiti@2.3.1))(typescript@5.6.3)
@@ -6062,7 +6061,7 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
-  '@mdn/browser-compat-data@5.6.13': {}
+  '@mdn/browser-compat-data@5.6.14': {}
 
   '@napi-rs/wasm-runtime@0.2.5':
     dependencies:
@@ -6710,7 +6709,7 @@ snapshots:
 
   ast-metadata-inferer@0.8.0:
     dependencies:
-      '@mdn/browser-compat-data': 5.6.13
+      '@mdn/browser-compat-data': 5.6.14
 
   ast-types-flow@0.0.8: {}
 
@@ -7346,7 +7345,7 @@ snapshots:
 
   eslint-plugin-compat@6.0.1(eslint@9.14.0(jiti@2.3.1)):
     dependencies:
-      '@mdn/browser-compat-data': 5.6.13
+      '@mdn/browser-compat-data': 5.6.14
       ast-metadata-inferer: 0.8.0
       browserslist: 4.24.2
       caniuse-lite: 1.0.30001679
