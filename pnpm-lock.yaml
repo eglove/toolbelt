@@ -37,8 +37,8 @@ importers:
         version: 3.23.8
     devDependencies:
       '@ethang/eslint-config':
-        specifier: ^19.14.8
-        version: 19.14.8(5cldxjfljizeoxdltjiyxp2zeu)
+        specifier: ^19.14.9
+        version: 19.14.9(5cldxjfljizeoxdltjiyxp2zeu)
       '@ethang/project-builder':
         specifier: ^3.0.1
         version: 3.0.1(chalk@5.3.0)(fs-extra@11.2.0)(inquirer@11.1.0)(lodash@4.17.21)(simple-git@3.27.0)(sort-package-json@2.10.1)(tsup@8.3.0(jiti@2.3.1)(postcss@8.4.47)(typescript@5.6.3)(yaml@2.6.0))(typescript@5.6.3)
@@ -79,8 +79,8 @@ importers:
         specifier: ^2.1.4
         version: 2.1.4(@types/node@22.9.0)(@vitest/ui@2.1.4)
       vitest-fetch-mock:
-        specifier: ^0.4.1
-        version: 0.4.1(vitest@2.1.4)
+        specifier: ^0.4.2
+        version: 0.4.2(vitest@2.1.4)
 
 packages:
 
@@ -815,8 +815,8 @@ packages:
   '@cspell/dict-en-gb@1.1.33':
     resolution: {integrity: sha512-tKSSUf9BJEV+GJQAYGw5e+ouhEe2ZXE620S7BLKe3ZmpnjlNG9JqlnaBhkIMxKnNFkLY2BP/EARzw31AZnOv4g==}
 
-  '@cspell/dict-en_us@4.3.26':
-    resolution: {integrity: sha512-hDbHYJsi3UgU1J++B0WLiYhWQdsmve3CH53FIaMRAdhrWOHcuw7h1dYkQXHFEP5lOjaq53KUHp/oh5su6VkIZg==}
+  '@cspell/dict-en_us@4.3.27':
+    resolution: {integrity: sha512-7JYHahRWpi0VykWFTSM03KL/0fs6YtYfpOaTAg4N/d0wB2GfwVG/FJ/SBCjD4LBc6Rx9dzdo95Hs4BB8GPQbOA==}
 
   '@cspell/dict-filetypes@3.0.8':
     resolution: {integrity: sha512-D3N8sm/iptzfVwsib/jvpX+K/++rM8SRpLDFUaM4jxm8EyGmSIYRbKZvdIv5BkAWmMlTWoRqlLn7Yb1b11jKJg==}
@@ -1328,9 +1328,9 @@ packages:
     resolution: {integrity: sha512-CXtq5nR4Su+2I47WPOlWud98Y5Lv8Kyxp2ukhgFx/eW6Blm18VXJO5WuQylPugRo8nbluoi6GvvxBLqHcvqUUw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@ethang/eslint-config@19.14.8':
-    resolution: {integrity: sha512-xLOuO/0ukXZISYlsKdL24Run4Rm5yv8zisiQGWalsN4h/ogn4KSHE+gLFY87q63v9egf/UkGJi8jpEwnDgOX4Q==}
-    engines: {node: '>=20'}
+  '@ethang/eslint-config@19.14.9':
+    resolution: {integrity: sha512-bwDIvMcoBi031lYx0u8S1R3mNfpZFU+YxPO0U8of3/GAKRn4cSqeqXFxmMnGrl/IHr7V1rWRyj8RpSH5ReUBKA==}
+    engines: {node: '>=22'}
     peerDependencies:
       '@cspell/eslint-plugin': ^8.15.7
       '@eslint-react/eslint-plugin': ^1.15.2
@@ -1344,7 +1344,7 @@ packages:
       '@tanstack/eslint-plugin-router': ^1.79.0
       '@typescript-eslint/parser': ^8.13.0
       eslint: ^9.14.0
-      eslint-plugin-astro: ^1.3.0
+      eslint-plugin-astro: ^1.3.1
       eslint-plugin-barrel-files: ^2.1.0
       eslint-plugin-compat: ^6.0.1
       eslint-plugin-depend: ^0.12.0
@@ -1389,8 +1389,8 @@ packages:
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
     engines: {node: '>=12.22'}
 
-  '@humanwhocodes/momoa@3.3.2':
-    resolution: {integrity: sha512-aGWs0rZtc0AFFfJIxWqgo2gtZmnJPF6wqCI0BTziVtx1kAnl3+/KRVxHoyFphQCYn4t+Dh/iECSSGfn5z0k+gQ==}
+  '@humanwhocodes/momoa@3.3.3':
+    resolution: {integrity: sha512-5EKzSg1FH5wpg0HXBsglgC5u9U4qFgvZX7u8oVDP6XH6Mh9kmz4iQZV9/88xMdQ/UGQNxckf5njK65gU9jjS0w==}
     engines: {node: '>=18'}
 
   '@humanwhocodes/retry@0.3.1':
@@ -2143,8 +2143,8 @@ packages:
     resolution: {integrity: sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==}
     engines: {node: '>= 6'}
 
-  caniuse-lite@1.0.30001677:
-    resolution: {integrity: sha512-fmfjsOlJUpMWu+mAAtZZZHz7UEwsUxIIvu1TJfO1HqFQvB/B+ii0xr9B5HpbZY/mC4XZ8SvjHJqtAY6pDPQEog==}
+  caniuse-lite@1.0.30001679:
+    resolution: {integrity: sha512-j2YqID/YwpLnKzCmBOS4tlZdWprXm3ZmQLBH9ZBXFOhoxLA46fwyBvx6toCBWBmnuwUY/qB3kEU6gFx8qgCroA==}
 
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -2222,8 +2222,8 @@ packages:
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
-  cross-spawn@7.0.3:
-    resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
+  cross-spawn@7.0.5:
+    resolution: {integrity: sha512-ZVJrKKYunU38/76t0RMOulHOnUcbU9GbpWKAOZ0mhjr7CX6FVrH+4FrAapSOekrgFQ3f/8gwMEuIft0aKq6Hug==}
     engines: {node: '>= 8'}
 
   cspell-config-lib@8.14.4:
@@ -2346,8 +2346,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  electron-to-chromium@1.5.52:
-    resolution: {integrity: sha512-xtoijJTZ+qeucLBDNztDOuQBE1ksqjvNjvqFoST3nGC7fSpqJ+X6BdTBaY5BHG+IhWWmpc6b/KfpeuEDupEPOQ==}
+  electron-to-chromium@1.5.55:
+    resolution: {integrity: sha512-6maZ2ASDOTBtjt9FhqYPRnbvKU5tjG0IN9SztUOWYw2AzNDNpKJYLJmlK0/En4Hs/aiWnB+JZ+gW19PIGszgKg==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -4331,8 +4331,8 @@ packages:
       terser:
         optional: true
 
-  vitest-fetch-mock@0.4.1:
-    resolution: {integrity: sha512-Y6VEV2AgJps1t9NUdhID/vUwarAuhOkPHShfoEruIlQr5+O31hgJ4YmZpU8kVWD3KQjEyZqPeMibWehd7rMq+A==}
+  vitest-fetch-mock@0.4.2:
+    resolution: {integrity: sha512-MuN/TCAvvUs9sLMdOPKqdXEUOD0E5cNW/LN7Tro3KkrLBsvUaH7iQWcznNUU4ml+GqX6ZbNguDmFQ2tliKqhCg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       vitest: '>=2.0.0'
@@ -5371,7 +5371,7 @@ snapshots:
       '@cspell/dict-elixir': 4.0.6
       '@cspell/dict-en-common-misspellings': 2.0.7
       '@cspell/dict-en-gb': 1.1.33
-      '@cspell/dict-en_us': 4.3.26
+      '@cspell/dict-en_us': 4.3.27
       '@cspell/dict-filetypes': 3.0.8
       '@cspell/dict-flutter': 1.0.3
       '@cspell/dict-fonts': 4.0.3
@@ -5452,7 +5452,7 @@ snapshots:
 
   '@cspell/dict-en-gb@1.1.33': {}
 
-  '@cspell/dict-en_us@4.3.26': {}
+  '@cspell/dict-en_us@4.3.27': {}
 
   '@cspell/dict-filetypes@3.0.8': {}
 
@@ -5854,7 +5854,7 @@ snapshots:
   '@eslint/json@0.5.0':
     dependencies:
       '@eslint/plugin-kit': 0.2.2
-      '@humanwhocodes/momoa': 3.3.2
+      '@humanwhocodes/momoa': 3.3.3
 
   '@eslint/markdown@6.2.0':
     dependencies:
@@ -5871,7 +5871,7 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@ethang/eslint-config@19.14.8(5cldxjfljizeoxdltjiyxp2zeu)':
+  '@ethang/eslint-config@19.14.9(5cldxjfljizeoxdltjiyxp2zeu)':
     dependencies:
       '@cspell/eslint-plugin': 8.14.4(eslint@9.14.0(jiti@2.3.1))
       '@eslint-react/eslint-plugin': 1.14.3(eslint@9.14.0(jiti@2.3.1))(typescript@5.6.3)
@@ -5924,7 +5924,7 @@ snapshots:
 
   '@humanwhocodes/module-importer@1.0.1': {}
 
-  '@humanwhocodes/momoa@3.3.2': {}
+  '@humanwhocodes/momoa@3.3.3': {}
 
   '@humanwhocodes/retry@0.3.1': {}
 
@@ -6791,8 +6791,8 @@ snapshots:
 
   browserslist@4.24.2:
     dependencies:
-      caniuse-lite: 1.0.30001677
-      electron-to-chromium: 1.5.52
+      caniuse-lite: 1.0.30001679
+      electron-to-chromium: 1.5.55
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.2)
 
@@ -6819,7 +6819,7 @@ snapshots:
 
   camelcase-css@2.0.1: {}
 
-  caniuse-lite@1.0.30001677: {}
+  caniuse-lite@1.0.30001679: {}
 
   ccount@2.0.1: {}
 
@@ -6897,7 +6897,7 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  cross-spawn@7.0.3:
+  cross-spawn@7.0.5:
     dependencies:
       path-key: 3.1.1
       shebang-command: 2.0.0
@@ -7059,7 +7059,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  electron-to-chromium@1.5.52: {}
+  electron-to-chromium@1.5.55: {}
 
   emoji-regex@8.0.0: {}
 
@@ -7349,7 +7349,7 @@ snapshots:
       '@mdn/browser-compat-data': 5.6.13
       ast-metadata-inferer: 0.8.0
       browserslist: 4.24.2
-      caniuse-lite: 1.0.30001677
+      caniuse-lite: 1.0.30001679
       eslint: 9.14.0(jiti@2.3.1)
       find-up: 5.0.0
       globals: 15.12.0
@@ -7720,7 +7720,7 @@ snapshots:
       '@types/json-schema': 7.0.15
       ajv: 6.12.6
       chalk: 4.1.2
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.5
       debug: 4.3.7
       escape-string-regexp: 4.0.0
       eslint-scope: 8.2.0
@@ -7780,7 +7780,7 @@ snapshots:
 
   execa@5.1.1:
     dependencies:
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.5
       get-stream: 6.0.1
       human-signals: 2.1.0
       is-stream: 2.0.1
@@ -7859,7 +7859,7 @@ snapshots:
 
   foreground-child@3.3.0:
     dependencies:
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.5
       signal-exit: 4.1.0
 
   fs-extra@11.2.0:
@@ -9517,7 +9517,7 @@ snapshots:
       '@types/node': 22.9.0
       fsevents: 2.3.3
 
-  vitest-fetch-mock@0.4.1(vitest@2.1.4):
+  vitest-fetch-mock@0.4.2(vitest@2.1.4):
     dependencies:
       vitest: 2.1.4(@types/node@22.9.0)(@vitest/ui@2.1.4)
 

@@ -27,7 +27,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^19.14.8",
+    "@ethang/eslint-config": "^19.14.9",
     "@ethang/project-builder": "^3.0.1",
     "@faker-js/faker": "^9.2.0",
     "@tanstack/query-core": "^5.59.20",
@@ -41,7 +41,7 @@
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.13.0",
     "vitest": "^2.1.4",
-    "vitest-fetch-mock": "^0.4.1"
+    "vitest-fetch-mock": "^0.4.2"
   },
   "peerDependencies": {
     "@phensley/cldr": "^1.9.2",
