@@ -27,7 +27,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ethang/eslint-config": "^19.15.0",
+    "@ethang/eslint-config": "^19.15.1",
     "@ethang/project-builder": "^3.0.1",
     "@faker-js/faker": "^9.2.0",
     "@tanstack/query-core": "^5.59.20",
